@@ -1,3 +1,5 @@
+[![Codemagic build status](https://api.codemagic.io/apps/5f4bb03955449d6c4537e386/5f4bb03955449d6c4537e385/status_badge.svg)](https://codemagic.io/apps/5f4bb03955449d6c4537e386/5f4bb03955449d6c4537e385/latest_build)
+
 # useful_useless_app
 
 A new Flutter application.
