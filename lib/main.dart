@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tabbar/tabbar.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -12,34 +11,46 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
-  final String title;
-
-  @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  final controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
+      appBar: AppBar(
+        title: Text("Flutter Demo Home Page"),
+        centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(kToolbarHeight),
+          child: TabbarHeader(
+            controller: controller,
+            tabs: [
+              Tab(icon: Icon(Icons.map), text: "Map"),
+              Tab(icon: Icon(Icons.list), text: "List"),
+              Tab(icon: Icon(Icons.person), text: "User profile", ),
+            ],
+          ),
         ),
-        body:
-            Center() // This trailing comma makes auto-formatting nicer for build methods.
-        );
+      ),
+      body: TabbarContent(
+        controller: controller,
+        children: <Widget>[
+          Container(),
+          Container(),
+          Container(),
+        ],
+      ),
+    );
   }
 }
