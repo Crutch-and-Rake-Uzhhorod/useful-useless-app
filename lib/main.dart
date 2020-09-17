@@ -10,7 +10,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final LatLng _center = const LatLng(48.621025, 22.288229);
-  Set<Marker> markers = Set();
+  Set<Marker> markers = {};
   GoogleMapController mapController;
 
   void _onMapCreated(GoogleMapController controller) {
@@ -24,7 +24,7 @@ class _MyAppState extends State<MyApp> {
       Marker(
           markerId: MarkerId('Uzh'),
           position: LatLng(48.621025, 22.288229),
-          infoWindow: InfoWindow( title: "This is  foking Uzhhorod")
+          infoWindow: InfoWindow( title: 'This is foking Uzhhorod')
       ),
     ]);
 
