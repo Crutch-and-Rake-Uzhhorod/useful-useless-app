@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 Widget GoogleMapsWidget (){
-  Set<Marker> markers = {};
-  final LatLng _center = const LatLng(48.621025, 22.288229);
+  var markers = <Marker>{};
+  final _center = const LatLng(48.621025, 22.288229);
 
   markers.addAll([
     Marker(
