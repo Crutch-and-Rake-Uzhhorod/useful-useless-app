@@ -1,45 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-void main() {
-  runApp(MyApp());
+void main() => runApp(MyApp());
+
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
 }
 
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+class _MyAppState extends State<MyApp> {
+  final LatLng _center = const LatLng(48.621025, 22.288229);
+  Set<Marker> markers = Set();
+  GoogleMapController mapController;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
   }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+
+    markers.addAll([
+      Marker(
+          markerId: MarkerId('Uzh'),
+          position: LatLng(48.621025, 22.288229),
+          infoWindow: InfoWindow( title: "This is  foking Uzhhorod")
+      ),
+    ]);
+
+    return MaterialApp(
+      home: Scaffold(
         appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(widget.title),
+          title: Text('7.Adding Map'),
+          backgroundColor: Colors.green[700],
         ),
-        body:
-            Center() // This trailing comma makes auto-formatting nicer for build methods.
-        );
+
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 13.0,
+          ),
+          markers: markers,
+        ),
+      ),
+    );
   }
 }
