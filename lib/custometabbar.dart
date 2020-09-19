@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
+import 'common/google_maps_widget.dart';
 
 class CustomeTabBar extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
       body: TabbarContent(
         controller: controller,
         children: <Widget>[
-          Container(),
+          GoogleMapsWidget(),
           Container(),
           Container(),
         ],
