@@ -42,3 +42,7 @@ app.*.map.json
 
 # Exceptions to above rules.
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
+/.metadata
+/pubspec.lock
+/.gradle/5.6.4/executionHistory/executionHistory.bin
+/.gradle/5.6.4/executionHistory/executionHistory.lock
