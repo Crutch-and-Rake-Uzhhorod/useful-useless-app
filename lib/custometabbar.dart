@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
 
 class CustomeTabBar extends StatefulWidget {
-  CustomeTabBar({Key key}) : super(key: key);
-
+  @override
   _CustomeTabBarState createState() => _CustomeTabBarState();
 }
 
