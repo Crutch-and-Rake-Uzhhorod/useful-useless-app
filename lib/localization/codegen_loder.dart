@@ -10,14 +10,14 @@ class CodegenLoader extends AssetLoader{
     return Future.value(mapLocales[locale.toString()]);
   }
 
-  static const Map<String,dynamic> ua_UA = {
+  static const Map<String,dynamic> ukr = {
   'title': 'Виберіть мову',
   'map': 'Мапа',
     'list': 'Список',
   'profile': 'Профіль'
     };
 
-  static const Map<String,dynamic> ru_RU = {
+  static const Map<String,dynamic> russ = {
     'title': 'Выберите язык',
     'map': 'Карта',
     'list': 'Список',
@@ -25,6 +25,6 @@ class CodegenLoader extends AssetLoader{
   };
 
 
-  static const Map<String, Map<String,dynamic>> mapLocales = {'ua_UA': ua_UA,  'ru_RU': ru_RU, };
+  static const Map<String, Map<String,dynamic>> mapLocales = {'ua_UA': ukr,  'ru_RU': russ, };
 
 }
