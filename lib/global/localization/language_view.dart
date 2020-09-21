@@ -6,8 +6,6 @@ import 'dart:developer';
 class LanguageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    log(context.locale.toString(), name: '${this} # locale Context');
-    log('title'.tr(), name: '${this} # locale');
     return Scaffold(
       appBar: AppBar(
         title: Text(

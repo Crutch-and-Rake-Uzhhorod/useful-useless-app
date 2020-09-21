@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
 import 'package:useful_useless_app/global/localization/language_view.dart';
 
-
-import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
 
@@ -17,8 +15,6 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    log(context.locale.toString(), name: '${this} # locale Context');
-    log('title'.tr().toString(), name: '${this} # locale');
     return Scaffold(
       appBar: AppBar(
         title: Text('app_name'.tr()),
@@ -43,10 +39,10 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
           child: TabbarHeader(
             controller: controller,
             tabs: [
-              Tab(icon: Icon(Icons.map), text: 'map'.tr()),
-              Tab(icon: Icon(Icons.list), text: 'list'.tr()),
+              Tab(icon: Icon(Icons.map, size: 40), text: 'map'.tr()),
+              Tab(icon: Icon(Icons.list, size: 40), text: 'list'.tr()),
               Tab(
-                icon: Icon(Icons.person),
+                icon: Icon(Icons.person, size: 40),
                 text: 'profile'.tr(),
               ),
             ],
