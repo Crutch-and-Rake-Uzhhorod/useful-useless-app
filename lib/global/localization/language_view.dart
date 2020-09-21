@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'dart:developer';
-import 'local_keys.dart';
+
 
 class LanguageView extends StatelessWidget {
   @override
-
-
   Widget build(BuildContext context) {
-    log(context.locale.toString(),
-        name: '${this} # locale Context');
-    log('title'.tr().toString(), name: '${this} # locale');
+    log(context.locale.toString(), name: '${this} # locale Context');
+    log('title'.tr(), name: '${this} # locale');
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -31,7 +28,8 @@ class LanguageView extends StatelessWidget {
               margin: EdgeInsets.symmetric(
                 horizontal: 24,
               ),
-              child: Text((LocaleKeys.title).tr(),
+              child: Text(
+                'title'.tr(),
                 style: TextStyle(
                   color: Colors.blue,
                   fontFamily: 'Montserrat',
@@ -43,28 +41,29 @@ class LanguageView extends StatelessWidget {
             buildSwitchListTileMenuItem(
                 context: context,
                 title: 'Українська',
-                locale: context.supportedLocales[1] //BuildContext extension method
-            ),
+                locale:
+                    context.supportedLocales[1] //BuildContext extension method
+                ),
             buildDivider(),
             buildSwitchListTileMenuItem(
                 context: context,
                 title: 'Русский',
                 locale: EasyLocalization.of(context).supportedLocales[0]),
             buildDivider(),
-            ],
+          ],
         ),
       ),
     );
   }
 
   Container buildDivider() => Container(
-    margin: EdgeInsets.symmetric(
-      horizontal: 24,
-    ),
-    child: Divider(
-      color: Colors.grey,
-    ),
-  );
+        margin: EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+        child: Divider(
+          color: Colors.grey,
+        ),
+      );
 
   Container buildSwitchListTileMenuItem(
       {BuildContext context, String title, String subtitle, Locale locale}) {
@@ -88,5 +87,4 @@ class LanguageView extends StatelessWidget {
           }),
     );
   }
-
 }
