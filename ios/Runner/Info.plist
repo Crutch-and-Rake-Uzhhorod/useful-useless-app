@@ -6,6 +6,12 @@
     <key>io.flutter.embedded_views_preview</key>
     <true/>
 
+    <key>CFBundleLocalizations</key>
+    <array>
+    	<string>ua</string>
+    	<string>ru</string>
+    </array>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
