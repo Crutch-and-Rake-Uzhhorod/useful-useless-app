@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
 import 'package:useful_useless_app/global/localization/language_view.dart';
+import 'dart:developer';
+import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
@@ -21,18 +23,12 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
         centerTitle: true,
         actions: <Widget>[
           FlatButton(
-            child: Icon(
-              Icons.language,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => LanguageView(), fullscreenDialog: true),
-              );
-            },
-          ),
+              child: Icon(
+                Icons.language,
+                color: Colors.white,
+              ),
+              onPressed: (){showModalBottomSheet(context: context, builder: (context) => LanguageView());} ,
+          )
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),

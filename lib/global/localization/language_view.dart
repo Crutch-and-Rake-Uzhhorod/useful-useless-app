@@ -3,86 +3,88 @@ import 'package:easy_localization/easy_localization.dart';
 import 'dart:developer';
 
 
-class LanguageView extends StatelessWidget {
+enum LanguageChoice { uk, ru }
+
+class LanguageView extends StatefulWidget {
+  const LanguageView ({Key key}) : super(key: key);
+  @override
+  State<StatefulWidget> createState()=> MyState();
+}
+
+class MyState extends State<LanguageView > {
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          '',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black),
-        elevation: 0,
-      ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              padding: EdgeInsets.only(top: 26),
-              margin: EdgeInsets.symmetric(
-                horizontal: 24,
-              ),
-              child: Text(
-                'title'.tr(),
-                style: TextStyle(
-                  color: Colors.blue,
-                  fontFamily: 'Montserrat',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            buildSwitchListTileMenuItem(
-                context: context,
-                title: 'Українська',
-                locale:
-                    context.supportedLocales[1] //BuildContext extension method
-                ),
-            buildDivider(),
-            buildSwitchListTileMenuItem(
-                context: context,
-                title: 'Русский',
-                locale: EasyLocalization.of(context).supportedLocales[0]),
-            buildDivider(),
-          ],
-        ),
-      ),
-    );
-  }
+    var _lang = context.locale;
 
-  Container buildDivider() => Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 24,
-        ),
-        child: Divider(
-          color: Colors.grey,
-        ),
-      );
-
-  Container buildSwitchListTileMenuItem(
-      {BuildContext context, String title, String subtitle, Locale locale}) {
+    locale: EasyLocalization.of(context).supportedLocales[0];
     return Container(
-      margin: EdgeInsets.only(
-        left: 10,
-        right: 10,
-        top: 5,
-      ),
-      child: ListTile(
-          dense: true,
-          // isThreeLine: true,
-          title: Text(
-            title,
-          ),
-          onTap: () {
-            log(locale.toString(), name: toString());
-            context.locale = locale; //BuildContext extension method
-            //EasyLocalization.of(context).locale = locale;
-            Navigator.pop(context);
-          }),
-    );
+        color: Color(
+            0xff737373) ,
+        child: Container(
+            height: 200 ,
+            decoration: BoxDecoration(
+              color: Colors.white ,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(
+                    10) ,
+                topRight: Radius.circular(
+                    10) ,
+              ) ,
+            ) ,
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start ,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: 26) ,
+                    margin: EdgeInsets.symmetric(
+                      horizontal: 24 ,
+                    ) ,
+                    child: Text(
+                      'title'.tr(
+                      ) ,
+                      style: TextStyle(
+                        color: Colors.blue ,
+                        fontFamily: 'Montserrat' ,
+                        fontWeight: FontWeight.w700 ,
+                        fontSize: 18 ,
+                      ) ,
+                    ) ,
+                  ) ,
+
+                  RadioListTile<LanguageChoice>(
+                      value: LanguageChoice.uk ,
+                      groupValue: _lang ,
+                      title: Text(
+                          'lang'.tr(
+                              args: ['Українська'])) ,
+
+                      onChanged: (LanguageChoice locale) {
+                        locale: context.supportedLocales[1];
+                        setState(
+                                () {
+                              _lang = locale as Locale;
+
+                            });
+                      }) ,
+                  RadioListTile<LanguageChoice>(
+                      value: LanguageChoice.ru ,
+                      groupValue: _lang ,
+                      title: Text(
+                          'lang'.tr(
+                              args: ['Русский'])) ,
+                      onChanged: (LanguageChoice locale) {
+                        locale: EasyLocalization.of(context).supportedLocales[0];
+                        setState(
+                                () {
+                              _lang = locale as Locale;
+                            });
+                      }) ,
+                ])));
   }
+
 }
+
+
+
