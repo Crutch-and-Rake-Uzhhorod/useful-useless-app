@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
 import 'package:useful_useless_app/global/localization/language_view.dart';
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:easy_localization/easy_localization.dart';
