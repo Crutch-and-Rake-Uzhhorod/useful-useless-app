@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'package:json_annotation/json_annotation.dart';
+
+
+part 'house.g.dart';
 
 void main() {
 
@@ -14,7 +18,7 @@ void main() {
   print(house.toJson());
 }
 
-
+@JsonSerializable()
 class House {
   House({
     this.street,
@@ -24,12 +28,7 @@ class House {
     this.users,
   });
 
-  House.fromJson(Map<String, dynamic> json)
-      : street = json['street'],
-        building_number = json['building_number'],
-        city = json['city'],
-        location = json['location'],
-        users = json['users'];
+  factory House.fromJson(Map<String, dynamic> json) => _$HouseFromJson(json);
 
   final String street;
   final String building_number;
@@ -37,12 +36,5 @@ class House {
   final Map<String, dynamic> location;
   final List<dynamic> users;
 
-  Map<String, dynamic> toJson() =>
-      {
-        'street': street,
-        'building_number': building_number,
-        'city': city,
-        'location': location,
-        'users': users,
-      };
+  Map<String, dynamic> toJson() => _$HouseToJson(this);
 }
