@@ -46,20 +46,3 @@ class House {
         'users': users,
       };
 }
-
-class User {
-  User(this.name, this.email);
-
-  User.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
-        email = json['email'];
-
-  final String name;
-  final String email;
-
-  Map<String, dynamic> toJson() =>
-      {
-        'name': name,
-        'email': email,
-      };
-}
