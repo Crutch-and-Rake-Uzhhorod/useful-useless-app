@@ -39,6 +39,7 @@ dependencies:
   easy_localization: ^2.3.3
   easy_localization_loader:
     git: https://github.com/aissat/easy_localization_loader.git
+  shared_preferences: ^0.5.12
 
 dev_dependencies:
   # adding lint rules and runner // not sure if needed
