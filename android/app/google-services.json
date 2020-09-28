@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "846890919763",
+    "firebase_url": "https://logindemo-6bf81.firebaseio.com",
+    "project_id": "logindemo-6bf81",
+    "storage_bucket": "logindemo-6bf81.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:846890919763:android:be466baccc0d5e5df1e3a6",
+        "android_client_info": {
+          "package_name": "crutchandrake.uzhhorod.useful_useless_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "846890919763-c1mi4q9giu516fh87cbpiiv0k22jom10.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBmo7CLl5sU4xNARYF7iH-Jo72W45H703s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "846890919763-c1mi4q9giu516fh87cbpiiv0k22jom10.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
