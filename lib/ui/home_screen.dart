@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+
+import 'package:useful_useless_app/global/auth/login_page.dart';
+
+import 'package:provider/provider.dart';
+export 'package:easy_localization_loader/src/json_asset_loader.dart';
+import 'package:useful_useless_app/ui/loading_screen.dart';
+
+
+class HomeScreen extends StatelessWidget {
+  static const String id = '/';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: _buildLoaderScreen(context),
+      ),
+    );
+  }
+
+  Widget _buildLoaderScreen(BuildContext context) {
+    final auth = Provider.of<UserProvider>(context);
+    return FutureBuilder(
+        future: auth.tryAutoLogin(),
+        builder: (ctx, authResultSnapshot) {
+          if (authResultSnapshot.connectionState == ConnectionState.waiting) {
+            return LoadingScreen();
+          }
+          switch (auth.authState) {
+            case AuthState.UN_AUTHENTICATED:
+              return LoginPage();
+            case AuthState.AUTHENTICATED:
+              return HomeScreen();
+          }
+          return Container();
+        });
+  }
+}

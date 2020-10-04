@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:useful_useless_app/ui/global/loader_widget.dart';
+
+
+class LoadingScreen extends StatefulWidget {
+  @override
+  _LoadingScreenState createState() => _LoadingScreenState();
+}
+
+class _LoadingScreenState extends State<LoadingScreen> {
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Идет инициализация данных...'),
+              SizedBox(
+                height: 20.0,
+              ),
+              Loader(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
