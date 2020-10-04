@@ -6,7 +6,9 @@ import 'package:useful_useless_app/ui/custometabbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 enum AuthState {
+  // ignore: constant_identifier_names
   UN_AUTHENTICATED,
+  // ignore: constant_identifier_names
   AUTHENTICATED,
   // UN_REGISTERED,
 }
