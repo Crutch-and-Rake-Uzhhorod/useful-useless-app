@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:useful_useless_app/ui/global/loader_widget.dart';
 
 
-class LoadingScreen extends StatefulWidget {
-  @override
-  _LoadingScreenState createState() => _LoadingScreenState();
-}
-
-class _LoadingScreenState extends State<LoadingScreen> {
-
+class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,3 +23,4 @@ class _LoadingScreenState extends State<LoadingScreen> {
     );
   }
 }
+

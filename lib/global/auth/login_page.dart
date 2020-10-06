@@ -3,38 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:useful_useless_app/global/auth/sign_in.dart';
 import 'package:useful_useless_app/ui/custometabbar.dart';
 
-import 'package:firebase_auth/firebase_auth.dart';
 
-enum AuthState {
-  // ignore: constant_identifier_names
-  UN_AUTHENTICATED,
-  // ignore: constant_identifier_names
-  AUTHENTICATED,
-  // UN_REGISTERED,
-}
 
-class UserProvider with ChangeNotifier {
-  // final _repository = UserRepository();
-  User user;
-  AuthState authState = AuthState.UN_AUTHENTICATED;
 
-  Future<bool> tryAutoLogin() async {
-    await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
-    user = null; // _repository need to be
 
-    if (user != null) {
-      authState = AuthState.AUTHENTICATED;
-      print('dsdlspdlsdksl');
-    }return user != null;
-  }
-}
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +28,11 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  Widget _signInButton() {
+}
+// ignore: camel_case_types
+class _signInButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
@@ -94,5 +71,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+  }
 
-}
+
+
