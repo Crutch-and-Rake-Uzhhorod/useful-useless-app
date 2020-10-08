@@ -5,7 +5,7 @@ import 'package:useful_useless_app/global/auth/login_page.dart';
 import 'package:provider/provider.dart';
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
 import 'package:useful_useless_app/ui/loading_screen.dart';
-import 'package:useful_useless_app/src/core/provider/provider.dart';
+import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = '/';
