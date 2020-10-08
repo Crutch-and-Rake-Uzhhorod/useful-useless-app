@@ -2,26 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:easy_localization/easy_localization.dart';
-import 'package:useful_useless_app/global/auth/login_page.dart';
+import 'package:useful_useless_app/ui/home_screen.dart';
 
-
-
-
+import 'package:provider/provider.dart';
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
-
+import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(EasyLocalization(
-    child: MyApp(),
-    supportedLocales: [
-      Locale('ru', 'RU'),
-      Locale('uk', 'UA'),
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
     ],
-    path: 'lang',
-    startLocale: Locale('uk', 'UA'),
-    saveLocale: true,
-    useOnlyLangCode: true,
+    child: EasyLocalization(
+      child: Consumer<UserProvider>(
+      builder: (context, UserProvider userProvider, _) {
+      return MyApp();
+      }),
+      supportedLocales: [
+        Locale('ru', 'RU'),
+        Locale('uk', 'UA'),
+      ],
+      path: 'lang',
+      startLocale: Locale('uk', 'UA'),
+      saveLocale: true,
+      useOnlyLangCode: true,
+    ),
   ));
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
@@ -38,7 +44,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(), //CustomeTabBar(),
+      routes: {
+        HomeScreen.id: (context) => HomeScreen(),
+      },
     );
   }
 }
+
+
