@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:useful_useless_app/models/house.dart';
+import 'package:useful_useless_app/models/location_model.dart';
 
 class PowerOffProvider with ChangeNotifier {
 
-  final List<House> _locations = [
-    House(
+  final List<LocationModel> _locations = [
+    LocationModel(
         street: 'Швабска',
         building_number: '51',
         city: 'Uzhhorod',
@@ -18,7 +18,7 @@ class PowerOffProvider with ChangeNotifier {
 
   DateTime _date;
 
-  List<House> get locations {
+  List<LocationModel> get locations {
     return [..._locations];
   }
 

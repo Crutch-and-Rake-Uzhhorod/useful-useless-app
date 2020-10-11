@@ -1,13 +1,15 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'house.dart';
+part of 'location_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-House _$HouseFromJson(Map<String, dynamic> json) {
-  return House(
+LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
+  return LocationModel(
+    type: json['type'] as int,
+    locationID: json['locationID'] as String,
     street: json['street'] as String,
     building_number: json['building_number'] as String,
     city: json['city'] as String,
@@ -16,7 +18,10 @@ House _$HouseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$HouseToJson(House instance) => <String, dynamic>{
+Map<String, dynamic> _$LocationModelToJson(LocationModel instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'locationID': instance.locationID,
       'street': instance.street,
       'building_number': instance.building_number,
       'city': instance.city,
