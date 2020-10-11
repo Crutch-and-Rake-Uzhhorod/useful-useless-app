@@ -22,7 +22,7 @@ class PowerOffProvider with ChangeNotifier {
           'lat': '48.621679',
           'lon': '22.306654',
         },
-        locationID: "location1",
+        locationID: 'location1',
         type: 0,
         users: [],
       );
@@ -50,7 +50,7 @@ class PowerOffProvider with ChangeNotifier {
           'lat': '48.621679',
           'lon': '22.306654',
         },
-        locationID: "location2",
+        locationID: 'location2',
         type: 0,
         users: [],
       );
@@ -61,7 +61,7 @@ class PowerOffProvider with ChangeNotifier {
               'end' :  DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).add(Duration( days: 1, hours: 15)),
             }
           ],
-          haus_detaile: location1
+          haus_detaile: location2
       ));
 
       var location3 = LocationModel(
@@ -72,7 +72,7 @@ class PowerOffProvider with ChangeNotifier {
           'lat': '48.608976',
           'lon': '22.289751',
         },
-        locationID: "location3",
+        locationID: 'location3',
         type: 0,
         users: [],
       );
@@ -87,7 +87,7 @@ class PowerOffProvider with ChangeNotifier {
               'end' :  DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day).add(Duration( hours: 18)),
             }
           ],
-          haus_detaile: location1
+          haus_detaile: location3
       ));
     }
     return [..._framedLocations];
