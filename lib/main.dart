@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'package:easy_localization/easy_localization.dart';
-import 'package:useful_useless_app/global/auth/login_page.dart';
 import 'package:useful_useless_app/providers/power_off_provider.dart';
-
-
-
-
+import 'package:useful_useless_app/ui/home_screen.dart';
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
-
+import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(
-      MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => PowerOffProvider()),
-          ],
-          child: EasyLocalization(
-            child: MyApp(),
-            supportedLocales: [
-              Locale('ru', 'RU'),
-              Locale('uk', 'UA'),
-            ],
-            path: 'lang',
-            startLocale: Locale('uk', 'UA'),
-            saveLocale: true,
-            useOnlyLangCode: true,
-          )
-      )
-  );
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => UserProvider()),
+      ChangeNotifierProvider(create: (_) => PowerOffProvider()),
+    ],
+    child: EasyLocalization(
+      child: Consumer<UserProvider>(
+      builder: (context, UserProvider userProvider, _) {
+      return MyApp();
+      }),
+      supportedLocales: [
+        Locale('ru', 'RU'),
+        Locale('uk', 'UA'),
+      ],
+      path: 'lang',
+      startLocale: Locale('uk', 'UA'),
+      saveLocale: true,
+      useOnlyLangCode: true,
+    ),
+  ));
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
 
@@ -49,7 +46,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(), //CustomeTabBar(),
+      routes: {
+        HomeScreen.id: (context) => HomeScreen(),
+      },
     );
   }
 }
+
+

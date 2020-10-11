@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:useful_useless_app/global/auth/sign_in.dart';
 import 'package:useful_useless_app/ui/custometabbar.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
 
-class _LoginPageState extends State<LoginPage> {
+
+
+
+
+class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,8 +40,11 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-
-  Widget _signInButton() {
+}
+// ignore: camel_case_types
+class _signInButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return OutlineButton(
       splashColor: Colors.grey,
       onPressed: () {
@@ -80,4 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
-}
+  }
+
+
+
