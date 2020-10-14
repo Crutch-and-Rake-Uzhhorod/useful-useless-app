@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "846890919763",
-    "firebase_url": "https://logindemo-6bf81.firebaseio.com",
-    "project_id": "logindemo-6bf81",
-    "storage_bucket": "logindemo-6bf81.appspot.com"
+    "project_number": "775335503384",
+    "firebase_url": "https://useful-useless.firebaseio.com",
+    "project_id": "useful-useless",
+    "storage_bucket": "useful-useless.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:846890919763:android:be466baccc0d5e5df1e3a6",
+        "mobilesdk_app_id": "1:775335503384:android:2307d5a5f49b19bdfd456d",
         "android_client_info": {
           "package_name": "crutchandrake.uzhhorod.useful_useless_app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "846890919763-c1mi4q9giu516fh87cbpiiv0k22jom10.apps.googleusercontent.com",
+          "client_id": "775335503384-dsb86j33c7d5nrgclcl4ovcldcoprj7k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "crutchandrake.uzhhorod.useful_useless_app",
+            "certificate_hash": "cdb2490e8adf870c6e5c36aa46157f9032e1d695"
+          }
+        },
+        {
+          "client_id": "775335503384-lhl2g177bgnaj268oek99l3o6osnu1qc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBmo7CLl5sU4xNARYF7iH-Jo72W45H703s"
+          "current_key": "AIzaSyCCPxgsbVnM_UhGfbjyWWk1cTjf1PyPI7s"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "846890919763-c1mi4q9giu516fh87cbpiiv0k22jom10.apps.googleusercontent.com",
+              "client_id": "775335503384-lhl2g177bgnaj268oek99l3o6osnu1qc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
@@ -16,8 +18,8 @@ Future<void> main() async {
     ],
     child: EasyLocalization(
       child: Consumer<UserProvider>(
-      builder: (context, UserProvider userProvider, _) {
-      return MyApp();
+          builder: (context, UserProvider userProvider, _) {
+        return MyApp();
       }),
       supportedLocales: [
         Locale('ru', 'RU'),
@@ -31,8 +33,6 @@ Future<void> main() async {
   ));
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 }
-
-
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -52,5 +52,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
