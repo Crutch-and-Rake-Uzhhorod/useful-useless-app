@@ -48,3 +48,5 @@ app.*.map.json
 /.gradle/5.6.4/executionHistory/executionHistory.lock
 
 local.properties
+/useful_useless_app.jks
+/android/key.properties

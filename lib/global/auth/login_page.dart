@@ -22,6 +22,18 @@ class LoginPage extends StatelessWidget {
               FlutterLogo(size: 150),
               SizedBox(height: 50),
               _signInButton(),
+              OutlineButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return CustomeTabBar();
+                      },
+                    ),
+                  );
+                },
+                child: Text('Anonymous login'),
+              ),
             ],
           ),
         ),
