@@ -1,9 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tabbar/tabbar.dart';
 import 'dart:ui';
 import 'package:useful_useless_app/ui/shared_preference.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
+import 'package:useful_useless_app/ui/date_picker.dart';
 
 class CustomeTabBar extends StatefulWidget {
   @override
@@ -51,7 +53,7 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
       body: TabbarContent(
         controller: controller,
         children: <Widget>[
-          GoogleMapsWidget(),
+          DatePicker(),
           Container(),
           Container(),
         ],
