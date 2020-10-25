@@ -55,9 +55,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SwitchState = SwitchChange;
                         UserModel(
                           //TODO I don't know how it's works (for some reason it always gives null)
-                          notifycation_settings: SwitchState,
+                          notification_settings: SwitchState,
                         );
-                        print(UserModel().notifycation_settings);
+                        print(UserModel().notification_settings);
                       });
                     }),
                 shape: RoundedRectangleBorder(
