@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:useful_useless_app/ui/shared_preference.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
+import 'profile_screen.dart';
 
 class CustomeTabBar extends StatefulWidget {
   @override
@@ -30,8 +31,7 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
                   context,
                   MaterialPageRoute(builder: (context) => SharedPref()),
                 );
-              }
-          )
+              })
         ],
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(kToolbarHeight),
@@ -53,7 +53,7 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
         children: <Widget>[
           GoogleMapsWidget(),
           Container(),
-          Container(),
+          ProfileScreen(),
         ],
       ),
     );

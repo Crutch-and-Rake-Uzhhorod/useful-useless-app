@@ -1,10 +1,12 @@
 {
   "app_name": "NotiFuck",
-
   "lang": "{}",
   "title": "Выберите язык!",
   "map": "Карта",
   "list": "Список",
   "profile": "Профиль",
-  "langch": "Язык"
+  "langch": "Язык приложения",
+  "settings" : "Настройки",
+  "lang_name" : "Русский",
+  "exit" : "Выйти"
 }
