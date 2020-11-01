@@ -7,9 +7,14 @@ class UserModel {
   String auth_type;
   bool notification_settings;
   List<String> user_houses;
+  String user_name;
 
   // ignore: sort_constructors_first
-  UserModel({this.auth_type, this.notification_settings, this.user_houses});
+  UserModel(
+      {this.auth_type,
+      this.notification_settings,
+      this.user_houses,
+      this.user_name});
 
   // ignore: sort_constructors_first
   factory UserModel.fromJson(Map<String, dynamic> json) =>
