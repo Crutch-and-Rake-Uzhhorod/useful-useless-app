@@ -42,7 +42,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
               ),
               child: ListTile(
-                title: Text('Получать уведомления об отключениях'),
+                title: Text('get_notification'.tr()),
                 onTap: () {
                   setState(() {
                     SwitchState = !SwitchState;
