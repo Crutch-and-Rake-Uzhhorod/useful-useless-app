@@ -1,6 +1,7 @@
 import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:useful_useless_app/src/core/repository/user_repository.dart';
 
 enum AuthState {
   // ignore: constant_identifier_names
@@ -10,7 +11,7 @@ enum AuthState {
   // UN_REGISTERED,
 }
 class UserProvider with ChangeNotifier{
-  //final _repository = UserRepository();
+  final _repository = UserRepository();
   User user;
   AuthState authState = AuthState.UN_AUTHENTICATED;
 

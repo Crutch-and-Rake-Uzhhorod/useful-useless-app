@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 
-import 'package:useful_useless_app/global/auth/sign_in.dart';
 import 'package:useful_useless_app/src/core/provider/user_provider.dart';
+import 'package:useful_useless_app/src/core/services/firebase_auth_service.dart';
 import 'package:useful_useless_app/ui/custometabbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -121,7 +121,7 @@ class _signInButtonGoogle extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: () {
-        signInWithGoogle().whenComplete(() {
+        FirebaseAuthService().signInWithGoogle().whenComplete(() {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) {
