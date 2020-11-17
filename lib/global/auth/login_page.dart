@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'package:useful_useless_app/global/auth/sign_in.dart';
+import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 import 'package:useful_useless_app/ui/custometabbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
 class LoginPage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context);
     return Scaffold(
       body: Container(
         color: Colors.white,
@@ -22,29 +26,38 @@ class LoginPage extends StatelessWidget {
                 height: 150.0
               ),
               SizedBox(height: 50),
-              Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Align(
-                      child: Padding(
-                        padding: EdgeInsets.fromLTRB(0,0,60,0),
-                        child: _signInButtonApple(),
-                      ),
-                      alignment: Alignment.centerRight,
-                    ),
-                  ),
-                  Expanded(
-                      child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                              padding: EdgeInsets.fromLTRB(30,0,0,0),
-                              child: _signInButtonGoogle()
-                          )
-                      )
-                  ),
-                ],
+              FutureBuilder(
+                future: userProvider.checkIsAppleSignInAvailable(),
+                builder: (ctx, checkIsAppleSignInAvailableSnapshot) {
+                  if (!checkIsAppleSignInAvailableSnapshot.hasData) {
+                    return Container(child: Text('Loading...'));
+                  }
+                  return checkIsAppleSignInAvailableSnapshot.data
+                      ? Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Align(
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(0,0,60,0),
+                                child: _signInButtonApple(),
+                              ),
+                              alignment: Alignment.centerRight,
+                            ),
+                          ),
+                          Expanded(
+                              child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                      padding: EdgeInsets.fromLTRB(30,0,0,0),
+                                      child: _signInButtonGoogle()
+                                  )
+                              )
+                          ),
+                        ],
 
-              ),
+                      )
+                      : _signInButtonGoogle();
+                }),
               SizedBox(height: 50),
               FlatButton(
                 onPressed: () {

@@ -47,6 +47,8 @@ dependencies:
     git: https://github.com/aissat/easy_localization_loader.git
   shared_preferences: ^0.5.12
   url_launcher: ^5.7.10
+  apple_sign_in: ^0.1.0
+
 
 dev_dependencies:
   # adding lint rules and runner // not sure if needed

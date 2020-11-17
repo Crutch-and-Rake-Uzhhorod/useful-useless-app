@@ -1,3 +1,4 @@
+import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,4 +22,9 @@ class UserProvider with ChangeNotifier{
       authState = AuthState.AUTHENTICATED;
     }return user != null;
   }
+
+  Future<bool> checkIsAppleSignInAvailable() async {
+    return await AppleSignIn.isAvailable();
+  }
+
 }
