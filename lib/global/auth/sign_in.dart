@@ -23,7 +23,7 @@ Future<String> signInWithGoogle() async {
 
   final currentUser = await _auth.currentUser;
   assert(user.uid == currentUser.uid);
-
+  print('data: '+user.uid);
   return 'signInWithGoogle succeeded: $user';
 
 }
