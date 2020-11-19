@@ -16,13 +16,14 @@ class UserProvider with ChangeNotifier{
   AuthState authState = AuthState.UN_AUTHENTICATED;
 
   Future<bool> tryAutoLogin() async {
-    await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
-    user = null; // _repository need to be
-    //user = await _repository.currentUser();
+    //await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
+    //user = null; // _repository need to be
+    user = await _repository.currentUser();
 
     if (user != null) {
       authState = AuthState.AUTHENTICATED;
       print("AUTHENTICATED");
+      //notifyListeners();
     }
     return user != null;
   }

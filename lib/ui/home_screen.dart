@@ -7,6 +7,8 @@ export 'package:easy_localization_loader/src/json_asset_loader.dart';
 import 'package:useful_useless_app/ui/loading_screen.dart';
 import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
+import 'custometabbar.dart';
+
 class HomeScreen extends StatelessWidget {
   static const String id = '/';
 
@@ -29,9 +31,10 @@ class HomeScreen extends StatelessWidget {
           }
           switch (auth.authState) {
             case AuthState.UN_AUTHENTICATED:
+              //Navigator.pushReplacementNamed(context, LoginPage.id);
               return LoginPage();
             case AuthState.AUTHENTICATED:
-              return HomeScreen();
+              return CustomeTabBar();
           }
           return Container();
         });
