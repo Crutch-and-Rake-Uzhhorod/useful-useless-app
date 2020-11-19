@@ -8,7 +8,7 @@ import 'package:useful_useless_app/ui/custometabbar.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 
-class LoginPage extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
