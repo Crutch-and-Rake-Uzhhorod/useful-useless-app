@@ -6,6 +6,7 @@ class UserRepository {
 
   final _firebaseAuthService = FirebaseAuthService();
 
-  //Future<User> currentUser() => _firebaseAuthService.currentUser();
+  Future<User> currentUser() => _firebaseAuthService.currentUser();
+  Future<void> signOut() => _firebaseAuthService.signOut();
 
 }
