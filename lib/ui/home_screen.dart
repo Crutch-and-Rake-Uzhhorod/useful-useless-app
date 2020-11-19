@@ -31,7 +31,6 @@ class HomeScreen extends StatelessWidget {
           }
           switch (auth.authState) {
             case AuthState.UN_AUTHENTICATED:
-              //Navigator.pushReplacementNamed(context, LoginPage.id);
               return LoginScreen();
             case AuthState.AUTHENTICATED:
               return CustomeTabBar();
