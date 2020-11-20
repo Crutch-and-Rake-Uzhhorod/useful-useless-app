@@ -22,7 +22,7 @@ class UserProvider with ChangeNotifier{
 
     if (user != null) {
       authState = AuthState.AUTHENTICATED;
-      print("AutoAUTHENTICATED");
+      print('AutoAUTHENTICATED');
     }
     return user != null;
   }

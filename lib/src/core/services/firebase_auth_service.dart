@@ -36,7 +36,7 @@ class FirebaseAuthService {
 
 
   void updateUserData(User user) async {
-    print("updateUserData");
+    print('updateUserData');
     var ref = _db.collection('users').doc(user.uid);
 
     await ref.set({

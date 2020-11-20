@@ -101,7 +101,7 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
+// ignore: camel_case_types
 class _signInButtonApple extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
