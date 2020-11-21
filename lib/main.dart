@@ -7,6 +7,7 @@ import 'package:useful_useless_app/providers/power_off_provider.dart';
 import 'package:useful_useless_app/ui/home_screen.dart';
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
 import 'package:useful_useless_app/src/core/provider/user_provider.dart';
+import 'package:useful_useless_app/ui/login_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,6 +49,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         HomeScreen.id: (context) => HomeScreen(),
+        LoginScreen.id: (context) => LoginScreen(),
       },
     );
   }
