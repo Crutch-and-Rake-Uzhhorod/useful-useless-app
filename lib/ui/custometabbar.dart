@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:useful_useless_app/ui/shared_preference.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
 import 'profile_screen.dart';
@@ -30,20 +29,6 @@ class _CustomeTabBarState extends State<CustomeTabBar> {
       appBar: AppBar(
         title: Text('app_name'.tr()),
         centerTitle: true,
-        actions: <Widget>[
-          FlatButton(
-            child: Icon(
-              Icons.settings,
-              color: Colors.white,
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SharedPref()),
-              );
-            },
-          ),
-        ],
       ),
       body: Center(
         child: widgetOptions.elementAt(_selectedIndex),
