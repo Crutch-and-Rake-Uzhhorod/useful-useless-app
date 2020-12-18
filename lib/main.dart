@@ -9,6 +9,8 @@ export 'package:easy_localization_loader/src/json_asset_loader.dart';
 import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 import 'package:useful_useless_app/ui/login_screen.dart';
 
+import 'src/core/provider/custom_scroll_provider.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -16,6 +18,7 @@ Future<void> main() async {
     providers: [
       ChangeNotifierProvider(create: (_) => UserProvider()),
       ChangeNotifierProvider(create: (_) => PowerOffProvider()),
+      ChangeNotifierProvider(create: (_) => CustomScrollProvider()),
     ],
     child: EasyLocalization(
       child: Consumer<UserProvider>(
