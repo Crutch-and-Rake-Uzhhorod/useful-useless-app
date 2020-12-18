@@ -3,14 +3,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/custom_scroll_provider.dart';
+import 'package:useful_useless_app/src/core/provider/calendar_scroll_provider.dart';
 
 
 
-class CustomPicker extends StatelessWidget {
+class CalendarScrollWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final scrollProvider = Provider.of<CustomScrollProvider>(context);
+    final scrollProvider = Provider.of<CalendarScrollProvider>(context);
     final indexedDates = scrollProvider.indexedDates;
     return Column(
       children: [
@@ -65,7 +65,7 @@ class CustomPicker extends StatelessWidget {
       index,
       ) {
     final _scrollProvider =
-    Provider.of<CustomScrollProvider>(context, listen: false);
+    Provider.of<CalendarScrollProvider>(context, listen: false);
     if (index == _scrollProvider.currentItem) {
       return Theme.of(context).textTheme.bodyText1.copyWith(
         color: Color.fromRGBO(10, 20, 20, 50),

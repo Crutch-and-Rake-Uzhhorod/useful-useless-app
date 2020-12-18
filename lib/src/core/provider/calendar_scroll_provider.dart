@@ -4,9 +4,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class CustomScrollProvider with ChangeNotifier {
+class CalendarScrollProvider with ChangeNotifier {
 
-  CustomScrollProvider(){
+  CalendarScrollProvider(){
     var currentMonth = DateTime.now();
     var formatter = DateFormat('LLLL');
     selectedMonth =  formatter.format(currentMonth);

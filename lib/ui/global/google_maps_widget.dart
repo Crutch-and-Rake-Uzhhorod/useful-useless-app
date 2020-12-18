@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'custom_scroll_widget.dart';
+import 'calendar_scroll_widget.dart';
 class GoogleMapsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class GoogleMapsWidget extends StatelessWidget {
         children: <Widget>[
           Container(
             height: 150,
-            child: CustomPicker()
+            child: CalendarScrollWidget()
           ),
           SizedBox(
               width: MediaQuery.of(context).size.width,  // or use fixed size like 200
