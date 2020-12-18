@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
@@ -9,33 +11,52 @@ class CustomPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollProvider = Provider.of<CustomScrollProvider>(context);
-    return RotatedBox(
-      quarterTurns: 3,
-      child: NotificationListener(
-        onNotification: (onNotification) =>
-            scrollProvider.handleScrollNotification(onNotification),
-        child: ListWheelScrollView.useDelegate(
-          perspective: 0.00002,
-          squeeze: 1.2,
-          controller: scrollProvider.initializeScrollController(),
-          itemExtent: 85,
-          onSelectedItemChanged: (item) =>
-              scrollProvider.achieveCurrentValue(item),
-          childDelegate: ListWheelChildBuilderDelegate(
-            childCount: scrollProvider.numberAmount,
-            builder: (context, index) => RotatedBox(
-              quarterTurns: 1,
-              child: Center(
-                child: Text(
-                  '${index + scrollProvider.indexStartsFrom}',
-                  style: _textStyle(context, index),
-                  textAlign: TextAlign.center,
-                ),
+    final indexedDates = scrollProvider.indexedDates;
+    return Column(
+      children: [
+        Container(
+            child: Text(
+              scrollProvider.selectedMonth,
+              style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
               ),
             ),
-          ),
+          height: 40,
         ),
-      ),
+        SizedBox(
+            width: MediaQuery.of(context).size.width,  // or use fixed size like 200
+            height: 110,
+            child:  RotatedBox(
+              quarterTurns: 3,
+              child: NotificationListener(
+                onNotification: (onNotification) =>
+                    scrollProvider.handleScrollNotification(onNotification),
+                child: ListWheelScrollView.useDelegate(
+                  perspective: 0.00002,
+                  squeeze: 1.2,
+                  controller: scrollProvider.initializeScrollController(),
+                  itemExtent: 85,
+                  onSelectedItemChanged: (item) =>
+                      scrollProvider.achieveCurrentValue(item),
+                  childDelegate: ListWheelChildBuilderDelegate(
+                    childCount: scrollProvider.numberAmount,
+                    builder: (context, index) => RotatedBox(
+                      quarterTurns: 1,
+                      child: Center(
+                        child: Text(
+                          '${indexedDates[index]['day']}',
+                          style: _textStyle(context, index),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            )
+        ),
+      ],
     );
   }
 
