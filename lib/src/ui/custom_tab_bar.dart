@@ -1,26 +1,31 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:useful_useless_app/ui/global/google_maps_widget.dart';
+import 'package:flutter/material.dart';
+
+import 'global/google_maps_widget.dart';
 import 'profile_screen.dart';
 
-class CustomeTabBar extends StatefulWidget {
+class CustomTabBar extends StatefulWidget {
   @override
-  _CustomeTabBarState createState() => _CustomeTabBarState();
+  _CustomTabBarState createState() => _CustomTabBarState();
 }
 
-class _CustomeTabBarState extends State<CustomeTabBar> {
+class _CustomTabBarState extends State<CustomTabBar> {
   int _selectedIndex = 0;
 
   List widgetOptions = [
+    //TODO: fix TabBar body
     GoogleMapsWidget(),
     Container(),
     ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    //TODO: no set_state allowed, only Provider.of<T>(context)
+    setState(
+      () {
+        _selectedIndex = index;
+      },
+    );
   }
 
   @override
