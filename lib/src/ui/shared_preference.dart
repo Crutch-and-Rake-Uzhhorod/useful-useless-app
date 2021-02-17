@@ -23,7 +23,7 @@ class _SharedPrefState extends State<SharedPref> {
               Icons.language,
               color: Colors.blue,
             ),
-            title: Text('launch'.tr()),
+            title: Text('language'.tr()),
             onTap: () {
               showModalBottomSheet(
                 context: context,

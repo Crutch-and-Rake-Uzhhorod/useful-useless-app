@@ -30,7 +30,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             child: ListTile(
-              title: Text('launch'.tr()),
+              title: Text('language'.tr()),
               onTap: () {
                 showModalBottomSheet(
                     context: context, builder: (context) => LanguageView());
