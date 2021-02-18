@@ -1,10 +1,12 @@
 import 'package:json_annotation/json_annotation.dart';
 
-
 part 'location_model.g.dart';
 
 @JsonSerializable()
 class LocationModel {
+  factory LocationModel.fromJson(Map<String, dynamic> json) =>
+      _$LocationModelFromJson(json);
+
   LocationModel({
     this.type,
     this.locationID,
@@ -15,7 +17,6 @@ class LocationModel {
     this.users,
   });
 
-  factory LocationModel.fromJson(Map<String, dynamic> json) => _$LocationModelFromJson(json);
   final int type;
   final String locationID;
   final String street;

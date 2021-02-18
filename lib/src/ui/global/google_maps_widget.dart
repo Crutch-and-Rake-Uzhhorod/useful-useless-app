@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../../ui/global/calendar_scroll_widget.dart';
 
-import 'calendar_scroll_widget.dart';
 class GoogleMapsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

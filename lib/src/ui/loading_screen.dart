@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:useful_useless_app/ui/global/loader_widget.dart';
 
+import 'global/loader_widget.dart';
 
 class LoadingScreen extends StatelessWidget {
   @override
@@ -11,7 +11,7 @@ class LoadingScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Идет инициализация данных...'),
+              Text('Идет инициализация данных...'), //TODO: internationalization
               SizedBox(
                 height: 20.0,
               ),
@@ -23,4 +23,3 @@ class LoadingScreen extends StatelessWidget {
     );
   }
 }
-
