@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-import 'global/google_maps_widget.dart';
+import 'map_tab/google_maps_widget.dart';
 import 'profile_screen.dart';
 
 class CustomTabBar extends StatefulWidget {
