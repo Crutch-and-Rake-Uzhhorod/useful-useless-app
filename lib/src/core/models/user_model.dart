@@ -4,6 +4,9 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
+
   UserModel({
     this.auth_type,
     this.notification_settings,
@@ -11,12 +14,10 @@ class UserModel {
     this.user_name,
   });
 
-  factory UserModel.fromJson(Map<String, dynamic> json) =>
-      _$UserModelFromJson(json);
-  Map<String, dynamic> toJson() => _$UserModelToJson(this);
-
   String auth_type;
   bool notification_settings;
   List<String> user_houses;
   String user_name;
+
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }

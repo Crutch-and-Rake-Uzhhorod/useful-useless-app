@@ -14,8 +14,17 @@ export 'package:easy_localization_loader/src/json_asset_loader.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(
-    MultiProvider(
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (_) => UserProvider(),
@@ -25,11 +34,6 @@ Future<void> main() async {
         ),
       ],
       child: EasyLocalization(
-        child: Consumer<UserProvider>(
-          builder: (context, UserProvider userProvider, _) {
-            return MyApp();
-          },
-        ),
         supportedLocales: [
           Locale('ru', 'RU'),
           Locale('uk', 'UA'),
@@ -38,30 +42,24 @@ Future<void> main() async {
         startLocale: Locale('uk', 'UA'),
         saveLocale: true,
         useOnlyLangCode: true,
+        child: Consumer<UserProvider>(
+          builder: (context, UserProvider userProvider, _) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              routes: {
+                HomeScreen.id: (context) => HomeScreen(),
+                LoginScreen.id: (context) => LoginScreen(),
+              },
+            );
+          },
+        ),
       ),
-    ),
-  );
-  await SystemChrome.setPreferredOrientations(
-    [DeviceOrientation.portraitUp],
-  );
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      routes: {
-        HomeScreen.id: (context) => HomeScreen(),
-        LoginScreen.id: (context) => LoginScreen(),
-      },
     );
   }
 }

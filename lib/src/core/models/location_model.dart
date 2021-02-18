@@ -4,6 +4,9 @@ part 'location_model.g.dart';
 
 @JsonSerializable()
 class LocationModel {
+  factory LocationModel.fromJson(Map<String, dynamic> json) =>
+      _$LocationModelFromJson(json);
+
   LocationModel({
     this.type,
     this.locationID,
@@ -14,10 +17,6 @@ class LocationModel {
     this.users,
   });
 
-  factory LocationModel.fromJson(Map<String, dynamic> json) =>
-      _$LocationModelFromJson(json);
-  Map<String, dynamic> toJson() => _$LocationModelToJson(this);
-
   final int type;
   final String locationID;
   final String street;
@@ -25,4 +24,6 @@ class LocationModel {
   final String city;
   final Map<String, dynamic> location;
   final List<dynamic> users;
+
+  Map<String, dynamic> toJson() => _$LocationModelToJson(this);
 }
