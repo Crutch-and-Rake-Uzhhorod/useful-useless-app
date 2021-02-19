@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 import 'package:useful_useless_app/src/core/services/firebase_auth_service.dart';
 
-import 'custom_tab_bar.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';
@@ -60,13 +60,8 @@ class LoginScreen extends StatelessWidget {
                                           .signInWithGoogle()
                                           .whenComplete(
                                         () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) {
-                                                return CustomTabBar();
-                                              },
-                                            ),
-                                          );
+                                          Navigator.pushReplacementNamed(
+                                              context, HomeScreen.id);
                                         },
                                       );
                                     },
@@ -86,13 +81,8 @@ class LoginScreen extends StatelessWidget {
                                 .signInWithGoogle()
                                 .whenComplete(
                               () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return CustomTabBar();
-                                    },
-                                  ),
-                                );
+                                Navigator.pushReplacementNamed(
+                                    context, HomeScreen.id);
                               },
                             );
                           },
@@ -106,13 +96,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(height: 50),
               FlatButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return CustomTabBar();
-                      },
-                    ),
-                  );
+                  Navigator.pushNamed(context, HomeScreen.id);
                 },
                 child: Text(
                   'Anonymous SignIn',

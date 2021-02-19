@@ -3,11 +3,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/ui/home_screen.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
-import 'src/ui/home_screen.dart';
 import 'src/ui/login_screen.dart';
+import 'src/ui/splash/splash_screen.dart';
 
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
 
@@ -52,9 +53,11 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
+              initialRoute: SplashScreen.id,
               routes: {
-                HomeScreen.id: (context) => HomeScreen(),
-                LoginScreen.id: (context) => LoginScreen(),
+                SplashScreen.id: (_) => SplashScreen(),
+                LoginScreen.id: (_) => LoginScreen(),
+                HomeScreen.id: (_) => HomeScreen(),
               },
             );
           },
