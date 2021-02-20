@@ -19,11 +19,13 @@ class _AnimatedLiquidCustomProgressIndicatorState
     super.initState();
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 3),
-    );
+      duration: Duration(seconds: 2),
+    )..addListener(() {
+        setState(() {});
+      });
 
-    _animationController.addListener(() => setState(() {}));
-    _animationController.repeat();
+    _animationController.forward();
+    //_animationController.repeat();
   }
 
   @override
@@ -50,15 +52,18 @@ class _AnimatedLiquidCustomProgressIndicatorState
     );
   }
 
+  static const double initialX = 55;
+  static const double initialY = 5;
+
   Path _buildHeartPath() {
     return Path()
-      ..moveTo(55, 15)
-      ..cubicTo(55, 12, 50, 0, 30, 0)
-      ..cubicTo(0, 0, 0, 37.5, 0, 37.5)
-      ..cubicTo(0, 55, 20, 77, 55, 95)
-      ..cubicTo(90, 77, 110, 55, 110, 37.5)
-      ..cubicTo(110, 37.5, 110, 0, 80, 0)
-      ..cubicTo(65, 0, 55, 12, 55, 15)
-      ..close();
+      ..moveTo(initialX, initialY) //initial A coordinates
+      ..lineTo(initialX + 60, initialY) //A to B coordinates
+      ..lineTo(initialX + 20, initialY + 60) //B to D coordinates
+      ..lineTo(initialX + 60, initialY + 60) //D to E coordinates
+      ..lineTo(initialX - 30, initialY + 170) //E to F coordinates
+      ..lineTo(initialX - 10, initialY + 90) //F to G coordinates
+      ..lineTo(initialX - 50, initialY + 90) //G to C coordinates
+      ..close(); //C to A coordinates
   }
 }
