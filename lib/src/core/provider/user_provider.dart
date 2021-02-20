@@ -1,6 +1,6 @@
-import 'package:apple_sign_in/apple_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:useful_useless_app/src/core/repository/user_repository.dart';
 
 enum AuthState {
@@ -10,7 +10,8 @@ enum AuthState {
   AUTHENTICATED,
   // UN_REGISTERED,
 }
-class UserProvider with ChangeNotifier{
+
+class UserProvider with ChangeNotifier {
   final _repository = UserRepository();
   User user;
   AuthState authState = AuthState.UN_AUTHENTICATED;
@@ -28,7 +29,6 @@ class UserProvider with ChangeNotifier{
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
-    return await AppleSignIn.isAvailable();
+    return await SignInWithApple.isAvailable();
   }
-
 }
