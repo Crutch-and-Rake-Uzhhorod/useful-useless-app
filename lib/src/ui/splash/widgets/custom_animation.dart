@@ -43,7 +43,7 @@ class _AnimatedLiquidCustomProgressIndicatorState
         direction: Axis.vertical,
         backgroundColor: Colors.white,
         valueColor: AlwaysStoppedAnimation(Colors.yellow[800]),
-        shapePath: _buildHeartPath(),
+        shapePath: _buildLightningPath(),
         center: Text(
           '${percentage.toInt()}%',
           style: Theme.of(context).textTheme.bodyText1,
@@ -54,8 +54,8 @@ class _AnimatedLiquidCustomProgressIndicatorState
 
   static const double initialX = 55;
   static const double initialY = 5;
-
-  Path _buildHeartPath() {
+//TODO: fix lightning coordinates
+  Path _buildLightningPath() {
     return Path()
       ..moveTo(initialX, initialY) //initial A coordinates
       ..lineTo(initialX + 60, initialY) //A to B coordinates
