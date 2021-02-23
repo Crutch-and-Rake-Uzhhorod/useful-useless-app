@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:useful_useless_app/src/core/repository/user_repository.dart';
+
+import '../repository/user_repository.dart';
 
 enum AuthState {
   // ignore: constant_identifier_names

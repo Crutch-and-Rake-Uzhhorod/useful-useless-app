@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/user_provider.dart';
-import 'package:useful_useless_app/src/ui/home_screen.dart';
-import 'package:useful_useless_app/src/ui/splash/widgets/custom_animation.dart';
 
+import '../../core/provider/user_provider.dart';
+import '../home_screen.dart';
 import '../login_screen.dart';
+import 'widgets/custom_animation.dart';
 
 export 'package:easy_localization_loader/src/json_asset_loader.dart';
 
