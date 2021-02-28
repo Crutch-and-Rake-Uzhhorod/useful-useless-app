@@ -11,7 +11,7 @@ class GoogleMapsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final PowerOffProvider powerOffProvider =
+    final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
     return Column(
       children: <Widget>[

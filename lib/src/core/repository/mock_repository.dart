@@ -57,7 +57,7 @@ class MockRepository {
   }
 
   Future<List<DateTime>> getDates() async {
-    final DateTime now = DateTime.now();
+    final now = DateTime.now();
     return <DateTime>[
       now,
       now.add(Duration(days: 1)),
