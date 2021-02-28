@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
 import 'src/ui/home_screen.dart';
-
 import 'src/ui/login_screen.dart';
+import 'src/ui/splash/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,9 +59,11 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 primarySwatch: Colors.blue,
               ),
+              initialRoute: SplashScreen.id,
               routes: {
-                HomeScreen.id: (context) => HomeScreen(),
-                LoginScreen.id: (context) => LoginScreen(),
+                SplashScreen.id: (_) => SplashScreen(),
+                LoginScreen.id: (_) => LoginScreen(),
+                HomeScreen.id: (_) => HomeScreen(),
               },
             );
           },

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'global/loader_widget.dart';
 
 class LoadingScreen extends StatelessWidget {
+  static const String id = 'loading_screen';
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

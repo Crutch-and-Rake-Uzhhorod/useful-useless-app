@@ -1,41 +1,85 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/user_provider.dart';
 
-import 'custom_tab_bar.dart';
-import 'loading_screen.dart';
-import 'login_screen.dart';
+import '../core/provider/calendar_scroll_provider.dart';
+import '../core/provider/power_off_provider.dart';
+import 'map_tab/google_maps_widget.dart';
+import 'profile_screen.dart';
 
-export 'package:easy_localization_loader/src/json_asset_loader.dart';
-
-class HomeScreen extends StatelessWidget {
-  static const String id = '/'; //TODO: id = 'home_screen'
+class HomeScreen extends StatefulWidget {
+  static const String id = 'home_screen';
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: _buildLoaderScreen(context),
-      ),
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  List widgetOptions = [
+    //TODO: fix TabBar body
+    GoogleMapsWidget(),
+    Container(),
+    ProfileScreen(),
+  ];
+
+  void _onItemTapped(int index) {
+    //TODO: no set_state allowed, only Provider.of<T>(context)
+    setState(
+      () {
+        _selectedIndex = index;
+      },
     );
   }
 
-  Widget _buildLoaderScreen(BuildContext context) {
-    final auth = Provider.of<UserProvider>(context);
-    return FutureBuilder(
-      future: auth.tryAutoLogin(),
-      builder: (ctx, authResultSnapshot) {
-        if (authResultSnapshot.connectionState == ConnectionState.waiting) {
-          return LoadingScreen();
-        }
-        switch (auth.authState) {
-          case AuthState.UN_AUTHENTICATED:
-            return LoginScreen();
-          case AuthState.AUTHENTICATED:
-            return CustomTabBar();
-        }
-        return Container();
-      },
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CalendarScrollProvider>(
+          create: (BuildContext context) => CalendarScrollProvider(
+            dates: Provider.of<PowerOffProvider>(context, listen: false).dates,
+          ),
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('app_name'.tr()),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.map,
+                size: 40.0,
+              ),
+              label: 'map'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list,
+                size: 40.0,
+              ),
+              label: 'list'.tr(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                size: 40.0,
+              ),
+              label: 'profile'.tr(),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blueAccent,
+          onTap: _onItemTapped,
+        ),
+      ),
     );
   }
 }

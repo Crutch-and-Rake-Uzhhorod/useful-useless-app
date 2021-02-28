@@ -5,6 +5,8 @@ import '../core/models/user_model.dart';
 import '../global/localization/language_view.dart';
 
 class SettingsScreen extends StatefulWidget {
+  static const String id = 'settings_screen';
+
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
