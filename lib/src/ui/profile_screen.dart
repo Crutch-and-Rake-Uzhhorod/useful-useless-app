@@ -5,6 +5,7 @@ import '../core/models/user_model.dart';
 import 'settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
+  static const String id = 'profile_screen';
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
