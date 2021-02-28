@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../core/provider/calendar_scroll_provider.dart';
+import '../core/provider/power_off_provider.dart';
 import 'map_tab/google_maps_widget.dart';
 import 'profile_screen.dart';
 
@@ -30,41 +33,50 @@ class _CustomTabBarState extends State<CustomTabBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('app_name'.tr()),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.map,
-              size: 40.0,
-            ),
-            label: 'map'.tr(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CalendarScrollProvider>(
+          create: (BuildContext context) => CalendarScrollProvider(
+            dates: Provider.of<PowerOffProvider>(context, listen: false).dates,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-              size: 40.0,
+        ),
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('app_name'.tr()),
+          centerTitle: true,
+        ),
+        body: Center(
+          child: widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.map,
+                size: 40.0,
+              ),
+              label: 'map'.tr(),
             ),
-            label: 'list'.tr(),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 40.0,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.list,
+                size: 40.0,
+              ),
+              label: 'list'.tr(),
             ),
-            label: 'profile'.tr(),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: _onItemTapped,
+            BottomNavigationBarItem(
+              icon: Icon(
+                Icons.person,
+                size: 40.0,
+              ),
+              label: 'profile'.tr(),
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.blueAccent,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }

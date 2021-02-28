@@ -33,6 +33,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => PowerOffProvider(),
         ),
+        //could be replaced in future to loading screen in order to display the initialization progress
+        FutureProvider<void>(
+          create: (BuildContext context) =>
+              Provider.of<PowerOffProvider>(context, listen: false).init(),
+          lazy: false,
+        ),
       ],
       child: EasyLocalization(
         supportedLocales: [

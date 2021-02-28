@@ -9,64 +9,61 @@ class CalendarScrollWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CalendarScrollProvider>(
-      create: (_) => CalendarScrollProvider()..initDatesList(),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(top: 10),
-            child: Consumer<CalendarScrollProvider>(
-              builder: (_, CalendarScrollProvider scrollProvider, __) {
-                return Text(
-                  scrollProvider.selectedMonth,
-                  style: TextStyle(
-                    fontSize: 26,
-                    fontWeight: FontWeight.w500,
-                  ),
-                );
-              },
-            ),
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(top: 10),
+          child: Consumer<CalendarScrollProvider>(
+            builder: (_, CalendarScrollProvider scrollProvider, __) {
+              return Text(
+                scrollProvider.selectedMonth,
+                style: TextStyle(
+                  fontSize: 26,
+                  fontWeight: FontWeight.w500,
+                ),
+              );
+            },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SizedBox(
-              width: 150,
-              height: 30,
-              child: RotatedBox(
-                quarterTurns: 3,
-                child: Consumer<CalendarScrollProvider>(
-                  builder: (_, CalendarScrollProvider scrollProvider, __) {
-                    return NotificationListener(
-                      onNotification: scrollProvider.handleScrollNotification,
-                      child: ListWheelScrollView.useDelegate(
-                        perspective: 0.00002,
-                        squeeze: 1.2,
-                        controller: scrollProvider.fixedExtentScrollController,
-                        itemExtent: 85,
-                        onSelectedItemChanged:
-                            scrollProvider.achieveCurrentValue,
-                        childDelegate: ListWheelChildBuilderDelegate(
-                          childCount: scrollProvider.datesAmount,
-                          builder: (context, index) => RotatedBox(
-                            quarterTurns: 1,
-                            child: Center(
-                              child: Text(
-                                '${scrollProvider.indexedDates[index].day}',
-                                style: _textStyle(context, index),
-                                textAlign: TextAlign.center,
-                              ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Container(
+            width: 320,
+            height: 30,
+            child: RotatedBox(
+              quarterTurns: 3,
+              child: Consumer<CalendarScrollProvider>(
+                builder: (_, CalendarScrollProvider scrollProvider, __) {
+                  return NotificationListener(
+                    onNotification: scrollProvider.handleScrollNotification,
+                    child: ListWheelScrollView.useDelegate(
+                      perspective: 0.00002,
+                      squeeze: 1.2,
+                      controller: scrollProvider.fixedExtentScrollController,
+                      itemExtent: 85,
+                      onSelectedItemChanged:
+                          scrollProvider.onSelectedDateChanged,
+                      childDelegate: ListWheelChildBuilderDelegate(
+                        childCount: scrollProvider.dates.length,
+                        builder: (context, index) => RotatedBox(
+                          quarterTurns: 1,
+                          child: Center(
+                            child: Text(
+                              '${scrollProvider.dates[index].day}',
+                              style: _textStyle(context, index),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

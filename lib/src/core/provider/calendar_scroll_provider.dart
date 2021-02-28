@@ -7,10 +7,27 @@ import 'package:flutter/rendering.dart';
 import '../repository/date_time_repository.dart';
 
 class CalendarScrollProvider with ChangeNotifier {
-  CalendarScrollProvider() {
+  CalendarScrollProvider({
+    @required UnmodifiableListView<DateTime> dates,
+  }) {
     _dateTimeRepository = DateTimeRepository();
 
     _currentDate = DateTime.now();
+
+    _dates = dates ?? <DateTime>[_currentDate];
+
+    _index = _dates.indexOf(
+      _dates.firstWhere(
+        (DateTime date) => date.day.compareTo(_currentDate.day) == 0,
+        orElse: () {
+          if (_dates.length > 1) {
+            return _dates.elementAt((_dates.length / 2).ceil());
+          } else {
+            return _dates.first;
+          }
+        },
+      ),
+    );
 
     fixedExtentScrollController = FixedExtentScrollController(
       initialItem: _index,
@@ -19,40 +36,21 @@ class CalendarScrollProvider with ChangeNotifier {
 
   DateTimeRepository _dateTimeRepository;
 
-  int _index = 0;
+  FixedExtentScrollController fixedExtentScrollController;
 
   DateTime _currentDate;
 
-  List<DateTime> _indexedDates;
+  UnmodifiableListView<DateTime> _dates;
 
-  FixedExtentScrollController fixedExtentScrollController;
+  int _index;
 
-  int get currentIndex => _index;
-
-  UnmodifiableListView<DateTime> get indexedDates =>
-      UnmodifiableListView(_indexedDates);
-
-  int get datesAmount => _indexedDates.length;
+  UnmodifiableListView<DateTime> get dates => _dates;
 
   String get selectedMonth => _dateTimeRepository.dateToMonth(
-        _indexedDates.elementAt(_index),
+        _dates.elementAt(_index),
       );
 
-  //TODO: implement initialization
-  void initDatesList() {
-    _indexedDates = <DateTime>[];
-    _indexedDates.add(_currentDate);
-
-    // var indexedDatesList = List<Map<String, dynamic>>(numberAmount);
-    // for (var index = 0; index <= numberAmount - 1; index++) {
-    //   var date = _currentDate.add(Duration(days: index - 20));
-    //   var formatter = DateFormat('LLLL');
-    //   var month = formatter.format(date);
-    //   indexedDatesList[index] = {'date': date, 'day': date.day, 'month': month};
-    // }
-    // indexedDates = indexedDatesList;
-    // return indexedDatesList;
-  }
+  int get currentIndex => _index;
 
   bool handleScrollNotification(Notification scrollNotification) {
     ///verification of scroll activity
@@ -73,12 +71,11 @@ class CalendarScrollProvider with ChangeNotifier {
     return false;
   }
 
-  int achieveCurrentValue(int item) {
+  void onSelectedDateChanged(int item) {
     _index = item;
 
     ///notifyListeners is needed to animate currentItem with scrollController
     notifyListeners();
-    return _index;
   }
 
   @override
