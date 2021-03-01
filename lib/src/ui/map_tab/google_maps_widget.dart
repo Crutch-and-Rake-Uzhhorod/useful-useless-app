@@ -6,7 +6,7 @@ import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
 import 'calendar_scroll_widget.dart';
 
-class GoogleMapsWidget extends StatelessWidget {
+class GoogleMapsScreen extends StatelessWidget {
   final LatLng _center = const LatLng(49.839634, 24.029115);
 
   @override

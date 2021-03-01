@@ -12,21 +12,20 @@ class CalendarScrollWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.only(top: 10),
           child: Consumer<CalendarScrollProvider>(
             builder: (_, CalendarScrollProvider scrollProvider, __) {
               return Text(
                 scrollProvider.selectedMonth,
-                style: TextStyle(
-                  fontSize: 26,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w500,
+                    ),
               );
             },
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: 16),
           child: Container(
             width: 320,
             height: 30,
@@ -71,25 +70,26 @@ class CalendarScrollWidget extends StatelessWidget {
     context,
     index,
   ) {
+    final themeData = Theme.of(context).textTheme;
     final _scrollProvider =
         Provider.of<CalendarScrollProvider>(context, listen: false);
     if (index == _scrollProvider.currentIndex) {
-      return Theme.of(context).textTheme.bodyText1.copyWith(
-            color: Color.fromRGBO(10, 20, 20, 50),
-            fontSize: 26,
-            fontWeight: FontWeight.w500,
-          );
+      return themeData.bodyText1.copyWith(
+        color: Colors.black,
+        fontSize: 26,
+        fontWeight: FontWeight.w500,
+      );
     } else if (index == _scrollProvider.currentIndex + 1 ||
         index == _scrollProvider.currentIndex - 1) {
-      return Theme.of(context).textTheme.bodyText1.copyWith(
-            color: Color.fromRGBO(50, 50, 50, 90),
-            fontSize: 22,
-          );
+      return themeData.bodyText1.copyWith(
+        color: Colors.black.withOpacity(0.5),
+        fontSize: 22,
+      );
     } else {
-      return Theme.of(context).textTheme.bodyText1.copyWith(
-            color: Color.fromRGBO(10, 70, 70, 80),
-            fontSize: 18,
-          );
+      return themeData.bodyText1.copyWith(
+        color: Colors.black.withOpacity(0.3),
+        fontSize: 18,
+      );
     }
   }
 }

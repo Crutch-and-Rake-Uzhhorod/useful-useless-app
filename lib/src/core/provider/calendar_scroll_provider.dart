@@ -57,17 +57,22 @@ class CalendarScrollProvider with ChangeNotifier {
     if (scrollNotification is UserScrollNotification &&
         scrollNotification.direction == ScrollDirection.idle) {
       log(_index.toString());
+      final isScrollable = true;
+      Future.delayed(
+        Duration.zero,
+        () async {
+          if (!isScrollable) return;
+          await
 
-      ///item picked in scroll for animation
-      fixedExtentScrollController.animateToItem(
-        _index,
-        duration: Duration(milliseconds: 1000),
-        curve: Curves.bounceOut,
+              ///item picked in scroll for animation
+              fixedExtentScrollController.animateToItem(
+            _index,
+            duration: Duration(milliseconds: 1000),
+            curve: Curves.bounceOut,
+          );
+        },
       );
-
-      return true;
     }
-
     return false;
   }
 
