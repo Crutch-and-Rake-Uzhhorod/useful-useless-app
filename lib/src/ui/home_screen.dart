@@ -1,71 +1,66 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/core/provider/tab_listener.dart';
 
-import 'global/google_maps_widget.dart';
+import '../core/provider/calendar_scroll_provider.dart';
+import '../core/provider/power_off_provider.dart';
+import 'map_tab/google_maps_widget.dart';
 import 'profile_screen.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+  final TabListener tabListener = TabListener();
 
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-
-  List widgetOptions = [
-    //TODO: fix TabBar body
-    GoogleMapsWidget(),
-    Container(),
+  final List<Widget> tabScreens = <Widget>[
+    GoogleMapsScreen(),
+    Container(), //List of something in future
     ProfileScreen(),
   ];
 
-  void _onItemTapped(int index) {
-    //TODO: no set_state allowed, only Provider.of<T>(context)
-    setState(
-      () {
-        _selectedIndex = index;
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('app_name'.tr()),
-        centerTitle: true,
-      ),
-      body: Center(
-        child: widgetOptions.elementAt(_selectedIndex),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.map,
-              size: 40.0,
-            ),
-            label: 'map'.tr(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CalendarScrollProvider>(
+          create: (BuildContext context) => CalendarScrollProvider(
+            dates: Provider.of<PowerOffProvider>(context, listen: false).dates,
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.list,
-              size: 40.0,
-            ),
-            label: 'list'.tr(),
+        ),
+      ],
+      child: ValueListenableBuilder(
+        valueListenable: tabListener.indexedTab,
+        builder: (BuildContext context, value, child) => Scaffold(
+          body: SafeArea(child: tabScreens.elementAt(value)),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: value,
+            selectedItemColor: Colors.blueAccent,
+            onTap: tabListener.tabIndex,
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.map,
+                  size: 40.0,
+                ),
+                label: 'map'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.list,
+                  size: 40.0,
+                ),
+                label: 'list'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person,
+                  size: 40.0,
+                ),
+                label: 'profile'.tr(),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              size: 40.0,
-            ),
-            label: 'profile'.tr(),
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blueAccent,
-        onTap: _onItemTapped,
+        ),
       ),
     );
   }
