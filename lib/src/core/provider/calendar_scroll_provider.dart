@@ -8,7 +8,7 @@ import '../repository/date_time_repository.dart';
 
 class CalendarScrollProvider with ChangeNotifier {
   CalendarScrollProvider({
-    @required UnmodifiableListView<DateTime> dates,
+    UnmodifiableListView<DateTime> dates,
   }) {
     _dateTimeRepository = DateTimeRepository();
 

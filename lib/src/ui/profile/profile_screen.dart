@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../core/models/user_model.dart';
-import 'settings_screen.dart';
+import '../../core/models/user_model.dart';
+import '../settings/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profile_screen';

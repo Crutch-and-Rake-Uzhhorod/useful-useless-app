@@ -15,6 +15,11 @@ class PowerOffProvider with ChangeNotifier {
     _mockRepository = MockRepository();
   }
 
+  ///city == 0 => Uzhgorod
+  ///city == 1 => Lvov
+  ///.....
+  int city = -1;
+
   MockRepository _mockRepository;
 
   List<Set<Marker>> _markers;
@@ -36,8 +41,12 @@ class PowerOffProvider with ChangeNotifier {
 
   Future<BitmapDescriptor> _convertingIconIntoBytes() async {
     /// the Icon
-    final iconData = Icons.bolt;
 
+    // if(homeSelected){
+    //   iconData = Icons.home;
+    // } else {
+    final iconData = Icons.bolt;
+    // }
     /// creating Canvas
     final pictureRecorder = PictureRecorder();
     final canvas = Canvas(pictureRecorder);
@@ -93,5 +102,21 @@ class PowerOffProvider with ChangeNotifier {
       return Colors.red;
     }
     return Colors.green;
+  }
+
+  void changeCity({int chosenCity}) {
+    city = chosenCity;
+    print(city);
+    notifyListeners();
+  }
+
+  LatLng chosenLatLng({bool isChosenLatLng = false}) {
+    //TODO: implement choose of LatLng by user
+    if (isChosenLatLng) return LatLng(49.8444851, 23.9660739);
+    //TODO: create default Uzhgorod and Lvov centers LatLng markers
+    //if(city == 0) return UzhgorodLatitudeLongitude;
+    //if(city == 1) return LvovLatitudeLongitude ;
+    //notifyListeners();
+    return _markers[2].elementAt(1).position;
   }
 }

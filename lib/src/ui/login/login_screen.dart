@@ -3,9 +3,9 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../core/provider/user_provider.dart';
-import '../core/services/firebase_auth_service.dart';
-import 'home_screen.dart';
+import '../../core/provider/user_provider.dart';
+import '../../core/services/firebase_auth_service.dart';
+import '../home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';

@@ -6,11 +6,9 @@ import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
-import 'src/ui/home_screen.dart';
-import 'src/ui/login_screen.dart';
+import 'src/ui/home/home_screen.dart';
+import 'src/ui/login/login_screen.dart';
 import 'src/ui/splash/splash_screen.dart';
-
-export 'package:easy_localization_loader/src/json_asset_loader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

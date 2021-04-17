@@ -41,13 +41,8 @@ dependencies:
   provider: ^4.3.2+2
   liquid_progress_indicator: ^0.3.2
   material_design_icons_flutter: ^4.0.5755
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
-  tabbar: ^0.1.1
   easy_localization: ^2.3.3
-  easy_localization_loader:
-    git: https://github.com/aissat/easy_localization_loader.git
   shared_preferences: ^0.5.12
   url_launcher: ^5.7.10
   sign_in_with_apple: ^2.5.4
