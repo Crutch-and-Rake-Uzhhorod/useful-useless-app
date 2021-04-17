@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:useful_useless_app/src/ui/splash/splash_screen.dart';
 
 import '../../core/models/user_model.dart';
 import '../../global/localization/language_view.dart';
+import '../splash/splash_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String id = 'settings_screen';
