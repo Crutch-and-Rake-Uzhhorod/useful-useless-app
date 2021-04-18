@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
           create: (_) => PowerOffProvider(),
         ),
         FutureProvider<void>(
+          initialData: 'Fetching data',
           create: (BuildContext context) =>
               Provider.of<PowerOffProvider>(context, listen: false).init(),
           lazy: false,

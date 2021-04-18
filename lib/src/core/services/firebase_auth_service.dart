@@ -22,7 +22,7 @@ class FirebaseAuthService {
 
     assert(!user.isAnonymous);
     assert(await user.getIdToken() != null);
-    final currentUser = await _auth.currentUser;
+    final currentUser = _auth.currentUser;
     assert(user.uid == currentUser.uid);
     print('data333: ' + user.uid);
 
@@ -54,7 +54,7 @@ class FirebaseAuthService {
   }
 
   Future<User> currentUser() async {
-    final user = await _auth.currentUser;
+    final user = _auth.currentUser;
     return user;
   }
 }

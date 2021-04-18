@@ -81,20 +81,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: FlatButton(
+      bottomNavigationBar: TextButton(
         onPressed: () {
           FirebaseAuth.instance.signOut();
           Navigator.pushNamed(context, SplashScreen.id);
         },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+                color: Colors.black, width: 1, style: BorderStyle.solid),
+          ),
+        ),
         child: Text(
           'exit'.tr(),
           style: TextStyle(
             fontSize: 18,
           ),
-        ),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.black, width: 1, style: BorderStyle.solid),
         ),
       ),
     );

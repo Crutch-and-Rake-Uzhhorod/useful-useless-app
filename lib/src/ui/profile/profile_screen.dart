@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         setState(
                           () {
@@ -68,18 +68,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Expanded(
-                child: FlatButton(
-                  child: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                    size: 50,
-                  ),
+                child: TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SettingsScreen()),
                     );
                   },
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.black,
+                    size: 50,
+                  ),
                 ),
               ),
             ],

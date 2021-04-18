@@ -36,6 +36,7 @@ class LoginScreen extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Align(
+                                alignment: Alignment.centerRight,
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
                                   child: IconButton(
@@ -46,7 +47,6 @@ class LoginScreen extends StatelessWidget {
                                     onPressed: () {},
                                   ),
                                 ),
-                                alignment: Alignment.centerRight,
                               ),
                             ),
                             Expanded(
@@ -94,7 +94,7 @@ class LoginScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 50),
-              FlatButton(
+              TextButton(
                 onPressed: () {
                   Navigator.pushNamed(context, HomeScreen.id);
                 },
@@ -106,7 +106,7 @@ class LoginScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 50),
-              FlatButton(
+              TextButton(
                 onPressed: () async {
                   const url = 'https://github.com/Crutch-and-Rake-Uzhhorod/';
                   if (await canLaunch(url)) {

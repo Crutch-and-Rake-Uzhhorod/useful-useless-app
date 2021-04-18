@@ -31,13 +31,13 @@ class HomeScreen extends StatelessWidget {
                   title: Text('which city'),
                   content: Text('choose your city'),
                   actions: [
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           powerOffProvider.changeCity(chosenCity: 0);
                           Navigator.pop(context);
                         },
                         child: Text('Uzhgorod')),
-                    FlatButton(
+                    TextButton(
                         onPressed: () {
                           powerOffProvider.changeCity(chosenCity: 1);
                           Navigator.pop(context);
