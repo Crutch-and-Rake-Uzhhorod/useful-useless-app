@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../core/models/user_model.dart';
-import 'settings_screen.dart';
+import '../../core/models/user_model.dart';
+import '../settings/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profile_screen';
@@ -32,7 +32,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FlatButton(
+                    TextButton(
                       onPressed: () {
                         setState(
                           () {
@@ -68,18 +68,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Expanded(
-                child: FlatButton(
-                  child: Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                    size: 50,
-                  ),
+                child: TextButton(
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => SettingsScreen()),
                     );
                   },
+                  child: Icon(
+                    Icons.settings,
+                    color: Colors.black,
+                    size: 50,
+                  ),
                 ),
               ),
             ],

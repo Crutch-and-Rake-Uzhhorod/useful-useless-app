@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/tab_listener.dart';
 
-import '../core/provider/calendar_scroll_provider.dart';
-import '../core/provider/power_off_provider.dart';
-import 'map_tab/google_maps_widget.dart';
-import 'profile_screen.dart';
+import '../../core/provider/calendar_scroll_provider.dart';
+import '../../core/provider/power_off_provider.dart';
+import '../../core/provider/tab_listener.dart';
+import '../map_tab/google_maps_screen.dart';
+import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
@@ -20,6 +20,34 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final powerOffProvider = Provider.of<PowerOffProvider>(context);
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      if (powerOffProvider.city == -1) {
+        //TODO: customize dialog widget
+        await showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+                  title: Text('which city'),
+                  content: Text('choose your city'),
+                  actions: [
+                    TextButton(
+                        onPressed: () {
+                          powerOffProvider.changeCity(chosenCity: 0);
+                          Navigator.pop(context);
+                        },
+                        child: Text('Uzhgorod')),
+                    TextButton(
+                        onPressed: () {
+                          powerOffProvider.changeCity(chosenCity: 1);
+                          Navigator.pop(context);
+                        },
+                        child: Text('Lvov')),
+                  ],
+                ));
+      }
+      // )
+    });
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CalendarScrollProvider>(

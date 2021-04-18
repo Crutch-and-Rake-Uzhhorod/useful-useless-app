@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-import '../core/models/user_model.dart';
-import '../global/localization/language_view.dart';
+import '../../core/models/user_model.dart';
+import '../../global/localization/language_view.dart';
+import '../splash/splash_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String id = 'settings_screen';
@@ -79,17 +81,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: FlatButton(
-        onPressed: () {},
+      bottomNavigationBar: TextButton(
+        onPressed: () {
+          FirebaseAuth.instance.signOut();
+          Navigator.pushNamed(context, SplashScreen.id);
+        },
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+                color: Colors.black, width: 1, style: BorderStyle.solid),
+          ),
+        ),
         child: Text(
           'exit'.tr(),
           style: TextStyle(
             fontSize: 18,
           ),
-        ),
-        shape: RoundedRectangleBorder(
-          side: BorderSide(
-              color: Colors.black, width: 1, style: BorderStyle.solid),
         ),
       ),
     );

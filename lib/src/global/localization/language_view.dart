@@ -45,7 +45,7 @@ class MyState extends State<LanguageView> {
                 title: Text('lang'.tr(args: ['Українська'])),
                 onChanged: (Locale locale) {
                   setState(() {
-                    context.locale = locale;
+                    context.setLocale(locale);
                   });
                 }),
             RadioListTile<Locale>(
@@ -54,7 +54,7 @@ class MyState extends State<LanguageView> {
                 title: Text('lang'.tr(args: ['Русский'])),
                 onChanged: (Locale locale) {
                   setState(() {
-                    context.locale = locale;
+                    context.setLocale(locale);
                   });
                 }),
           ],
