@@ -11,9 +11,9 @@ FrameModel _$FrameModelFromJson(Map<String, dynamic> json) {
     house_details: json['house_details'] == null
         ? null
         : LocationModel.fromJson(json['house_details'] as Map<String, dynamic>),
-    frames: (json['frames'] as List)
+    frames: (json['frames'] as List?)
         ?.map((e) => e as Map<String, dynamic>)
-        ?.toList(),
+        .toList(),
   );
 }
 

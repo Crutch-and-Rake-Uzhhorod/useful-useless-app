@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
 
@@ -11,20 +12,20 @@ import '../repository/mock_repository.dart';
 
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
-  PowerOffProvider() {
-    _mockRepository = MockRepository();
+  PowerOffProvider(this._mockRepository) {
+    //_mockRepository = MockRepository();
   }
 
   ///city == 0 => Uzhgorod
   ///city == 1 => Lvov
   ///.....
-  int city = -1;
+  int? city = -1;
 
-  MockRepository _mockRepository;
+  final MockRepository _mockRepository;
 
-  List<Set<Marker>> _markers;
+  late List<Set<Marker>> _markers;
 
-  List<DateTime> _dates;
+  late List<DateTime> _dates;
 
   UnmodifiableListView<Set<Marker>> get markers =>
       UnmodifiableListView<Set<Marker>>(_markers);
@@ -84,8 +85,8 @@ class PowerOffProvider with ChangeNotifier {
     final image = await picture.toImage(72, 72);
 
     /// converting form Image to Bytes
-    final bytes = await image.toByteData(format: ImageByteFormat.png);
-    return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+    final bytes = await (image.toByteData(format: ImageByteFormat.png));
+    return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
 
   Color _getMarkerColor() {
@@ -104,7 +105,7 @@ class PowerOffProvider with ChangeNotifier {
     return Colors.green;
   }
 
-  void changeCity({int chosenCity}) {
+  void changeCity({int? chosenCity}) {
     city = chosenCity;
     print(city);
     notifyListeners();

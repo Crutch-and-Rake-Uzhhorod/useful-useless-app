@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -18,81 +17,58 @@ class LoginScreen extends StatelessWidget {
         color: Colors.white,
         child: Center(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(image: AssetImage('assets/logo.jpg'), height: 150.0),
               SizedBox(height: 50),
-              FutureBuilder(
-                future: userProvider.checkIsAppleSignInAvailable(),
-                builder: (ctx, checkIsAppleSignInAvailableSnapshot) {
-                  if (!checkIsAppleSignInAvailableSnapshot.hasData) {
-                    return Container(
-                      child: Text('Loading...'),
-                    ); //TODO: progress indicator/progress animation
-                  }
-                  return checkIsAppleSignInAvailableSnapshot.data
-                      ? Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      MdiIcons.apple,
-                                      size: 70,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      FirebaseAuthService()
-                                          .signInWithGoogle()
-                                          .whenComplete(
-                                        () {
-                                          Navigator.pushReplacementNamed(
-                                              context, HomeScreen.id);
-                                        },
-                                      );
-                                    },
-                                    icon: Icon(
-                                      MdiIcons.googlePlus,
-                                      size: 80,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      : IconButton(
-                          onPressed: () {
-                            FirebaseAuthService()
-                                .signInWithGoogle()
-                                .whenComplete(
-                              () {
-                                Navigator.pushReplacementNamed(
-                                    context, HomeScreen.id);
-                              },
-                            );
-                          },
-                          icon: Icon(
-                            MdiIcons.googlePlus,
-                            size: 80,
+              userProvider.isIphone
+                  ? Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text('Apple logo here'),
+                                )),
                           ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: TextButton(
+                                onPressed: () {
+                                  FirebaseAuthService()
+                                      .signInWithGoogle()
+                                      .whenComplete(
+                                    () {
+                                      Navigator.pushReplacementNamed(
+                                          context, HomeScreen.id);
+                                    },
+                                  );
+                                },
+                                child: Text('Google logo here'),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        FirebaseAuthService().signInWithGoogle().whenComplete(
+                          () {
+                            Navigator.pushReplacementNamed(
+                                context, HomeScreen.id);
+                          },
                         );
-                },
-              ),
+                      },
+                      child: Text('Google logo here'),
+                    ),
               SizedBox(height: 50),
               TextButton(
                 onPressed: () {

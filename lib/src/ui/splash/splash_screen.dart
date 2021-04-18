@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/core/provider/power_off_provider.dart';
 
 import '../../core/provider/user_provider.dart';
 import '../home/home_screen.dart';
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    initAuth(context: context);
+    initAuth();
   }
 
   @override
@@ -29,10 +30,15 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<void> initAuth({BuildContext context}) async {
+  Future<void> initAuth() async {
     final auth = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final powerOffProvider =
+        Provider.of<PowerOffProvider>(context, listen: false);
     final isLogged = await auth.tryAutoLogin();
 
+    await powerOffProvider.init();
+    await userProvider.checkIsAppleSignInAvailable();
     Future.delayed(Duration(seconds: 3), () {
       if (isLogged) {
         Navigator.pushReplacementNamed(context, HomeScreen.id);

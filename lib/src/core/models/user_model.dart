@@ -14,10 +14,10 @@ class UserModel {
     this.user_name,
   });
 
-  String auth_type;
-  bool notification_settings;
-  List<String> user_houses;
-  String user_name;
+  String? auth_type;
+  bool? notification_settings;
+  List<String>? user_houses;
+  String? user_name;
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }

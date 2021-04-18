@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/core/provider/calendar_scroll_provider.dart';
 
-import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/tab_listener.dart';
 import '../map_tab/google_maps_screen.dart';
@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(context);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       if (powerOffProvider.city == -1) {
         //TODO: customize dialog widget
         await showDialog(
@@ -48,17 +48,13 @@ class HomeScreen extends StatelessWidget {
       }
       // )
     });
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<CalendarScrollProvider>(
-          create: (BuildContext context) => CalendarScrollProvider(
-            dates: Provider.of<PowerOffProvider>(context, listen: false).dates,
-          ),
-        ),
-      ],
+    return ChangeNotifierProvider<CalendarScrollProvider>(
+      create: (BuildContext context) => CalendarScrollProvider(
+        dates: powerOffProvider.dates,
+      ),
       child: ValueListenableBuilder(
         valueListenable: tabListener.indexedTab,
-        builder: (BuildContext context, value, child) => Scaffold(
+        builder: (BuildContext context, dynamic value, child) => Scaffold(
           body: SafeArea(child: tabScreens.elementAt(value)),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: value,

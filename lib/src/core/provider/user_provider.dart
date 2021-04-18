@@ -14,8 +14,10 @@ enum AuthState {
 
 class UserProvider with ChangeNotifier {
   final _repository = UserRepository();
-  User user;
+  User? user;
   AuthState authState = AuthState.UN_AUTHENTICATED;
+
+  bool isIphone = false;
 
   Future<bool> tryAutoLogin() async {
     //await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
@@ -30,6 +32,7 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
-    return await SignInWithApple.isAvailable();
+    isIphone = await SignInWithApple.isAvailable();
+    return isIphone;
   }
 }

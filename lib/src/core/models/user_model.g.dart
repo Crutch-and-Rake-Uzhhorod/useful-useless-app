@@ -8,10 +8,10 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
-    auth_type: json['auth_type'] as String,
-    notification_settings: json['notifycation_settings'] as bool,
+    auth_type: json['auth_type'] as String?,
+    notification_settings: json['notifycation_settings'] as bool?,
     user_houses:
-        (json['user_houses'] as List)?.map((e) => e as String)?.toList(),
+        (json['user_houses'] as List?)?.map((e) => e as String).toList(),
   );
 }
 

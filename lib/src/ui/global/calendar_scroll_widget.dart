@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/provider/calendar_scroll_provider.dart';
 
 class CalendarScrollWidget extends StatelessWidget {
-  const CalendarScrollWidget({Key key}) : super(key: key);
+  const CalendarScrollWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class CalendarScrollWidget extends StatelessWidget {
           child: Consumer<CalendarScrollProvider>(
             builder: (_, CalendarScrollProvider scrollProvider, __) {
               return Text(
-                scrollProvider.selectedMonth,
-                style: Theme.of(context).textTheme.bodyText1.copyWith(
+                scrollProvider.selectedMonth.toString(),
+                style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       fontSize: 26,
                       fontWeight: FontWeight.w500,
                     ),
@@ -43,12 +43,12 @@ class CalendarScrollWidget extends StatelessWidget {
                       onSelectedItemChanged:
                           scrollProvider.onSelectedDateChanged,
                       childDelegate: ListWheelChildBuilderDelegate(
-                        childCount: scrollProvider.dates.length,
+                        childCount: scrollProvider.dates!.length,
                         builder: (context, index) => RotatedBox(
                           quarterTurns: 1,
                           child: Center(
                             child: Text(
-                              '${scrollProvider.dates[index].day}',
+                              '${scrollProvider.dates![index]!.day}',
                               style: _textStyle(context, index),
                               textAlign: TextAlign.center,
                             ),
@@ -74,19 +74,19 @@ class CalendarScrollWidget extends StatelessWidget {
     final _scrollProvider =
         Provider.of<CalendarScrollProvider>(context, listen: false);
     if (index == _scrollProvider.currentIndex) {
-      return themeData.bodyText1.copyWith(
+      return themeData.bodyText1!.copyWith(
         color: Colors.black,
         fontSize: 26,
         fontWeight: FontWeight.w500,
       );
-    } else if (index == _scrollProvider.currentIndex + 1 ||
-        index == _scrollProvider.currentIndex - 1) {
-      return themeData.bodyText1.copyWith(
+    } else if (index == _scrollProvider.currentIndex! + 1 ||
+        index == _scrollProvider.currentIndex! - 1) {
+      return themeData.bodyText1!.copyWith(
         color: Colors.black.withOpacity(0.5),
         fontSize: 22,
       );
     } else {
-      return themeData.bodyText1.copyWith(
+      return themeData.bodyText1!.copyWith(
         color: Colors.black.withOpacity(0.3),
         fontSize: 18,
       );

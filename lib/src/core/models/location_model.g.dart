@@ -8,13 +8,13 @@ part of 'location_model.dart';
 
 LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
   return LocationModel(
-    type: json['type'] as int,
-    locationID: json['locationID'] as String,
-    street: json['street'] as String,
-    building_number: json['building_number'] as String,
-    city: json['city'] as String,
-    location: json['location'] as Map<String, dynamic>,
-    users: json['users'] as List,
+    type: json['type'] as int?,
+    locationID: json['locationID'] as String?,
+    street: json['street'] as String?,
+    building_number: json['building_number'] as String?,
+    city: json['city'] as String?,
+    location: json['location'] as Map<String, dynamic>?,
+    users: json['users'] as List?,
   );
 }
 
