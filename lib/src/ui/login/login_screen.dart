@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -38,15 +37,11 @@ class LoginScreen extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.centerRight,
                                 child: Padding(
-                                  padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                      MdiIcons.apple,
-                                      size: 70,
-                                    ),
-                                    onPressed: () {},
-                                  ),
-                                ),
+                                    padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
+                                    child: TextButton(
+                                      onPressed: () {},
+                                      child: Text('Apple logo here'),
+                                    )),
                               ),
                             ),
                             Expanded(
@@ -54,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                                 alignment: Alignment.centerLeft,
                                 child: Padding(
                                   padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                                  child: IconButton(
+                                  child: TextButton(
                                     onPressed: () {
                                       FirebaseAuthService()
                                           .signInWithGoogle()
@@ -65,17 +60,14 @@ class LoginScreen extends StatelessWidget {
                                         },
                                       );
                                     },
-                                    icon: Icon(
-                                      MdiIcons.googlePlus,
-                                      size: 80,
-                                    ),
+                                    child: Text('Google logo here'),
                                   ),
                                 ),
                               ),
                             ),
                           ],
                         )
-                      : IconButton(
+                      : TextButton(
                           onPressed: () {
                             FirebaseAuthService()
                                 .signInWithGoogle()
@@ -86,10 +78,7 @@ class LoginScreen extends StatelessWidget {
                               },
                             );
                           },
-                          icon: Icon(
-                            MdiIcons.googlePlus,
-                            size: 80,
-                          ),
+                          child: Text('Google logo here'),
                         );
                 },
               ),
