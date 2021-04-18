@@ -14,19 +14,19 @@ class CalendarScrollProvider with ChangeNotifier {
 
     _currentDate = DateTime.now();
 
-    _dates = (dates ?? <DateTime?>[_currentDate]) as UnmodifiableListView<DateTime?>?;
+    _dates = (dates ?? <DateTime?>[_currentDate])
+        as UnmodifiableListView<DateTime?>?;
 
     _index = _dates!.indexOf(
       _dates!.firstWhere(
-        (DateTime? date) => date!.day.compareTo(_currentDate!.day) == 0,
-        orElse: () {
-          if (_dates!.length > 1) {
-            return _dates!.elementAt((_dates!.length / 2).ceil());
-          } else {
-            return _dates!.first;
-          }
-        },
-      ),
+          (DateTime? date) => date!.day.compareTo(_currentDate!.day) == 0,
+          orElse: () {
+        if (_dates!.length > 1) {
+          return _dates!.elementAt((_dates!.length / 2).ceil())!;
+        } else {
+          return _dates!.first!;
+        }
+      }),
     );
 
     fixedExtentScrollController = FixedExtentScrollController(

@@ -15,7 +15,7 @@ class CalendarScrollWidget extends StatelessWidget {
           child: Consumer<CalendarScrollProvider>(
             builder: (_, CalendarScrollProvider scrollProvider, __) {
               return Text(
-                scrollProvider.selectedMonth,
+                scrollProvider.selectedMonth.toString(),
                 style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       fontSize: 26,
                       fontWeight: FontWeight.w500,

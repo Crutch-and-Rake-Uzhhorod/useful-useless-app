@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -13,8 +12,8 @@ import '../repository/mock_repository.dart';
 
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
-  PowerOffProvider() {
-    _mockRepository = MockRepository();
+  PowerOffProvider(this._mockRepository) {
+    //_mockRepository = MockRepository();
   }
 
   ///city == 0 => Uzhgorod
@@ -22,7 +21,7 @@ class PowerOffProvider with ChangeNotifier {
   ///.....
   int? city = -1;
 
-  late MockRepository _mockRepository;
+  final MockRepository _mockRepository;
 
   late List<Set<Marker>> _markers;
 
@@ -86,9 +85,8 @@ class PowerOffProvider with ChangeNotifier {
     final image = await picture.toImage(72, 72);
 
     /// converting form Image to Bytes
-    final bytes = await (image.toByteData(format: ImageByteFormat.png)
-        as FutureOr<ByteData>);
-    return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
+    final bytes = await (image.toByteData(format: ImageByteFormat.png));
+    return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
 
   Color _getMarkerColor() {
