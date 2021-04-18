@@ -12,8 +12,8 @@ class FrameModel {
     this.house_details,
     this.frames,
   });
-  final LocationModel house_details;
-  final List<Map<String, dynamic>> frames;
+  final LocationModel? house_details;
+  final List<Map<String, dynamic>>? frames;
 
   Map<String, dynamic> toJson() => _$FrameModelToJson(this);
 }

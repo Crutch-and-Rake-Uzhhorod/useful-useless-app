@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(context);
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       if (powerOffProvider.city == -1) {
         //TODO: customize dialog widget
         await showDialog(
@@ -58,7 +58,7 @@ class HomeScreen extends StatelessWidget {
       ],
       child: ValueListenableBuilder(
         valueListenable: tabListener.indexedTab,
-        builder: (BuildContext context, value, child) => Scaffold(
+        builder: (BuildContext context, dynamic value, child) => Scaffold(
           body: SafeArea(child: tabScreens.elementAt(value)),
           bottomNavigationBar: BottomNavigationBar(
             currentIndex: value,

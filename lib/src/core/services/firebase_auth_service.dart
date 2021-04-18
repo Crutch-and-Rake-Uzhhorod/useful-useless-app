@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseAuthService {
-  User loggedInUser;
+  User? loggedInUser;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<String> signInWithGoogle() async {
-    final googleSignInAccount = await googleSignIn.signIn();
+    final googleSignInAccount =
+        await (googleSignIn.signIn() as FutureOr<GoogleSignInAccount>);
     final googleSignInAuthentication = await googleSignInAccount.authentication;
 
     final credential = GoogleAuthProvider.credential(
@@ -18,11 +21,11 @@ class FirebaseAuthService {
     );
 
     final authResult = await _auth.signInWithCredential(credential);
-    final user = authResult.user;
+    final user = authResult.user!;
 
     assert(!user.isAnonymous);
-    assert(await user.getIdToken() != null);
-    final currentUser = _auth.currentUser;
+    await user.getIdToken();
+    final currentUser = _auth.currentUser!;
     assert(user.uid == currentUser.uid);
     print('data333: ' + user.uid);
 
@@ -53,7 +56,7 @@ class FirebaseAuthService {
     print('User Sign Out');
   }
 
-  Future<User> currentUser() async {
+  Future<User?> currentUser() async {
     final user = _auth.currentUser;
     return user;
   }

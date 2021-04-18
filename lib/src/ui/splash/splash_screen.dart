@@ -29,10 +29,11 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  Future<void> initAuth({BuildContext context}) async {
+  Future<void> initAuth({required BuildContext context}) async {
     final auth = Provider.of<UserProvider>(context, listen: false);
     final isLogged = await auth.tryAutoLogin();
-
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    await userProvider.checkIsAppleSignInAvailable();
     Future.delayed(Duration(seconds: 3), () {
       if (isLogged) {
         Navigator.pushReplacementNamed(context, HomeScreen.id);

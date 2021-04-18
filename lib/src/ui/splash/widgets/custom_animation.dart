@@ -12,7 +12,7 @@ class AnimatedLiquidCustomProgressIndicator extends StatefulWidget {
 class _AnimatedLiquidCustomProgressIndicatorState
     extends State<AnimatedLiquidCustomProgressIndicator>
     with SingleTickerProviderStateMixin {
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   @override
   void initState() {
@@ -25,7 +25,6 @@ class _AnimatedLiquidCustomProgressIndicatorState
       });
 
     _animationController.forward();
-    //_animationController.repeat();
   }
 
   @override
@@ -42,7 +41,7 @@ class _AnimatedLiquidCustomProgressIndicatorState
         value: _animationController.value,
         direction: Axis.vertical,
         backgroundColor: Colors.white,
-        valueColor: AlwaysStoppedAnimation(Colors.yellow[800]),
+        valueColor: AlwaysStoppedAnimation(Colors.yellow[800]!),
         shapePath: _buildLightningPath(),
         center: Text(
           '${percentage.toInt()}%',

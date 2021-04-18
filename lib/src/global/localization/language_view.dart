@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class LanguageView extends StatefulWidget {
-  const LanguageView({Key key}) : super(key: key);
+  const LanguageView({Key? key}) : super(key: key);
   @override
   State<StatefulWidget> createState() => MyState();
 }
@@ -43,18 +43,18 @@ class MyState extends State<LanguageView> {
                 value: context.supportedLocales[1],
                 groupValue: context.locale,
                 title: Text('lang'.tr(args: ['Українська'])),
-                onChanged: (Locale locale) {
+                onChanged: (Locale? locale) {
                   setState(() {
-                    context.setLocale(locale);
+                    context.setLocale(locale!);
                   });
                 }),
             RadioListTile<Locale>(
                 value: context.supportedLocales[0],
                 groupValue: context.locale,
                 title: Text('lang'.tr(args: ['Русский'])),
-                onChanged: (Locale locale) {
+                onChanged: (Locale? locale) {
                   setState(() {
-                    context.setLocale(locale);
+                    context.setLocale(locale!);
                   });
                 }),
           ],

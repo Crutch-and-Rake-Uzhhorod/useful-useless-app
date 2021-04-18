@@ -17,71 +17,58 @@ class LoginScreen extends StatelessWidget {
         color: Colors.white,
         child: Center(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Image(image: AssetImage('assets/logo.jpg'), height: 150.0),
               SizedBox(height: 50),
-              FutureBuilder(
-                future: userProvider.checkIsAppleSignInAvailable(),
-                builder: (ctx, checkIsAppleSignInAvailableSnapshot) {
-                  if (!checkIsAppleSignInAvailableSnapshot.hasData) {
-                    return Container(
-                      child: Text('Loading...'),
-                    ); //TODO: progress indicator/progress animation
-                  }
-                  return checkIsAppleSignInAvailableSnapshot.data
-                      ? Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerRight,
-                                child: Padding(
-                                    padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
-                                    child: TextButton(
-                                      onPressed: () {},
-                                      child: Text('Apple logo here'),
-                                    )),
-                              ),
-                            ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Padding(
-                                  padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
-                                  child: TextButton(
-                                    onPressed: () {
-                                      FirebaseAuthService()
-                                          .signInWithGoogle()
-                                          .whenComplete(
-                                        () {
-                                          Navigator.pushReplacementNamed(
-                                              context, HomeScreen.id);
-                                        },
-                                      );
+              userProvider.isIphone
+                  ? Row(
+                      children: <Widget>[
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                                padding: EdgeInsets.fromLTRB(0, 0, 60, 0),
+                                child: TextButton(
+                                  onPressed: () {},
+                                  child: Text('Apple logo here'),
+                                )),
+                          ),
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: TextButton(
+                                onPressed: () {
+                                  FirebaseAuthService()
+                                      .signInWithGoogle()
+                                      .whenComplete(
+                                    () {
+                                      Navigator.pushReplacementNamed(
+                                          context, HomeScreen.id);
                                     },
-                                    child: Text('Google logo here'),
-                                  ),
-                                ),
+                                  );
+                                },
+                                child: Text('Google logo here'),
                               ),
                             ),
-                          ],
-                        )
-                      : TextButton(
-                          onPressed: () {
-                            FirebaseAuthService()
-                                .signInWithGoogle()
-                                .whenComplete(
-                              () {
-                                Navigator.pushReplacementNamed(
-                                    context, HomeScreen.id);
-                              },
-                            );
+                          ),
+                        ),
+                      ],
+                    )
+                  : TextButton(
+                      onPressed: () {
+                        FirebaseAuthService().signInWithGoogle().whenComplete(
+                          () {
+                            Navigator.pushReplacementNamed(
+                                context, HomeScreen.id);
                           },
-                          child: Text('Google logo here'),
                         );
-                },
-              ),
+                      },
+                      child: Text('Google logo here'),
+                    ),
               SizedBox(height: 50),
               TextButton(
                 onPressed: () {

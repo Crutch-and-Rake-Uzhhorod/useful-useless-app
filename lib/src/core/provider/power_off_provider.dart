@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:collection';
+import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
@@ -18,13 +20,13 @@ class PowerOffProvider with ChangeNotifier {
   ///city == 0 => Uzhgorod
   ///city == 1 => Lvov
   ///.....
-  int city = -1;
+  int? city = -1;
 
-  MockRepository _mockRepository;
+  late MockRepository _mockRepository;
 
-  List<Set<Marker>> _markers;
+  late List<Set<Marker>> _markers;
 
-  List<DateTime> _dates;
+  late List<DateTime> _dates;
 
   UnmodifiableListView<Set<Marker>> get markers =>
       UnmodifiableListView<Set<Marker>>(_markers);
@@ -84,7 +86,8 @@ class PowerOffProvider with ChangeNotifier {
     final image = await picture.toImage(72, 72);
 
     /// converting form Image to Bytes
-    final bytes = await image.toByteData(format: ImageByteFormat.png);
+    final bytes = await (image.toByteData(format: ImageByteFormat.png)
+        as FutureOr<ByteData>);
     return BitmapDescriptor.fromBytes(bytes.buffer.asUint8List());
   }
 
@@ -104,7 +107,7 @@ class PowerOffProvider with ChangeNotifier {
     return Colors.green;
   }
 
-  void changeCity({int chosenCity}) {
+  void changeCity({int? chosenCity}) {
     city = chosenCity;
     print(city);
     notifyListeners();
