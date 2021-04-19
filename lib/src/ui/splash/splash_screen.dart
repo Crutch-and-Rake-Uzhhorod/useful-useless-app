@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/power_off_provider.dart';
 
+import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/user_provider.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
@@ -29,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
       ),
     );
   }
+
+  //TODO: add {animated_text_kit: ^4.2.0} animated <Loading...> text
 
   Future<void> initAuth() async {
     final auth = Provider.of<UserProvider>(context, listen: false);
