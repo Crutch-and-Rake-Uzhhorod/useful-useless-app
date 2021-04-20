@@ -33,11 +33,10 @@ class _SplashScreenState extends State<SplashScreen> {
   //TODO: add {animated_text_kit: ^4.2.0} animated <Loading...> text
 
   Future<void> initAuth() async {
-    final auth = Provider.of<UserProvider>(context, listen: false);
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
-    final isLogged = await auth.tryAutoLogin();
+    final isLogged = userProvider.userLoggedIn();
 
     await powerOffProvider.init();
     await userProvider.checkIsAppleSignInAvailable();

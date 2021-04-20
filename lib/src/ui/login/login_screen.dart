@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/services/firebase_auth_service.dart';
+import '../../core/provider/user_provider.dart';
 import '../home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -35,7 +36,12 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: _signInButton(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                          context,
+                          HomeScreen.id,
+                        );
+                      },
                       child: Platform.isIOS
                           ? SvgPicture.asset(
                               'assets/icons/apple.svg',
@@ -59,12 +65,15 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: _signInButton(
                       onTap: () {
-                        FirebaseAuthService().signInWithGoogle().whenComplete(
-                          () {
-                            Navigator.pushReplacementNamed(
-                                context, HomeScreen.id);
-                          },
-                        );
+                        Provider.of<UserProvider>(
+                          context,
+                          listen: false,
+                        ).signInWithGoogle().whenComplete(() {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            HomeScreen.id,
+                          );
+                        });
                       },
                       child: SvgPicture.asset(
                         'assets/icons/google.svg',

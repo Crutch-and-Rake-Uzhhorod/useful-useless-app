@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/calendar_scroll_provider.dart';
 
+import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/tab_listener.dart';
 import '../map_tab/google_maps_screen.dart';
