@@ -43,13 +43,7 @@ class ListScreen extends StatelessWidget {
   ];
 
 
-  BoxDecoration myBoxDecoration() {
-    return BoxDecoration(
-      border: Border.all(
-        width: 3, //
-      ),
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +54,18 @@ class ListScreen extends StatelessWidget {
             groupBy: (fields) {
               return fields.date;
             },
-            groupSeparatorBuilder: (DateTime date) => DateGroupSeparator(
+            groupSeparatorBuilder: (DateTime date) => DateGroupSeparatorWidget(
               date: date,
             ),
             order: GroupedListOrder.ASC,
             useStickyGroupSeparators: true,
             itemBuilder: (context, dynamic fields) => Card(
               child: Container(
-                decoration: myBoxDecoration(),
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: 3, //
+                  ),
+                ),
                 child: Row(
                   children: <Widget>[
                     ClipRRect(
@@ -87,17 +85,20 @@ class ListScreen extends StatelessWidget {
                               child: Container(
                                 child: Text(
                                   '${fields.city}, ${fields.street}',
-                                  style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+                                  style: Theme.of(context).textTheme.headline6?.copyWith(fontSize: 20),
                                 ),
                               ),
                             ),
                             Text(
-                              'Відключення: з ${fields.begin1}  до ${fields.till1} ',
-                              style: TextStyle(fontSize: 15.0),
+                              'Відключення: з ${fields.firstTurnOffStarts}  до ${fields.firstTurnOffEnds} ',
+                              style: Theme.of(context).textTheme.headline6?.copyWith(
+                                fontSize: 15,
+                              ),
                             ),
-                            Text('Відключення: з ${fields.begin2}  до ${fields.till2} ',
-                                style: TextStyle(fontSize: 15.0)),
-                          ],
+                            Text('Відключення: з ${fields.secondTurnOffStarts}  до ${fields.secondTurnOffEnds} ',
+                                style: Theme.of(context).textTheme.headline6?.copyWith(
+                                  fontSize: 15 ),
+                            ),],
                         ),
                       ),
                     )

@@ -1,13 +1,14 @@
 class LocationModel {
   final String city;
   final String street;
-  final String begin1;
-  final String till1;
-  final String begin2;
-  final String till2;
+  final String firstTurnOffStarts;
+  final String firstTurnOffEnds;
+  final String secondTurnOffStarts;
+  final String secondTurnOffEnds;
   final DateTime date;
 
   // ignore: sort_constructors_first
-  LocationModel(this.city, this.street, this.begin1, this.till1, this.begin2,
-      this.till2, this.date);
+  LocationModel(this.city, this.street, this.firstTurnOffStarts, this.firstTurnOffEnds, this.secondTurnOffStarts,
+      this.secondTurnOffEnds, this.date);
 }
+
