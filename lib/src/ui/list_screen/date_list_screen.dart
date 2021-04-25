@@ -1,7 +1,7 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'date_group_separator.dart';
+import 'widgets/date_group_separator_widget.dart';
 import 'location_model.dart';
 
 
