@@ -35,7 +35,11 @@ class LoginScreen extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: _signInButton(
-                      onTap: () {},
+                      onTap: Platform.isIOS
+                          ? () {}
+                          : () {
+                              Navigator.pushNamed(context, HomeScreen.id);
+                            },
                       child: Platform.isIOS
                           ? SvgPicture.asset(
                               'assets/icons/apple.svg',
