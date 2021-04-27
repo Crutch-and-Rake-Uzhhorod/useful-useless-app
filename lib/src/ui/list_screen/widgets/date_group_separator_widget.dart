@@ -12,12 +12,14 @@ class DateGroupSeparatorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Container(
       height: 60.0,
       child: Center(
         child: Text(
           '${_dateFormatter(dateTime: date)}',
-          style: Theme.of(context).textTheme.headline6?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+          style: textTheme.headline6?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
         ),
       ),
     );

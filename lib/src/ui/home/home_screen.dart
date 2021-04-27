@@ -8,7 +8,6 @@ import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/tab_listener.dart';
 import '../map_tab/google_maps_screen.dart';
 import '../profile/profile_screen.dart';
-import '../screen_list/date_list_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
