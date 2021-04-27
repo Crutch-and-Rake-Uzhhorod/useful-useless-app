@@ -43,9 +43,6 @@ dependencies:
   shared_preferences: ^2.0.5
   url_launcher: ^6.0.3
   sign_in_with_apple: ^3.0.0
-  flutter_svg: ^0.21.0+1
-  grouped_list: ^4.0.0
-
 
 dev_dependencies:
   # adding lint rules and runner // not sure if needed
