@@ -21,26 +21,39 @@ class PowerOffProvider with ChangeNotifier {
   ///.....
   int? city = -1;
 
-  final MockRepository _mockRepository;
+  final MockRepository? _mockRepository;
 
-  late List<Set<Marker>> _markers;
+  List<Set<Marker>>? _markers;
 
-  late List<DateTime> _dates;
+  List<DateTime>? _dates;
 
-  UnmodifiableListView<Set<Marker>> get markers =>
-      UnmodifiableListView<Set<Marker>>(_markers);
+  UnmodifiableListView<Set<Marker>>? get markers =>
+      UnmodifiableListView<Set<Marker>>(_markers!);
 
-  UnmodifiableListView<DateTime> get dates =>
-      UnmodifiableListView<DateTime>(_dates);
+  UnmodifiableListView<DateTime>? get dates =>
+      UnmodifiableListView<DateTime>(_dates!);
 
   Future<void> init() async {
     //will be replaced with some method which will generate markers and dates from retrieved data
-    _markers = await _mockRepository.getMarkers(
+    _markers = await _mockRepository!.getMarkers(
+        //TODO: change for real amount of markers
         iconForMap: await _convertingIconIntoBytes());
-    _dates = await _mockRepository.getDates();
+    _dates = await _mockRepository!.getDates();
   }
 
   Future<BitmapDescriptor> _convertingIconIntoBytes() async {
+    final dateTimeNow = DateTime.now();
+
+    final date = await _mockRepository!.getDates();
+    Color? iconColor;
+    if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) {
+      iconColor = Colors.red;
+    } else if (date.elementAt(0).isBefore(dateTimeNow)) {
+      iconColor = Colors.yellow;
+    } else {
+      iconColor = Colors.green;
+    }
+
     /// the Icon
 
     // if(homeSelected){
@@ -65,7 +78,7 @@ class PowerOffProvider with ChangeNotifier {
         letterSpacing: 0.0,
         fontSize: 72.0,
         fontFamily: iconData.fontFamily,
-        color: _getMarkerColor(),
+        color: iconColor,
       ),
     );
     textPainter.layout();
@@ -89,22 +102,6 @@ class PowerOffProvider with ChangeNotifier {
     return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
 
-  Color _getMarkerColor() {
-    //TODO: change variables for more real state
-
-    final soonTurnOff = false;
-    final alreadyTurnedOff = true;
-    final electricityExist = false;
-    if (electricityExist) {
-      return Colors.green;
-    } else if (soonTurnOff) {
-      return Colors.yellow;
-    } else if (alreadyTurnedOff) {
-      return Colors.red;
-    }
-    return Colors.green;
-  }
-
   void changeCity({int? chosenCity}) {
     city = chosenCity;
     print(city);
@@ -118,6 +115,6 @@ class PowerOffProvider with ChangeNotifier {
     //if(city == 0) return UzhgorodLatitudeLongitude;
     //if(city == 1) return LvovLatitudeLongitude ;
     //notifyListeners();
-    return _markers[2].elementAt(1).position;
+    return _markers![2].elementAt(0).position;
   }
 }
