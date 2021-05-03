@@ -14,7 +14,7 @@ LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
     building_number: json['building_number'] as String?,
     city: json['city'] as String?,
     location: json['location'] as Map<String, dynamic>?,
-    users: json['users'] as List?,
+    users: json['users'] as List<dynamic>?,
   );
 }
 

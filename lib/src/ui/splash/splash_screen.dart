@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
-    final isLogged = userProvider.userLoggedIn();
+    final isLogged = userProvider.isUserLoggedIn();
 
     await powerOffProvider.init();
     await userProvider.checkIsAppleSignInAvailable();

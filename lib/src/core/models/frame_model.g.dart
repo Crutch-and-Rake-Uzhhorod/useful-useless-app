@@ -1,4 +1,4 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
+ // GENERATED CODE - DO NOT MODIFY BY HAND
 
 part of 'frame_model.dart';
 
@@ -11,7 +11,7 @@ FrameModel _$FrameModelFromJson(Map<String, dynamic> json) {
     house_details: json['house_details'] == null
         ? null
         : LocationModel.fromJson(json['house_details'] as Map<String, dynamic>),
-    frames: (json['frames'] as List?)
+    frames: (json['frames'] as List<dynamic>?)
         ?.map((e) => e as Map<String, dynamic>)
         .toList(),
   );
@@ -19,6 +19,6 @@ FrameModel _$FrameModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$FrameModelToJson(FrameModel instance) =>
     <String, dynamic>{
-      'haus_detaile': instance.house_details?.toJson(),
+      'house_details': instance.house_details?.toJson(),
       'frames': instance.frames,
     };

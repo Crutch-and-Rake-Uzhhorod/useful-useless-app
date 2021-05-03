@@ -15,7 +15,7 @@ class UserRepository {
       return user;
     } catch (e) {
       print('Failed signing in with Google: $e');
-      return null;
+      rethrow;
     }
   }
 

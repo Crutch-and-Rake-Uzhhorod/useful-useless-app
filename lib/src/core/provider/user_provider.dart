@@ -15,7 +15,7 @@ class UserProvider with ChangeNotifier {
 
   bool isIphone = false;
 
-  bool userLoggedIn() {
+  bool isUserLoggedIn() {
     _user = _userRepository.currentUser();
 
     return _user != null;
@@ -23,7 +23,9 @@ class UserProvider with ChangeNotifier {
 
   // TODO: to handle dismiss by user etc.
   Future<void> signInWithGoogle() async {
-    _user = await _userRepository.signInWithGoogle();
+    try {
+      _user = await _userRepository.signInWithGoogle();
+    } catch (_) {}
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
