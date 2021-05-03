@@ -51,10 +51,10 @@ class PowerOffProvider with ChangeNotifier {
     ///[Colors.yellow] no electricity soon
     ///[Colors.green] electricity is on
 //TODO: fix index and dateMock
-    Color iconColor = Colors.green;
-    if (date[0] == dateTimeNow) iconColor = Colors.red;
-    if (date[0].isAfter(dateTimeNow)) iconColor = Colors.yellow;
-    if (date[0].isBefore(dateTimeNow)) iconColor = Colors.green;
+    Color? iconColor;
+    if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) iconColor = Colors.red;
+    if (date.elementAt(0).isBefore(dateTimeNow)) iconColor = Colors.yellow;
+    if (date.elementAt(0).isAfter(dateTimeNow)) iconColor = Colors.green;
 
     /// the Icon
 

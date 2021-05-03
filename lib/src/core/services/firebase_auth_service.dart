@@ -11,13 +11,13 @@ class FirebaseAuthService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   Future<String> signInWithGoogle() async {
-    final googleSignInAccount =
-        await (googleSignIn.signIn() as FutureOr<GoogleSignInAccount>);
-    final googleSignInAuthentication = await googleSignInAccount.authentication;
+    final googleSignInAccount = await (googleSignIn.signIn());
+    final googleSignInAuthentication =
+        await googleSignInAccount?.authentication;
 
     final credential = GoogleAuthProvider.credential(
-      accessToken: googleSignInAuthentication.accessToken,
-      idToken: googleSignInAuthentication.idToken,
+      accessToken: googleSignInAuthentication?.accessToken,
+      idToken: googleSignInAuthentication?.idToken,
     );
 
     final authResult = await _auth.signInWithCredential(credential);
