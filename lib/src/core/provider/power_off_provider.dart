@@ -45,16 +45,14 @@ class PowerOffProvider with ChangeNotifier {
     final dateTimeNow = DateTime.now();
 
     final date = await _mockRepository!.getDates();
-    //_dates![index!];
-
-    ///[Colors.red] no electricity
-    ///[Colors.yellow] no electricity soon
-    ///[Colors.green] electricity is on
-//TODO: fix index and dateMock
     Color? iconColor;
-    if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) iconColor = Colors.red;
-    if (date.elementAt(0).isBefore(dateTimeNow)) iconColor = Colors.yellow;
-    if (date.elementAt(0).isAfter(dateTimeNow)) iconColor = Colors.green;
+    if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) {
+      iconColor = Colors.red;
+    } else if (date.elementAt(0).isBefore(dateTimeNow)) {
+      iconColor = Colors.yellow;
+    } else {
+      iconColor = Colors.green;
+    }
 
     /// the Icon
 
