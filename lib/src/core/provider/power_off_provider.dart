@@ -42,7 +42,19 @@ class PowerOffProvider with ChangeNotifier {
   }
 
   Future<BitmapDescriptor> _convertingIconIntoBytes() async {
-    final iconColor = await _getMarkerColor();
+    final dateTimeNow = DateTime.now();
+
+    final date = await _mockRepository!.getDates();
+    //_dates![index!];
+
+    ///[Colors.red] no electricity
+    ///[Colors.yellow] no electricity soon
+    ///[Colors.green] electricity is on
+//TODO: fix index and dateMock
+    Color iconColor = Colors.green;
+    if (date[0] == dateTimeNow) iconColor = Colors.red;
+    if (date[0].isAfter(dateTimeNow)) iconColor = Colors.yellow;
+    if (date[0].isBefore(dateTimeNow)) iconColor = Colors.green;
 
     /// the Icon
 
@@ -90,44 +102,6 @@ class PowerOffProvider with ChangeNotifier {
     /// converting form Image to Bytes
     final bytes = await (image.toByteData(format: ImageByteFormat.png));
     return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
-  }
-
-  Future<Color>? _getMarkerColor() async {
-    //TODO: change variables for more real state
-    final colorIndex = await _electricityStatus(index: 2);
-    Color? markerColor = Colors.transparent;
-    switch (colorIndex) {
-      case 0:
-        markerColor = Colors.red;
-        break;
-      case 1:
-        markerColor = Colors.yellow;
-        break;
-      case 2:
-        markerColor = Colors.green;
-        break;
-      default:
-        markerColor = Colors.green;
-        break;
-    }
-    return markerColor;
-  }
-
-  Future<int> _electricityStatus({required int index}) async {
-    final dateTimeNow = DateTime.now();
-
-    final date = await _mockRepository!.getDates();
-    //_dates![index!];
-
-    ///if "return 0;" == electricity is down
-    ///if "return 1;" == electricity is going to be down
-    ///if "return 2;" == electricity was down some time ago
-    ///if "return 3;" == no info
-//TODO: fix index and dateMock
-    if (date[index] == dateTimeNow) return 0;
-    if (date[index].isAfter(dateTimeNow)) return 1;
-    if (date[index].isBefore(dateTimeNow)) return 2;
-    return 3;
   }
 
   void changeCity({int? chosenCity}) {
