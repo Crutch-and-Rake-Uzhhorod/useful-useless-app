@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'framed_model.dart';
+import 'frame_model.dart';
 
 part 'timetable_model.g.dart';
 
@@ -12,5 +12,5 @@ class TimetableModel {
       _$TimetableModelFromJson(json);
 
   final int timestamp;
-  final List<FramedModel> locations;
+  final List<FrameModel> locations;
 }

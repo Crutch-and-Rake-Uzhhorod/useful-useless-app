@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:useful_useless_app/src/core/models/framed_model.dart';
-import 'package:useful_useless_app/src/core/models/timetable_model.dart';
+
+import '../models/frame_model.dart';
+import '../models/timetable_model.dart';
 
 class FirestoreService {
   static const String _dayCollectioPath = 'timetable';
@@ -22,7 +23,7 @@ class FirestoreService {
     return dates;
   }
 
-  Future<List<FramedModel>> getLocationByDay({required int timestamp}) async {
+  Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
     final housesSnap =
         await _firestore.collection(_dayCollectioPath).doc('$timestamp').get();
 

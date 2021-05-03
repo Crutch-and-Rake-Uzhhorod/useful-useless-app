@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:useful_useless_app/src/core/services/firestore_service.dart';
 
 import '../../core/models/user_model.dart';
 import '../settings/settings_screen.dart';

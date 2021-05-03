@@ -13,12 +13,6 @@ HouseDetailsModel _$HouseDetailsModelFromJson(Map<String, dynamic> json) {
     LocationModel.fromJson(json['location'] as Map<String, dynamic>),
     json['region'] as String?,
     json['street'] as String?,
-  );
-}
-
-LocationModel _$LocationModelFromJson(Map<String, dynamic> json) {
-  return LocationModel(
-    (json['lat'] as num).toDouble(),
-    (json['lng'] as num).toDouble(),
+    json['geo_id'] as String,
   );
 }

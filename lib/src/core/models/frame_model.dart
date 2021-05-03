@@ -1,19 +1,20 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'location_model.dart';
+import 'house_details_model.dart';
+import 'time_frame_model.dart';
 
 part 'frame_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(
+  createToJson: false,
+  fieldRename: FieldRename.snake,
+)
 class FrameModel {
+  FrameModel(this.frames, this.houseDetails);
+
   factory FrameModel.fromJson(Map<String, dynamic> json) =>
       _$FrameModelFromJson(json);
-  FrameModel({
-    this.house_details,
-    this.frames,
-  });
-  final LocationModel? house_details;
-  final List<Map<String, dynamic>>? frames;
 
-  Map<String, dynamic> toJson() => _$FrameModelToJson(this);
+  final List<TimeFrameModel> frames;
+  final HouseDetailsModel houseDetails;
 }

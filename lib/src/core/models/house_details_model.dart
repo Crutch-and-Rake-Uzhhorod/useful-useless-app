@@ -1,5 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'location_model.dart';
+
 part 'house_details_model.g.dart';
 
 @JsonSerializable(
@@ -13,6 +15,7 @@ class HouseDetailsModel {
     this.location,
     this.region,
     this.street,
+    this.geoId,
   );
 
   factory HouseDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -20,18 +23,8 @@ class HouseDetailsModel {
 
   final String? buildingNumber;
   final String? city;
+  final String geoId;
   final LocationModel location;
   final String? region;
   final String? street;
-}
-
-@JsonSerializable(createToJson: false)
-class LocationModel {
-  LocationModel(this.lat, this.lng);
-
-  factory LocationModel.fromJson(Map<String, dynamic> json) =>
-      _$LocationModelFromJson(json);
-
-  final double lat;
-  final double lng;
 }
