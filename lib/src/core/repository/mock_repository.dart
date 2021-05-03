@@ -1,7 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MockRepository {
-  Future<List<Set<Marker>>> getMarkers({required BitmapDescriptor iconForMap}) async {
+  Future<List<Set<Marker>>> getMarkers({
+    required BitmapDescriptor iconForMap,
+  }) async {
     return <Set<Marker>>[
       <Marker>{
         Marker(
