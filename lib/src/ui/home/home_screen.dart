@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/tab_listener.dart';
+import '../list_screen/date_list_screen.dart';
 import '../map_tab/google_maps_screen.dart';
 import '../profile/profile_screen.dart';
 
@@ -14,7 +15,7 @@ class HomeScreen extends StatelessWidget {
 
   final List<Widget> tabScreens = <Widget>[
     GoogleMapsScreen(),
-    Container(), //List of something in future
+    ListScreen(), //List of something in future
     ProfileScreen(),
   ];
 
