@@ -10,8 +10,6 @@ class CalendarScrollProvider with ChangeNotifier {
   CalendarScrollProvider({
     UnmodifiableListView<DateTime>? dates,
   }) {
-    _dateTimeRepository = DateTimeRepository();
-
     _currentDate = DateTime.now();
 
     _dates = (dates ?? <DateTime?>[_currentDate])
@@ -34,8 +32,6 @@ class CalendarScrollProvider with ChangeNotifier {
     );
   }
 
-  late DateTimeRepository _dateTimeRepository;
-
   FixedExtentScrollController? fixedExtentScrollController;
 
   DateTime? _currentDate;
@@ -46,7 +42,7 @@ class CalendarScrollProvider with ChangeNotifier {
 
   UnmodifiableListView<DateTime?>? get dates => _dates;
 
-  String get selectedMonth => _dateTimeRepository.dateToMonth(
+  String get selectedMonth => DateTimeRepository.dateToMonth(
         _dates!.elementAt(_index!)!,
       );
 
