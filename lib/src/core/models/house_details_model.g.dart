@@ -8,11 +8,11 @@ part of 'house_details_model.dart';
 
 HouseDetailsModel _$HouseDetailsModelFromJson(Map<String, dynamic> json) {
   return HouseDetailsModel(
-    json['building_number'] as String?,
-    json['city'] as String?,
-    LocationModel.fromJson(json['location'] as Map<String, dynamic>),
-    json['region'] as String?,
-    json['street'] as String?,
-    json['geo_id'] as String,
+    buildingNumber: json['building_number'] as String?,
+    city: json['city'] as String?,
+    location: LocationModel.fromJson(json['location'] as Map<String, dynamic>),
+    region: json['region'] as String?,
+    street: json['street'] as String?,
+    geoId: json['geo_id'] as String,
   );
 }

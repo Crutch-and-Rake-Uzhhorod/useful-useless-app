@@ -8,8 +8,8 @@ part of 'timetable_model.dart';
 
 TimetableModel _$TimetableModelFromJson(Map<String, dynamic> json) {
   return TimetableModel(
-    json['timestamp'] as int,
-    (json['locations'] as List<dynamic>)
+    timestamp: DateTime.parse(json['timestamp'] as String),
+    locations: (json['locations'] as List<dynamic>)
         .map((e) => FrameModel.fromJson(e as Map<String, dynamic>))
         .toList(),
   );

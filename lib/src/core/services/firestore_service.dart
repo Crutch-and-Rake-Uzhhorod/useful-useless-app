@@ -16,10 +16,9 @@ class FirestoreService {
     /// extracting timestamp to generate dates
     final dates = mostRecent.docs.map((e) {
       final timetableModel = TimetableModel.fromJson(e.data());
-      return DateTime.fromMillisecondsSinceEpoch(timetableModel.timestamp);
+      return timetableModel.timestamp;
     }).toList();
 
-    print(dates);
     return dates;
   }
 
@@ -27,7 +26,6 @@ class FirestoreService {
     final housesSnap =
         await _firestore.collection(_dayCollectioPath).doc('$timestamp').get();
 
-    print(housesSnap.data());
     final timetableModel = TimetableModel.fromJson(housesSnap.data()!);
 
     return timetableModel.locations;

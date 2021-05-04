@@ -4,7 +4,10 @@ part 'location_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class LocationModel {
-  LocationModel(this.lat, this.lng);
+  LocationModel({
+    required this.lat,
+    required this.lng,
+  });
 
   factory LocationModel.fromJson(Map<String, dynamic> json) =>
       _$LocationModelFromJson(json);

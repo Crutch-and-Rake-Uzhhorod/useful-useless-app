@@ -9,14 +9,14 @@ part 'house_details_model.g.dart';
   fieldRename: FieldRename.snake,
 )
 class HouseDetailsModel {
-  HouseDetailsModel(
+  HouseDetailsModel({
     this.buildingNumber,
     this.city,
-    this.location,
+    required this.location,
     this.region,
     this.street,
-    this.geoId,
-  );
+    required this.geoId,
+  });
 
   factory HouseDetailsModel.fromJson(Map<String, dynamic> json) =>
       _$HouseDetailsModelFromJson(json);

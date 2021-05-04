@@ -10,7 +10,10 @@ part 'frame_model.g.dart';
   fieldRename: FieldRename.snake,
 )
 class FrameModel {
-  FrameModel(this.frames, this.houseDetails);
+  FrameModel({
+    required this.frames,
+    required this.houseDetails,
+  });
 
   factory FrameModel.fromJson(Map<String, dynamic> json) =>
       _$FrameModelFromJson(json);
