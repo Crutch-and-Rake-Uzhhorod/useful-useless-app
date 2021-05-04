@@ -1,8 +1,10 @@
 import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'widgets/date_group_separator_widget.dart';
+
 import 'location_model.dart';
+import 'widgets/date_group_separator_widget.dart';
 
 class ListScreen extends StatelessWidget {
   static const String id = 'list_screen';
@@ -156,16 +158,15 @@ class ListScreen extends StatelessWidget {
                     child: Padding(
                       padding: EdgeInsets.all(10.0),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              child: Text(
-                                '${fields?.city}, ${fields?.street}',
-                                style:
-                                    textTheme.headline6?.copyWith(fontSize: 20),
-                              ),
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text(
+                              '${fields?.city}, ${fields?.street}',
+                              textAlign: TextAlign.start,
+                              style:
+                                  textTheme.headline6?.copyWith(fontSize: 20),
                             ),
                           ),
                           Text(
