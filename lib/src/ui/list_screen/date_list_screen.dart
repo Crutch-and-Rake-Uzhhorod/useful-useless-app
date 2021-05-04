@@ -129,12 +129,10 @@ class ListScreen extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return SafeArea(
       child: Scaffold(
-        body: GroupedListView<LocationModel?, DateTime?>(
+        body: GroupedListView<LocationModel, DateTime>(
           elements: fields,
-          groupBy: (fields) {
-            return fields?.date;
-          },
-          groupSeparatorBuilder: (DateTime? date) => DateGroupSeparatorWidget(
+          groupBy: (fields) => fields.date!,
+          groupSeparatorBuilder: (DateTime date) => DateGroupSeparatorWidget(
             date: date,
           ),
           order: GroupedListOrder.ASC,

@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:useful_useless_app/src/core/repository/date_time_repository.dart';
 
 class DateGroupSeparatorWidget extends StatelessWidget {
-
   DateGroupSeparatorWidget({required this.date});
-  final DateTime? date;
 
-  String _dateFormatter({DateTime? dateTime}) {
-    return DateFormat.MMMMd().format(dateTime!).toString();
-  }
+  final DateTime date;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +14,11 @@ class DateGroupSeparatorWidget extends StatelessWidget {
       height: 60.0,
       child: Center(
         child: Text(
-          '${_dateFormatter(dateTime: date)}',
-          style: textTheme.headline6?.copyWith(fontWeight: FontWeight.bold, fontSize: 20),
+          DateTimeRepository.dateToMonthDay(date),
+          style: textTheme.headline6?.copyWith(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
       ),
     );
