@@ -8,7 +8,7 @@ part of 'time_frame_model.dart';
 
 TimeFrameModel _$TimeFrameModelFromJson(Map<String, dynamic> json) {
   return TimeFrameModel(
-    end: DateTime.parse(json['end'] as String),
-    start: DateTime.parse(json['start'] as String),
+    end: TimeFrameModel._timestampToDate(json['end'] as Timestamp),
+    start: TimeFrameModel._timestampToDate(json['start'] as Timestamp),
   );
 }

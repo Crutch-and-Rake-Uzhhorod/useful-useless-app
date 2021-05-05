@@ -5,7 +5,7 @@ import 'package:grouped_list/grouped_list.dart';
 
 import '../../core/models/frame_model.dart';
 import '../../core/models/house_details_model.dart';
-import '../../core/models/location_model.dart';
+import '../../core/models/location_coordinates.dart';
 import '../../core/models/time_frame_model.dart';
 import '../../core/models/timetable_model.dart';
 import 'widgets/date_group_separator_widget.dart';
@@ -33,7 +33,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Капушанська',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
         FrameModel(
@@ -47,7 +47,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Загорська',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
       ],
@@ -66,7 +66,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Шумна',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
         FrameModel(
@@ -80,7 +80,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Петефі',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
       ],
@@ -103,7 +103,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Петефі',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
       ],
@@ -126,7 +126,7 @@ class ListScreen extends StatelessWidget {
             city: 'Ужгород',
             street: 'вул.Швабска',
             geoId: '',
-            location: LocationModel(lat: 46.0, lng: 42.0),
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
           ),
         ),
       ],

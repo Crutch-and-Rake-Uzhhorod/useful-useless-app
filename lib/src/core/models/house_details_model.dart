@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-import 'location_model.dart';
+import 'location_coordinates.dart';
 
 part 'house_details_model.g.dart';
 
@@ -24,7 +24,7 @@ class HouseDetailsModel {
   final String? buildingNumber;
   final String? city;
   final String geoId;
-  final LocationModel location;
+  final LocationCoordinates location;
   final String? region;
   final String? street;
 }
