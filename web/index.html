@@ -5,6 +5,9 @@
   <meta content="IE=Edge" http-equiv="X-UA-Compatible">
   <meta name="description" content="A new Flutter application.">
 
+  <meta name="google-signin-client_id" content="775335503384-lhl2g177bgnaj268oek99l3o6osnu1qc.apps.googleusercontent.com">
+
+
   <!-- iOS meta tags & icons -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -28,6 +31,37 @@
       });
     }
   </script>
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+       https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-analytics.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-messaging.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-functions.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCxLKv_O4aljV8U223aihgtNb2xl2IGVmk"></script>
+
+  <script>
+
+  var firebaseConfig = {
+    apiKey: "AIzaSyCxLKv_O4aljV8U223aihgtNb2xl2IGVmk",
+    authDomain: "useful-useless.firebaseapp.com",
+    databaseURL: "https://useful-useless.firebaseio.com",
+    projectId: "useful-useless",
+    storageBucket: "useful-useless.appspot.com",
+    messagingSenderId: "775335503384",
+    appId: "1:775335503384:web:2e0f5eb80b093174fd456d",
+    measurementId: "G-RRDZQC8GX2"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+  firebase.auth();
+  firebase.firestore();
+  firebase.messaging();
+  </script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
