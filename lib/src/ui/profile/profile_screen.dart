@@ -6,12 +6,14 @@ import '../settings/settings_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String id = 'profile_screen';
+
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
   int regionsNumber = 0;
+
   //TODO make variable interactive example
   int trackRegionsNumber() {
     return regionsNumber = regionsNumber + 1;

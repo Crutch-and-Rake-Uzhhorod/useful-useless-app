@@ -7,6 +7,9 @@ import 'package:provider/provider.dart';
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
 import 'src/core/repository/mock_repository.dart';
+import 'src/core/repository/user_repository.dart';
+import 'src/core/services/firebase_auth_service.dart';
+import 'src/core/services/firestore_service.dart';
 import 'src/ui/home/home_screen.dart';
 import 'src/ui/login/login_screen.dart';
 import 'src/ui/splash/splash_screen.dart';
@@ -19,12 +22,61 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+
   final mockRepository = MockRepository();
 
-  runApp(Multi(
-    mockRepository: mockRepository,
-    child: MyApp(),
-  ));
+  final firestoreService = FirestoreService();
+
+  final firebaseAuthService = FirebaseAuthService(
+    firestoreService: firestoreService,
+  );
+
+  final userRepository = UserRepository(
+    firebaseAuthService: firebaseAuthService,
+  );
+
+  runApp(
+    Multi(
+      mockRepository: mockRepository,
+      firebaseAuthService: firebaseAuthService,
+      firestoreService: firestoreService,
+      userRepository: userRepository,
+      child: MyApp(),
+    ),
+  );
+}
+
+class Multi extends StatelessWidget {
+  Multi({
+    this.child,
+    required this.mockRepository,
+    required this.firestoreService,
+    required this.firebaseAuthService,
+    required this.userRepository,
+  });
+
+  final Widget? child;
+  final MockRepository mockRepository;
+  final FirebaseAuthService firebaseAuthService;
+  final FirestoreService firestoreService;
+  final UserRepository userRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<UserProvider>(
+          create: (_) => UserProvider(
+            userRepository: userRepository,
+          ),
+        ),
+        ChangeNotifierProvider<PowerOffProvider>(
+          create: (_) => PowerOffProvider(mockRepository),
+        ),
+      ],
+      child: child,
+    );
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -58,26 +110,6 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-    );
-  }
-}
-
-class Multi extends StatelessWidget {
-  Multi({this.child, required this.mockRepository});
-  final Widget? child;
-  final MockRepository mockRepository;
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<UserProvider>(
-          create: (_) => UserProvider(),
-        ),
-        ChangeNotifierProvider<PowerOffProvider>(
-          create: (_) => PowerOffProvider(mockRepository),
-        ),
-      ],
-      child: child,
     );
   }
 }

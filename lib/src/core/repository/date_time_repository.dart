@@ -5,7 +5,11 @@ class DateTimeRepository {
     return DateFormat.LLLL().format(date);
   }
 
-  static String dateToMonthDay(DateTime dateTime) {
-    return DateFormat.MMMMd().format(dateTime);
+  static String dateToMonthDay(DateTime date) {
+    return DateFormat.MMMMd().format(date);
+  }
+
+  static String dateToHour(DateTime date) {
+    return DateFormat.Hm().format(date);
   }
 }
