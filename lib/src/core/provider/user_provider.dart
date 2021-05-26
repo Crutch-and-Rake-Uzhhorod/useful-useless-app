@@ -4,34 +4,35 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../repository/user_repository.dart';
 
-enum AuthState {
-  // ignore: constant_identifier_names
-  UN_AUTHENTICATED,
-  // ignore: constant_identifier_names
-  AUTHENTICATED,
-  // UN_REGISTERED,
-}
-
 class UserProvider with ChangeNotifier {
-  final _repository = UserRepository();
+  UserProvider({
+    required UserRepository userRepository,
+  }) : _userRepository = userRepository;
 
-  User? get user => _repository.currentUser();
-  AuthState authState = AuthState.UN_AUTHENTICATED;
+  final UserRepository _userRepository;
 
   bool isIphone = false;
 
-  Future<bool> tryAutoLogin() async {
-    //await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
-    //user = null; // _repository need to be
-    if (user != null) {
-      authState = AuthState.AUTHENTICATED;
-      print('AutoAUTHENTICATED');
-    }
-    return user != null;
+  User? _user;
+  User? get user => _user;
+
+  bool isUserLoggedIn() {
+    _user = _userRepository.currentUser;
+
+    return _user != null;
+  }
+
+  // TODO: to handle dismiss by user etc.
+  Future<void> signInWithGoogle() async {
+    _user = await _userRepository.signInWithGoogle();
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
     isIphone = await SignInWithApple.isAvailable();
     return isIphone;
+  }
+
+  Future<void> signOut() async {
+    await _userRepository.signOut();
   }
 }

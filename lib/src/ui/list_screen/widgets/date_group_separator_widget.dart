@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:useful_useless_app/src/core/repository/date_time_repository.dart';
+
+import '../../../core/repository/date_time_repository.dart';
 
 class DateGroupSeparatorWidget extends StatelessWidget {
   DateGroupSeparatorWidget({required this.date});

@@ -3,188 +3,162 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 
-import 'location_model.dart';
+import '../../core/models/frame_model.dart';
+import '../../core/models/house_details_model.dart';
+import '../../core/models/location_coordinates.dart';
+import '../../core/models/time_frame_model.dart';
+import '../../core/models/timetable_model.dart';
 import 'widgets/date_group_separator_widget.dart';
+import 'widgets/list_card_widget.dart';
 
 class ListScreen extends StatelessWidget {
   static const String id = 'list_screen';
 
-  final List<LocationModel> fields = [
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Шумна',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime.now()),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Капушанська',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 7, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Загорська',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '21:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 7, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Петефі',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '22:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 9, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Шумна',
-        firstTurnOffStarts: '15:00',
-        firstTurnOffEnds: '16:45',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 9, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Петефі',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 10, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Швабська',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 11, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Легоцького',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '20:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 8, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Шумна',
-        firstTurnOffStarts: '15:00',
-        firstTurnOffEnds: '16:30',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 6, 7)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Капушанська',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 6, 8)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Гагаріна',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 6, 8)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Петефі',
-        firstTurnOffStarts: '13:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 3, 9)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Швабська',
-        firstTurnOffStarts: '18:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 2, 9)),
-    LocationModel(
-        city: 'Ужгород',
-        street: 'вул.Загорська',
-        firstTurnOffStarts: '10:00',
-        firstTurnOffEnds: '19:00',
-        secondTurnOffStarts: '18:00',
-        secondTurnOffEnds: '19:00',
-        date: DateTime(2021, 5, 12)),
+  final List<TimetableModel> dates = [
+    TimetableModel(
+      timestamp: DateTime(2021, 7, 7),
+      locations: [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 18),
+              start: DateTime(2021, 7, 7, 17),
+            ),
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 21),
+              start: DateTime(2021, 7, 7, 20),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Капушанська',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 17),
+              start: DateTime(2021, 7, 7, 16),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Загорська',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+      ],
+    ),
+    TimetableModel(
+      timestamp: DateTime(2021, 9, 7),
+      locations: [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 9, 7, 16, 45),
+              start: DateTime(2021, 9, 7, 15),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Шумна',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 9, 7, 14),
+              start: DateTime(2021, 9, 7, 11),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Петефі',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+      ],
+    ),
+    TimetableModel(
+      timestamp: DateTime(2021, 10, 7),
+      locations: [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 10, 7, 18),
+              start: DateTime(2021, 10, 7, 16),
+            ),
+            TimeFrameModel(
+              end: DateTime(2021, 10, 7, 19, 30),
+              start: DateTime(2021, 10, 7, 15),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Петефі',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+      ],
+    ),
+    TimetableModel(
+      timestamp: DateTime(2021, 11, 7),
+      locations: [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 11, 7, 20),
+              start: DateTime(2021, 11, 7, 19),
+            ),
+            TimeFrameModel(
+              end: DateTime(2021, 11, 7, 20),
+              start: DateTime(2021, 11, 7, 19, 30),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Швабска',
+            geoId: '',
+            location: LocationCoordinates(lat: 46.0, lng: 42.0),
+          ),
+        ),
+      ],
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return GroupedListView<LocationModel, DateTime>(
-      elements: fields,
-      groupBy: (fields) => fields.date!,
-      groupSeparatorBuilder: (DateTime date) => DateGroupSeparatorWidget(
+    return GroupedListView<TimetableModel, DateTime>(
+      elements: dates,
+      groupBy: (dates) => dates.timestamp,
+      groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
         date: date,
       ),
       order: GroupedListOrder.ASC,
       useStickyGroupSeparators: true,
-      itemBuilder: (context, LocationModel? fields) => Card(
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(
-              width: 3, //
-            ),
-          ),
-          child: Row(
-            children: <Widget>[
-              ClipRRect(
-                child: Icon(
-                  Icons.home_rounded,
-                  size: 80.00,
-                ),
+      itemBuilder: (_, date) {
+        final items = date.locations
+            .map(
+              (e) => FrameCardWidget(
+                city: e.houseDetails.city!,
+                timeFrames: e.frames,
+                street: e.houseDetails.street!,
               ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.all(10.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          '${fields?.city}, ${fields?.street}',
-                          textAlign: TextAlign.start,
-                          style: textTheme.headline6?.copyWith(fontSize: 20),
-                        ),
-                      ),
-                      Text(
-                        'Відключення: з ${fields?.firstTurnOffStarts}  до ${fields?.firstTurnOffEnds} ',
-                        style: textTheme.headline6?.copyWith(
-                          fontSize: 15,
-                        ),
-                      ),
-                      Text(
-                        'Відключення: з ${fields?.secondTurnOffStarts}  до ${fields?.secondTurnOffEnds} ',
-                        style: textTheme.headline6?.copyWith(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+            )
+            .toList();
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: items,
+        );
+      },
     );
   }
 }
