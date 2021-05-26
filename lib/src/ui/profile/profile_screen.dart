@@ -16,20 +16,21 @@ class ProfileScreen extends StatelessWidget {
 
     final textTheme = Theme.of(context).textTheme;
 
-    return Padding(
+    return SingleChildScrollView(
       padding: EdgeInsets.fromLTRB(width * 0.07, 56.0, width * 0.07, 42.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _getUserAvatar(context),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 36.0),
+            padding: const EdgeInsets.only(top: 36.0),
             child: Text(
               _getUserName(context),
               textAlign: TextAlign.center,
               style: textTheme.headline5,
             ),
           ),
+          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {},
@@ -40,7 +41,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.map),
+                  Icon(
+                    Icons.map,
+                    color: Colors.black38,
+                  ),
                   const SizedBox(width: 16.0),
                   Text('Following locations (1)'),
                 ],
@@ -65,7 +69,10 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.settings),
+                  Icon(
+                    Icons.settings,
+                    color: Colors.black38,
+                  ),
                   const SizedBox(width: 16.0),
                   Text('Preferences'),
                 ],
@@ -83,24 +90,14 @@ class ProfileScreen extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info),
+                  Icon(
+                    Icons.info,
+                    color: Colors.black38,
+                  ),
                   const SizedBox(width: 16.0),
                   Text('Terms & conditions'),
                 ],
               ),
-            ),
-          ),
-          const Spacer(),
-          Align(
-            child: TextButton(
-              style: ButtonStyle(
-                overlayColor:
-                    MaterialStateColor.resolveWith((_) => Colors.transparent),
-                foregroundColor:
-                    MaterialStateColor.resolveWith((_) => Colors.grey),
-              ),
-              onPressed: () => signOut(context),
-              child: Text('Change user'),
             ),
           ),
         ],
@@ -108,13 +105,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  void signOut(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    if (userProvider.user != null) {
-      userProvider.signOut();
-    }
-    Navigator.of(context).pushReplacementNamed(LoginScreen.id);
-  }
 
   Widget _getUserAvatar(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
