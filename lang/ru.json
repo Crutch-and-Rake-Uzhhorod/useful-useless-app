@@ -9,5 +9,6 @@
   "settings" : "Настройки",
   "lang_name" : "Русский",
   "exit" : "Выйти",
-  "get_notification": "Получать уведомления об отключениях"
+  "get_notification": "Получать уведомления об отключениях",
+  "followed_locations" : "Избранные локации"
 }

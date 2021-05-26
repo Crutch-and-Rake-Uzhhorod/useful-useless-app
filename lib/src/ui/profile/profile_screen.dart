@@ -1,10 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/user_provider.dart';
 import '../global/rounded_button_widget.dart';
-import '../login/login_screen.dart';
 import '../settings/settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -23,14 +23,13 @@ class ProfileScreen extends StatelessWidget {
         children: [
           _getUserAvatar(context),
           Padding(
-            padding: const EdgeInsets.only(top: 36.0),
+            padding: const EdgeInsets.symmetric(vertical: 24.0),
             child: Text(
               _getUserName(context),
               textAlign: TextAlign.center,
               style: textTheme.headline5,
             ),
           ),
-          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {},
@@ -46,7 +45,7 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('Following locations (1)'),
+                  Text('${'followed_locations'.tr()} (1)'),
                 ],
               ),
             ),
@@ -74,7 +73,7 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('Preferences'),
+                  Text('settings'.tr()),
                 ],
               ),
             ),
@@ -104,7 +103,6 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
-
 
   Widget _getUserAvatar(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);

@@ -1,11 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/core/provider/user_provider.dart';
-import 'package:useful_useless_app/src/ui/login/login_screen.dart';
 
+import '../../core/provider/user_provider.dart';
 import '../../global/localization/language_view.dart';
 import '../global/rounded_button_widget.dart';
+import '../login/login_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String id = 'settings_screen';
@@ -104,7 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     MaterialStateColor.resolveWith((_) => Colors.grey),
               ),
               onPressed: () => signOut(context),
-              child: Text('Change user'),
+              child: Text('exit'.tr()),
             ),
           ],
         ),
