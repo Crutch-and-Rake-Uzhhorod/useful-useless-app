@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/ui/profile/profile_screen.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
@@ -49,12 +50,13 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            initialRoute: SplashScreen.id,
-            routes: {
-              SplashScreen.id: (_) => SplashScreen(),
-              LoginScreen.id: (_) => LoginScreen(),
-              HomeScreen.id: (_) => HomeScreen(),
-            },
+            home: Profile(),
+            // initialRoute: ProfileScreen.id,
+            // routes: {
+            //   SplashScreen.id: (_) => SplashScreen(),
+            //   LoginScreen.id: (_) => LoginScreen(),
+            //   HomeScreen.id: (_) => HomeScreen(),
+            // },
           );
         },
       ),

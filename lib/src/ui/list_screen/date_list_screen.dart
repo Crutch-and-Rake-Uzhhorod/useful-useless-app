@@ -127,65 +127,61 @@ class ListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    return SafeArea(
-      child: Scaffold(
-        body: GroupedListView<LocationModel, DateTime>(
-          elements: fields,
-          groupBy: (fields) => fields.date!,
-          groupSeparatorBuilder: (DateTime date) => DateGroupSeparatorWidget(
-            date: date,
+
+    return GroupedListView<LocationModel, DateTime>(
+      elements: fields,
+      groupBy: (fields) => fields.date!,
+      groupSeparatorBuilder: (DateTime date) => DateGroupSeparatorWidget(
+        date: date,
+      ),
+      order: GroupedListOrder.ASC,
+      useStickyGroupSeparators: true,
+      itemBuilder: (context, LocationModel? fields) => Card(
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 3, //
+            ),
           ),
-          order: GroupedListOrder.ASC,
-          useStickyGroupSeparators: true,
-          itemBuilder: (context, LocationModel? fields) => Card(
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: 3, //
+          child: Row(
+            children: <Widget>[
+              ClipRRect(
+                child: Icon(
+                  Icons.home_rounded,
+                  size: 80.00,
                 ),
               ),
-              child: Row(
-                children: <Widget>[
-                  ClipRRect(
-                    child: Icon(
-                      Icons.home_rounded,
-                      size: 80.00,
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(
-                              '${fields?.city}, ${fields?.street}',
-                              textAlign: TextAlign.start,
-                              style:
-                                  textTheme.headline6?.copyWith(fontSize: 20),
-                            ),
-                          ),
-                          Text(
-                            'Відключення: з ${fields?.firstTurnOffStarts}  до ${fields?.firstTurnOffEnds} ',
-                            style: textTheme.headline6?.copyWith(
-                              fontSize: 15,
-                            ),
-                          ),
-                          Text(
-                            'Відключення: з ${fields?.secondTurnOffStarts}  до ${fields?.secondTurnOffEnds} ',
-                            style: textTheme.headline6?.copyWith(
-                              fontSize: 15,
-                            ),
-                          ),
-                        ],
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.all(10.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8.0),
+                        child: Text(
+                          '${fields?.city}, ${fields?.street}',
+                          textAlign: TextAlign.start,
+                          style: textTheme.headline6?.copyWith(fontSize: 20),
+                        ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+                      Text(
+                        'Відключення: з ${fields?.firstTurnOffStarts}  до ${fields?.firstTurnOffEnds} ',
+                        style: textTheme.headline6?.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'Відключення: з ${fields?.secondTurnOffStarts}  до ${fields?.secondTurnOffEnds} ',
+                        style: textTheme.headline6?.copyWith(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
         ),
       ),

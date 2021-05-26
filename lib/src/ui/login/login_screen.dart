@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/services/firebase_auth_service.dart';
+import '../global/rounded_button_widget.dart';
 import '../home/home_screen.dart';
+import '../../core/services/firebase_auth_service.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';
@@ -34,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: _signInButton(
+                    child: RoundedButtonWidget(
                       onTap: () {
                         if (Platform.isIOS) {
                           ///for iOS
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
                     width: 16,
                   ),
                   Expanded(
-                    child: _signInButton(
+                    child: RoundedButtonWidget(
                       onTap: () {
                         FirebaseAuthService().signInWithGoogle().whenComplete(
                           () {
@@ -84,7 +85,7 @@ class LoginScreen extends StatelessWidget {
                 flex: 1,
               ),
               if (Platform.isIOS)
-                _signInButton(
+                RoundedButtonWidget(
                   onTap: () => Navigator.pushNamed(context, HomeScreen.id),
                   child: Text(
                     'Anonymous Sign In',
@@ -120,32 +121,5 @@ class LoginScreen extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Widget _signInButton({Widget? child, void Function()? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        constraints: BoxConstraints(
-            //maxWidth: double.infinity,
-            //minWidth: 150,
-            ),
-        height: 70,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              offset: Offset(0, 9),
-              blurRadius: 20,
-              spreadRadius: 0.1,
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: child,
-      ),
-    );
   }
 }

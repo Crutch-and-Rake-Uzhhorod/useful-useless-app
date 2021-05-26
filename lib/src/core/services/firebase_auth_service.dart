@@ -56,7 +56,7 @@ class FirebaseAuthService {
     print('User Sign Out');
   }
 
-  Future<User?> currentUser() async {
+  User? currentUser() {
     final user = _auth.currentUser;
     return user;
   }

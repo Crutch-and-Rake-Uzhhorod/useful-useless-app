@@ -14,7 +14,8 @@ enum AuthState {
 
 class UserProvider with ChangeNotifier {
   final _repository = UserRepository();
-  User? user;
+
+  User? get user => _repository.currentUser();
   AuthState authState = AuthState.UN_AUTHENTICATED;
 
   bool isIphone = false;
@@ -22,8 +23,6 @@ class UserProvider with ChangeNotifier {
   Future<bool> tryAutoLogin() async {
     //await Future.delayed(Duration(seconds:3)); // fake function to simulate rest API request to firebase for development usege only when Auth proces not set up.
     //user = null; // _repository need to be
-    user = await _repository.currentUser();
-
     if (user != null) {
       authState = AuthState.AUTHENTICATED;
       print('AutoAUTHENTICATED');
