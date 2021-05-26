@@ -135,34 +135,30 @@ class ListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: GroupedListView<TimetableModel, DateTime>(
-          elements: dates,
-          groupBy: (dates) => dates.timestamp,
-          groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
-            date: date,
-          ),
-          order: GroupedListOrder.ASC,
-          useStickyGroupSeparators: true,
-          itemBuilder: (_, date) {
-            final items = date.locations
-                .map(
-                  (e) => FrameCardWidget(
-                    city: e.houseDetails.city!,
-                    timeFrames: e.frames,
-                    street: e.houseDetails.street!,
-                  ),
-                )
-                .toList();
-
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: items,
-            );
-          },
-        ),
+    return GroupedListView<TimetableModel, DateTime>(
+      elements: dates,
+      groupBy: (dates) => dates.timestamp,
+      groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
+        date: date,
       ),
+      order: GroupedListOrder.ASC,
+      useStickyGroupSeparators: true,
+      itemBuilder: (_, date) {
+        final items = date.locations
+            .map(
+              (e) => FrameCardWidget(
+                city: e.houseDetails.city!,
+                timeFrames: e.frames,
+                street: e.houseDetails.street!,
+              ),
+            )
+            .toList();
+
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: items,
+        );
+      },
     );
   }
 }

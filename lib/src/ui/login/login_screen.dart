@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/provider/user_provider.dart';
+import '../global/rounded_button_widget.dart';
 import '../home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -35,7 +36,7 @@ class LoginScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Expanded(
-                    child: _signInButton(
+                    child: RoundedButtonWidget(
                       onTap: () {
                         if (Platform.isIOS) {
                           ///for iOS
@@ -67,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                     width: 16,
                   ),
                   Expanded(
-                    child: _signInButton(
+                    child: RoundedButtonWidget(
                       onTap: () {
                         Provider.of<UserProvider>(
                           context,
@@ -91,7 +92,7 @@ class LoginScreen extends StatelessWidget {
                 flex: 1,
               ),
               if (Platform.isIOS)
-                _signInButton(
+                RoundedButtonWidget(
                   onTap: () => Navigator.pushNamed(context, HomeScreen.id),
                   child: Text(
                     'Anonymous Sign In',
@@ -127,32 +128,5 @@ class LoginScreen extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  Widget _signInButton({Widget? child, void Function()? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        constraints: BoxConstraints(
-            //maxWidth: double.infinity,
-            //minWidth: 150,
-            ),
-        height: 70,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(100),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.15),
-              offset: Offset(0, 9),
-              blurRadius: 20,
-              spreadRadius: 0.1,
-            ),
-          ],
-        ),
-        alignment: Alignment.center,
-        child: child,
-      ),
-    );
   }
 }

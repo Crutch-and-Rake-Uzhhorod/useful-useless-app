@@ -1,10 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../core/models/user_model.dart';
+import '../../core/provider/user_provider.dart';
 import '../../global/localization/language_view.dart';
-import '../splash/splash_screen.dart';
+import '../global/rounded_button_widget.dart';
+import '../login/login_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   static const String id = 'settings_screen';
@@ -15,90 +16,107 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool SwitchState = true;
+
   //TODO: add Theme.of
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'settings'.tr(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.grey,
+          ),
+          onPressed: Navigator.of(context).pop,
         ),
       ),
-      body: Column(
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 2.0, vertical: 20.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
-              ),
-            ),
-            child: ListTile(
-              title: Text('language'.tr()),
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * 0.07),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            RoundedButtonWidget(
+              height: 56.0,
               onTap: () {
                 showModalBottomSheet(
-                    context: context, builder: (context) => LanguageView());
+                  context: context,
+                  builder: (_) => LanguageView(),
+                );
               },
-              trailing: Text('lang_name'.tr()),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 2.0),
-            decoration: BoxDecoration(
-              border: Border.all(
-                width: 1,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 6.0,
+                ),
+                child: Row(
+                  children: [
+                    Text('language'.tr()),
+                    const Spacer(),
+                    Text('lang_name'.tr()),
+                  ],
+                ),
               ),
             ),
-            child: ListTile(
-              title: Text('get_notification'.tr()),
+            const SizedBox(height: 24.0),
+            RoundedButtonWidget(
+              height: 56.0,
               onTap: () {
                 setState(
-                  //TODO: no set_state allowed
                   () {
                     SwitchState = !SwitchState;
                   },
                 );
               },
-              trailing: Switch(
-                  value: SwitchState,
-                  onChanged: (bool SwitchChange) {
-                    setState(
-                      () {
-                        SwitchState = SwitchChange;
-                        UserModel(
-                          //TODO I don't know how it's works (for some reason it always gives null)
-                          notification_settings: SwitchState,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24.0, 6.0, 14.0, 6.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'get_notification'.tr(),
+                        maxLines: 3,
+                      ),
+                    ),
+                    Switch(
+                      value: SwitchState,
+                      onChanged: (bool SwitchChange) {
+                        setState(
+                          () {
+                            SwitchState = SwitchChange;
+                          },
                         );
-                        print(UserModel().notification_settings);
                       },
-                    );
-                  }),
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                    color: Colors.black, width: 1, style: BorderStyle.solid),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: TextButton(
-        onPressed: () {
-          FirebaseAuth.instance.signOut();
-          Navigator.pushNamed(context, SplashScreen.id);
-        },
-        style: TextButton.styleFrom(
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-                color: Colors.black, width: 1, style: BorderStyle.solid),
-          ),
-        ),
-        child: Text(
-          'exit'.tr(),
-          style: TextStyle(
-            fontSize: 18,
-          ),
+            const SizedBox(height: 48.0),
+            TextButton(
+              style: ButtonStyle(
+                overlayColor:
+                    MaterialStateColor.resolveWith((_) => Colors.transparent),
+                foregroundColor:
+                    MaterialStateColor.resolveWith((_) => Colors.grey),
+              ),
+              onPressed: () => signOut(context),
+              child: Text('exit'.tr()),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  void signOut(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    if (userProvider.user != null) {
+      userProvider.signOut();
+    }
+    Navigator.of(context).pushNamedAndRemoveUntil(LoginScreen.id, (_) => false);
   }
 }

@@ -41,5 +41,5 @@ class FirebaseAuthService {
     print('User Sign Out');
   }
 
-  User? currentUser() => _auth.currentUser;
+  User? get currentUser=> _auth.currentUser;
 }

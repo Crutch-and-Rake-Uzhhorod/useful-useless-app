@@ -19,7 +19,7 @@ class UserRepository {
     }
   }
 
-  User? currentUser() => _firebaseAuthService.currentUser();
-
   Future<void> signOut() => _firebaseAuthService.signOut();
+
+  User? get currentUser => _firebaseAuthService.currentUser;
 }

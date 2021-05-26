@@ -11,25 +11,28 @@ class UserProvider with ChangeNotifier {
 
   final UserRepository _userRepository;
 
-  User? _user;
-
   bool isIphone = false;
 
+  User? _user;
+  User? get user => _user;
+
   bool isUserLoggedIn() {
-    _user = _userRepository.currentUser();
+    _user = _userRepository.currentUser;
 
     return _user != null;
   }
 
   // TODO: to handle dismiss by user etc.
   Future<void> signInWithGoogle() async {
-    try {
-      _user = await _userRepository.signInWithGoogle();
-    } catch (_) {}
+    _user = await _userRepository.signInWithGoogle();
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
     isIphone = await SignInWithApple.isAvailable();
     return isIphone;
+  }
+
+  Future<void> signOut() async {
+    await _userRepository.signOut();
   }
 }
