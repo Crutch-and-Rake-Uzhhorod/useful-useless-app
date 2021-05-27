@@ -1,7 +1,13 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
@@ -10,15 +16,38 @@ import 'src/core/repository/mock_repository.dart';
 import 'src/core/repository/user_repository.dart';
 import 'src/core/services/firebase_auth_service.dart';
 import 'src/core/services/firestore_service.dart';
+import 'src/core/services/push_notification_service.dart';
 import 'src/ui/home/home_screen.dart';
 import 'src/ui/login/login_screen.dart';
 import 'src/ui/splash/splash_screen.dart';
 
+Future<void> initLocalNotifications() async {
+  const _channel = AndroidNotificationChannel(
+    'notifuck_notifications', // id
+    'High Importance Notifications', // title
+    'This channel is used for important notifications.', // description
+    importance: Importance.max,
+  );
+
+  final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(_channel);
+}
+
+Future<void> _onBackgroundMessageHandler(RemoteMessage message) async {
+  log('Handling a background message: ${message.messageId}');
+  log('Message clicked on terminated!');
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
 
+  await Firebase.initializeApp();
+  await initLocalNotifications();
+  FirebaseMessaging.onBackgroundMessage(_onBackgroundMessageHandler);
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
@@ -80,8 +109,16 @@ class Multi extends StatelessWidget {
 }
 
 class MyApp extends StatelessWidget {
+  static final FirebaseAnalytics _firebaseAnalytics = FirebaseAnalytics();
+  static final FirebaseAnalyticsObserver _firebaseAnalyticsObserver =
+      FirebaseAnalyticsObserver(analytics: _firebaseAnalytics);
+
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
   @override
   Widget build(BuildContext context) {
+    PushNotificationService().initialise();
+
     return EasyLocalization(
       supportedLocales: [
         Locale('ru', 'RU'),
@@ -94,6 +131,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<UserProvider>(
         builder: (context, UserProvider userProvider, _) {
           return MaterialApp(
+            navigatorObservers: [_firebaseAnalyticsObserver],
             title: 'Flutter Demo',
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
