@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -14,6 +15,7 @@ class UserProvider with ChangeNotifier {
   bool isIphone = false;
 
   User? _user;
+
   User? get user => _user;
 
   bool isUserLoggedIn() {
@@ -28,7 +30,11 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
+    if (kIsWeb) {
+      return false;
+    }
     isIphone = await SignInWithApple.isAvailable();
+
     return isIphone;
   }
 

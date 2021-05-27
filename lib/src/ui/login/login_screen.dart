@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: RoundedButtonWidget(
                       onTap: () {
-                        if (Platform.isIOS) {
+                        if (defaultTargetPlatform == TargetPlatform.iOS) {
                           ///for iOS
                         } else {
                           Navigator.pushReplacementNamed(
@@ -47,7 +46,7 @@ class LoginScreen extends StatelessWidget {
                           );
                         }
                       },
-                      child: Platform.isIOS
+                      child: defaultTargetPlatform == TargetPlatform.iOS
                           ? SvgPicture.asset(
                               'assets/icons/apple.svg',
                               height: 50,
@@ -91,7 +90,7 @@ class LoginScreen extends StatelessWidget {
               Spacer(
                 flex: 1,
               ),
-              if (Platform.isIOS)
+              if (defaultTargetPlatform == TargetPlatform.iOS)
                 RoundedButtonWidget(
                   onTap: () => Navigator.pushNamed(context, HomeScreen.id),
                   child: Text(
@@ -103,7 +102,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               Spacer(
-                flex: Platform.isIOS ? 2 : 4,
+                flex: defaultTargetPlatform == TargetPlatform.iOS ? 2 : 4,
               ),
               TextButton(
                 onPressed: () async => await _termsConditionsLink(),
