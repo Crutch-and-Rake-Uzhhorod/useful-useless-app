@@ -164,7 +164,9 @@ class LoginScreen extends StatelessWidget {
             context,
             HomeScreen.id,
           );
-        } else {}
+        } else {
+          powerOffProvider.loadingStatus.value = false;
+        }
       },
       onError: (_) {
         powerOffProvider.loadingStatus.value = false;
