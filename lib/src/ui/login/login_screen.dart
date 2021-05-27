@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/user_provider.dart';
 import '../global/rounded_button_widget.dart';
 import '../home/home_screen.dart';
@@ -127,9 +128,16 @@ class LoginScreen extends StatelessWidget {
     );
 
     await userProvider.signInWithGoogle().then(
-      (user) {
+      (user) async {
         if (user != null) {
-          Navigator.pushReplacementNamed(
+          final powerOffProvider = Provider.of<PowerOffProvider>(
+            context,
+            listen: false,
+          );
+
+          await powerOffProvider.init();
+
+          await Navigator.pushReplacementNamed(
             context,
             HomeScreen.id,
           );
@@ -148,11 +156,16 @@ class LoginScreen extends StatelessWidget {
     );
 
     await userProvider.signInAnonymously().then(
-      (user) {
+      (user) async {
         if (user != null) {
-          print(user);
+          final powerOffProvider = Provider.of<PowerOffProvider>(
+            context,
+            listen: false,
+          );
 
-          Navigator.pushReplacementNamed(
+          await powerOffProvider.init();
+
+          await Navigator.pushReplacementNamed(
             context,
             HomeScreen.id,
           );

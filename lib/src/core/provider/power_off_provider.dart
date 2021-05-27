@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
+// import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import '../repository/mock_repository.dart';
+// import '../repository/mock_repository.dart';
 import '../services/firestore_service.dart';
 
 //TODO: create list of [LocationModel]
@@ -15,15 +16,12 @@ import '../services/firestore_service.dart';
 class PowerOffProvider with ChangeNotifier {
   PowerOffProvider({
     required FirestoreService firestoreService,
-    required this.mockRepository,
   }) : _firestoreService = firestoreService;
 
   ///city == 0 => Uzhgorod
   ///city == 1 => Lvov
   ///.....
   int? city = -1;
-
-  final MockRepository mockRepository;
 
   final FirestoreService _firestoreService;
 
@@ -37,22 +35,51 @@ class PowerOffProvider with ChangeNotifier {
   UnmodifiableListView<DateTime>? get dates =>
       UnmodifiableListView<DateTime>(_dates!);
 
+  //TODO: think about a case when there are no days available
   Future<void> init() async {
-    // will be replaced with some method which will generate markers and dates from retrieved data
-    _markers = await mockRepository.getMarkers(
-        //TODO: change for real amount of markers
-        iconForMap: await _convertingIconIntoBytes());
-    _dates = await mockRepository.getDates();
+    _dates = await _firestoreService.getDates();
+
+    final now = DateTime.now();
+    final dayToInit = _dates!.firstWhere(
+      (DateTime? date) => date!.day.compareTo(now.day) == 0,
+      orElse: () {
+        if (_dates!.length > 1) {
+          return _dates!.first;
+        } else {
+          return _dates!.first;
+        }
+      },
+    );
+
+    print(dayToInit.millisecondsSinceEpoch);
+    final locations = await _firestoreService.getLocationByDay(
+        timestamp: dayToInit.millisecondsSinceEpoch);
+
+    final set = <Marker>{};
+    for (final element in locations) {
+      final icon = await _convertingIconIntoBytes(element.frames.first.start);
+
+      set.add(Marker(
+        markerId: MarkerId('lv5_2'),
+        position: LatLng(
+          element.houseDetails.location.lat,
+          element.houseDetails.location.lng,
+        ),
+        infoWindow: InfoWindow(title: 'lwow5'),
+        icon: icon,
+      ));
+    }
+
+    _markers = [set];
   }
 
-  Future<BitmapDescriptor> _convertingIconIntoBytes() async {
+  Future<BitmapDescriptor> _convertingIconIntoBytes(DateTime date) async {
     final dateTimeNow = DateTime.now();
 
-    final date = await mockRepository.getDates();
     Color? iconColor;
-    if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) {
+    if (date.isAtSameMomentAs(dateTimeNow)) {
       iconColor = Colors.red;
-    } else if (date.elementAt(0).isBefore(dateTimeNow)) {
+    } else if (date.isBefore(dateTimeNow)) {
       iconColor = Colors.yellow;
     } else {
       iconColor = Colors.green;
@@ -103,6 +130,7 @@ class PowerOffProvider with ChangeNotifier {
 
     /// converting form Image to Bytes
     final bytes = await (image.toByteData(format: ImageByteFormat.png));
+
     return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
   }
 
@@ -114,11 +142,12 @@ class PowerOffProvider with ChangeNotifier {
 
   LatLng chosenLatLng({bool isChosenLatLng = false}) {
     //TODO: implement choose of LatLng by user
-    if (isChosenLatLng) return LatLng(49.8444851, 23.9660739);
+    // if (isChosenLatLng)
+    return LatLng(49.8444851, 23.9660739);
     //TODO: create default Uzhgorod and Lvov centers LatLng markers
     //if(city == 0) return UzhgorodLatitudeLongitude;
     //if(city == 1) return LvovLatitudeLongitude ;
     //notifyListeners();
-    return _markers![2].elementAt(0).position;
+    // return _markers![2].elementAt(0).position;
   }
 }

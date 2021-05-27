@@ -72,7 +72,6 @@ class Multi extends StatelessWidget {
         ChangeNotifierProvider<PowerOffProvider>(
           create: (_) => PowerOffProvider(
             firestoreService: firestoreService,
-            mockRepository: mockRepository,
           ),
         ),
       ],

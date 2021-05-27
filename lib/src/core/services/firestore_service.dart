@@ -21,14 +21,20 @@ class FirestoreService {
   }
 
   Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
-    final housesSnap =
-        await _firestore.collection('${_dayCollectionPath}_$timestamp').get();
+    final housesSnap = await _firestore
+        .collection('${_dayCollectionPath}_$timestamp')
+        .where('house_details.city', isEqualTo: 'Львів')
+        .get();
+
+    print('${_dayCollectionPath}_$timestamp');
 
     final list = housesSnap.docs
         .map((e) => FrameModel.fromJson(
               e.data(),
             ))
         .toList();
+
+    print(list);
 
     return list;
   }

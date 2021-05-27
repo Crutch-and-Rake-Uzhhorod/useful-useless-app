@@ -35,18 +35,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> initAuth() async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final powerOffProvider =
-        Provider.of<PowerOffProvider>(context, listen: false);
+
     final isLogged = userProvider.isUserLoggedIn();
 
-    await powerOffProvider.init();
-
     // await userProvider.checkIsAppleSignInAvailable();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(Duration(seconds: 3), () async {
       if (isLogged) {
-        Navigator.pushReplacementNamed(context, HomeScreen.id);
+        final powerOffProvider =
+            Provider.of<PowerOffProvider>(context, listen: false);
+        await powerOffProvider.init();
+
+        await Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {
-        Navigator.pushReplacementNamed(context, LoginScreen.id);
+        await Navigator.pushReplacementNamed(context, LoginScreen.id);
       }
     });
   }
