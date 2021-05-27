@@ -15,6 +15,7 @@ class UserProvider with ChangeNotifier {
   bool isIphone = false;
 
   User? _user;
+
   User? get user => _user;
 
   bool isUserLoggedIn() {
@@ -29,9 +30,11 @@ class UserProvider with ChangeNotifier {
   }
 
   Future<bool> checkIsAppleSignInAvailable() async {
-    if (!kIsWeb) {
-      isIphone = await SignInWithApple.isAvailable();
+    if (kIsWeb) {
+      return false;
     }
+    isIphone = await SignInWithApple.isAvailable();
+
     return isIphone;
   }
 
