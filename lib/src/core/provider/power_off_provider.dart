@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:collection';
 import 'dart:ui';
-// import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-// import '../repository/mock_repository.dart';
 import '../services/firestore_service.dart';
 
 //TODO: create list of [LocationModel]
@@ -29,6 +27,8 @@ class PowerOffProvider with ChangeNotifier {
 
   List<DateTime>? _dates;
 
+  final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
+
   UnmodifiableListView<Set<Marker>>? get markers =>
       UnmodifiableListView<Set<Marker>>(_markers!);
 
@@ -37,6 +37,7 @@ class PowerOffProvider with ChangeNotifier {
 
   //TODO: think about a case when there are no days available
   Future<void> init() async {
+    loadingStatus.value = true;
     _dates = await _firestoreService.getDates();
 
     final now = DateTime.now();
@@ -44,6 +45,7 @@ class PowerOffProvider with ChangeNotifier {
       (DateTime? date) => date!.day.compareTo(now.day) == 0,
       orElse: () {
         if (_dates!.length > 1) {
+          //temporary first. change to actual later
           return _dates!.first;
         } else {
           return _dates!.first;
@@ -59,18 +61,24 @@ class PowerOffProvider with ChangeNotifier {
     for (final element in locations) {
       final icon = await _convertingIconIntoBytes(element.frames.first.start);
 
-      set.add(Marker(
-        markerId: MarkerId('lv5_2'),
-        position: LatLng(
-          element.houseDetails.location.lat,
-          element.houseDetails.location.lng,
+      set.add(
+        Marker(
+          markerId: MarkerId(element.houseDetails.geoId),
+          position: LatLng(
+            element.houseDetails.location.lat,
+            element.houseDetails.location.lng,
+          ),
+          infoWindow: InfoWindow(
+              title:
+                  '${element.houseDetails.street}\n${element.houseDetails.buildingNumber}'),
+          icon: icon,
         ),
-        infoWindow: InfoWindow(title: 'lwow5'),
-        icon: icon,
-      ));
+      );
     }
 
     _markers = [set];
+
+    loadingStatus.value = false;
   }
 
   Future<BitmapDescriptor> _convertingIconIntoBytes(DateTime date) async {
@@ -140,6 +148,7 @@ class PowerOffProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  //consider to replace to google maps controller
   LatLng chosenLatLng({bool isChosenLatLng = false}) {
     //TODO: implement choose of LatLng by user
     // if (isChosenLatLng)
@@ -149,5 +158,11 @@ class PowerOffProvider with ChangeNotifier {
     //if(city == 1) return LvovLatitudeLongitude ;
     //notifyListeners();
     // return _markers![2].elementAt(0).position;
+  }
+
+  @override
+  void dispose() {
+    loadingStatus.dispose();
+    super.dispose();
   }
 }

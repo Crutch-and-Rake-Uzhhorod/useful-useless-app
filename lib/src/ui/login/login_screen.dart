@@ -8,6 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/user_provider.dart';
+import '../global/loader_widget.dart';
 import '../global/rounded_button_widget.dart';
 import '../home/home_screen.dart';
 
@@ -18,94 +19,113 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Spacer(
-                flex: 4,
+    final powerOffProvider = Provider.of<PowerOffProvider>(
+      context,
+      listen: false,
+    );
+
+    return ValueListenableBuilder<bool>(
+      valueListenable: powerOffProvider.loadingStatus,
+      builder: (_, isLoading, child) {
+        return Stack(
+          children: [
+            child!,
+            if (isLoading)
+              AbsorbPointer(
+                child: LoaderWidget(),
               ),
-              Image(
-                image: AssetImage('assets/logo.jpg'),
-                height: 150.0,
-              ),
-              Spacer(
-                flex: 4,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: RoundedButtonWidget(
-                      onTap: () {
-                        if (_isIOS) {
-                          ///for iOS
-                        } else {
-                          _signInAnonymously(context);
-                        }
-                      },
-                      child: _isIOS
-                          ? SvgPicture.asset(
-                              'assets/icons/apple.svg',
-                              height: 50,
-                            )
-                          : Text(
-                              'Anonymous\nSign In',
-                              textAlign: TextAlign.center,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .copyWith(
-                                    fontSize: 16,
-                                  ),
-                            ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 16,
-                  ),
-                  Expanded(
-                    child: RoundedButtonWidget(
-                      onTap: () => _signInWithGoogle(context),
-                      child: SvgPicture.asset(
-                        'assets/icons/google.svg',
-                        height: 50,
+          ],
+        );
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Spacer(
+                  flex: 4,
+                ),
+                Image(
+                  image: AssetImage('assets/logo.jpg'),
+                  height: 150.0,
+                ),
+                Spacer(
+                  flex: 4,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Expanded(
+                      child: RoundedButtonWidget(
+                        onTap: () {
+                          if (_isIOS) {
+                            ///for iOS
+                          } else {
+                            _signInAnonymously(context);
+                          }
+                        },
+                        child: _isIOS
+                            ? SvgPicture.asset(
+                                'assets/icons/apple.svg',
+                                height: 50,
+                              )
+                            : Text(
+                                'Anonymous\nSign In',
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(
+                                      fontSize: 16,
+                                    ),
+                              ),
                       ),
                     ),
+                    SizedBox(
+                      width: 16,
+                    ),
+                    Expanded(
+                      child: RoundedButtonWidget(
+                        onTap: () => _signInWithGoogle(context),
+                        child: SvgPicture.asset(
+                          'assets/icons/google.svg',
+                          height: 50,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                if (_isIOS)
+                  RoundedButtonWidget(
+                    onTap: () => Navigator.pushNamed(context, HomeScreen.id),
+                    child: Text(
+                      'Anonymous Sign In',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 24, color: Colors.black),
+                    ),
                   ),
-                ],
-              ),
-              Spacer(
-                flex: 1,
-              ),
-              if (_isIOS)
-                RoundedButtonWidget(
-                  onTap: () => Navigator.pushNamed(context, HomeScreen.id),
+                Spacer(
+                  flex: _isIOS ? 2 : 4,
+                ),
+                TextButton(
+                  onPressed: () async => await _termsConditionsLink(),
                   child: Text(
-                    'Anonymous Sign In',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyText1!
-                        .copyWith(fontSize: 24, color: Colors.black),
+                    'Term & Conditions',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
                   ),
                 ),
-              Spacer(
-                flex: _isIOS ? 2 : 4,
-              ),
-              TextButton(
-                onPressed: () async => await _termsConditionsLink(),
-                child: Text(
-                  'Term & Conditions',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -127,23 +147,28 @@ class LoginScreen extends StatelessWidget {
       listen: false,
     );
 
+    final powerOffProvider = Provider.of<PowerOffProvider>(
+      context,
+      listen: false,
+    );
+
+    //probably move somewhere
+    powerOffProvider.loadingStatus.value = true;
+
     await userProvider.signInWithGoogle().then(
       (user) async {
         if (user != null) {
-          final powerOffProvider = Provider.of<PowerOffProvider>(
-            context,
-            listen: false,
-          );
-
           await powerOffProvider.init();
 
           await Navigator.pushReplacementNamed(
             context,
             HomeScreen.id,
           );
-        }
+        } else {}
       },
       onError: (_) {
+        powerOffProvider.loadingStatus.value = false;
+
         log('Aborted sign in with google');
       },
     );
@@ -155,23 +180,30 @@ class LoginScreen extends StatelessWidget {
       listen: false,
     );
 
+    final powerOffProvider = Provider.of<PowerOffProvider>(
+      context,
+      listen: false,
+    );
+
+    //probably move somewhere
+    powerOffProvider.loadingStatus.value = true;
+
     await userProvider.signInAnonymously().then(
       (user) async {
         if (user != null) {
-          final powerOffProvider = Provider.of<PowerOffProvider>(
-            context,
-            listen: false,
-          );
-
-          await powerOffProvider.init();
-
           await Navigator.pushReplacementNamed(
             context,
             HomeScreen.id,
           );
+
+          await powerOffProvider.init();
+        } else {
+          powerOffProvider.loadingStatus.value = false;
         }
       },
       onError: (_) {
+        powerOffProvider.loadingStatus.value = false;
+
         log('Error while signing in anonymous');
       },
     );
