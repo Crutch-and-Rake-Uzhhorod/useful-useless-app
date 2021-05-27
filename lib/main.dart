@@ -14,7 +14,6 @@ import 'src/ui/home/home_screen.dart';
 import 'src/ui/login/login_screen.dart';
 import 'src/ui/splash/splash_screen.dart';
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -71,7 +70,10 @@ class Multi extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider<PowerOffProvider>(
-          create: (_) => PowerOffProvider(mockRepository),
+          create: (_) => PowerOffProvider(
+            firestoreService: firestoreService,
+            mockRepository: mockRepository,
+          ),
         ),
       ],
       child: child,

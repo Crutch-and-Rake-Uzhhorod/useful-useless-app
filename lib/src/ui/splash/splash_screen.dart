@@ -9,6 +9,7 @@ import 'widgets/custom_animation.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'splash_screen';
+
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -39,7 +40,8 @@ class _SplashScreenState extends State<SplashScreen> {
     final isLogged = userProvider.isUserLoggedIn();
 
     await powerOffProvider.init();
-    await userProvider.checkIsAppleSignInAvailable();
+
+    // await userProvider.checkIsAppleSignInAvailable();
     Future.delayed(Duration(seconds: 3), () {
       if (isLogged) {
         Navigator.pushReplacementNamed(context, HomeScreen.id);

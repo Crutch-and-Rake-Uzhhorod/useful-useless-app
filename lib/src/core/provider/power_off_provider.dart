@@ -7,21 +7,25 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../repository/mock_repository.dart';
+import '../services/firestore_service.dart';
 
 //TODO: create list of [LocationModel]
 
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
-  PowerOffProvider(this._mockRepository) {
-    //_mockRepository = MockRepository();
-  }
+  PowerOffProvider({
+    required FirestoreService firestoreService,
+    required this.mockRepository,
+  }) : _firestoreService = firestoreService;
 
   ///city == 0 => Uzhgorod
   ///city == 1 => Lvov
   ///.....
   int? city = -1;
 
-  final MockRepository? _mockRepository;
+  final MockRepository mockRepository;
+
+  final FirestoreService _firestoreService;
 
   List<Set<Marker>>? _markers;
 
@@ -34,17 +38,17 @@ class PowerOffProvider with ChangeNotifier {
       UnmodifiableListView<DateTime>(_dates!);
 
   Future<void> init() async {
-    //will be replaced with some method which will generate markers and dates from retrieved data
-    _markers = await _mockRepository!.getMarkers(
+    // will be replaced with some method which will generate markers and dates from retrieved data
+    _markers = await mockRepository.getMarkers(
         //TODO: change for real amount of markers
         iconForMap: await _convertingIconIntoBytes());
-    _dates = await _mockRepository!.getDates();
+    _dates = await mockRepository.getDates();
   }
 
   Future<BitmapDescriptor> _convertingIconIntoBytes() async {
     final dateTimeNow = DateTime.now();
 
-    final date = await _mockRepository!.getDates();
+    final date = await mockRepository.getDates();
     Color? iconColor;
     if (date.elementAt(0).isAtSameMomentAs(dateTimeNow)) {
       iconColor = Colors.red;

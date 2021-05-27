@@ -4,12 +4,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../models/frame_model.dart';
 
 class FirestoreService {
-  static const String _dayCollectioPath = 'timetable';
+  static const String _dayCollectionPath = 'timetable';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<DateTime>> getDates() async {
-    final mostRecent = await _firestore.collection(_dayCollectioPath).get();
+    final mostRecent = await _firestore.collection(_dayCollectionPath).get();
 
     final dates = mostRecent.docs.map((e) {
       final data = e.data();
@@ -22,7 +22,7 @@ class FirestoreService {
 
   Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
     final housesSnap =
-        await _firestore.collection('${_dayCollectioPath}_$timestamp').get();
+        await _firestore.collection('${_dayCollectionPath}_$timestamp').get();
 
     final list = housesSnap.docs
         .map((e) => FrameModel.fromJson(

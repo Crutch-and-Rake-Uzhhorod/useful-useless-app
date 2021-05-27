@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +12,8 @@ import '../home/home_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';
+
+  bool get _isIOS => defaultTargetPlatform == TargetPlatform.iOS;
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +41,13 @@ class LoginScreen extends StatelessWidget {
                   Expanded(
                     child: RoundedButtonWidget(
                       onTap: () {
-                        if (defaultTargetPlatform == TargetPlatform.iOS) {
+                        if (_isIOS) {
                           ///for iOS
                         } else {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            HomeScreen.id,
-                          );
+                          _signInAnonymously(context);
                         }
                       },
-                      child: defaultTargetPlatform == TargetPlatform.iOS
+                      child: _isIOS
                           ? SvgPicture.asset(
                               'assets/icons/apple.svg',
                               height: 50,
@@ -68,17 +69,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: RoundedButtonWidget(
-                      onTap: () {
-                        Provider.of<UserProvider>(
-                          context,
-                          listen: false,
-                        ).signInWithGoogle().whenComplete(() {
-                          Navigator.pushReplacementNamed(
-                            context,
-                            HomeScreen.id,
-                          );
-                        });
-                      },
+                      onTap: () => _signInWithGoogle(context),
                       child: SvgPicture.asset(
                         'assets/icons/google.svg',
                         height: 50,
@@ -90,7 +81,7 @@ class LoginScreen extends StatelessWidget {
               Spacer(
                 flex: 1,
               ),
-              if (defaultTargetPlatform == TargetPlatform.iOS)
+              if (_isIOS)
                 RoundedButtonWidget(
                   onTap: () => Navigator.pushNamed(context, HomeScreen.id),
                   child: Text(
@@ -102,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
               Spacer(
-                flex: defaultTargetPlatform == TargetPlatform.iOS ? 2 : 4,
+                flex: _isIOS ? 2 : 4,
               ),
               TextButton(
                 onPressed: () async => await _termsConditionsLink(),
@@ -127,5 +118,49 @@ class LoginScreen extends StatelessWidget {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(
+      context,
+      listen: false,
+    );
+
+    await userProvider.signInWithGoogle().then(
+      (user) {
+        if (user != null) {
+          Navigator.pushReplacementNamed(
+            context,
+            HomeScreen.id,
+          );
+        }
+      },
+      onError: (_) {
+        log('Aborted sign in with google');
+      },
+    );
+  }
+
+  Future<void> _signInAnonymously(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(
+      context,
+      listen: false,
+    );
+
+    await userProvider.signInAnonymously().then(
+      (user) {
+        if (user != null) {
+          print(user);
+
+          Navigator.pushReplacementNamed(
+            context,
+            HomeScreen.id,
+          );
+        }
+      },
+      onError: (_) {
+        log('Error while signing in anonymous');
+      },
+    );
   }
 }
