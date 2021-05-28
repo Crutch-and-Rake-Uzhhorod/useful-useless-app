@@ -115,7 +115,7 @@ class PowerOffProvider with ChangeNotifier {
       text: iconStr,
       style: TextStyle(
         letterSpacing: 0.0,
-        fontSize: 72.0,
+        fontSize: 100.0,
         fontFamily: iconData.fontFamily,
         color: iconColor,
       ),
@@ -134,7 +134,7 @@ class PowerOffProvider with ChangeNotifier {
     final picture = pictureRecorder.endRecording();
 
     /// converting picture to Image
-    final image = await picture.toImage(72, 72);
+    final image = await picture.toImage(100, 100);
 
     /// converting form Image to Bytes
     final bytes = await (image.toByteData(format: ImageByteFormat.png));
