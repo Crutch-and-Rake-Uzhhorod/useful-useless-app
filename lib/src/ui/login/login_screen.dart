@@ -193,12 +193,12 @@ class LoginScreen extends StatelessWidget {
     await userProvider.signInAnonymously().then(
       (user) async {
         if (user != null) {
+          await powerOffProvider.init();
+
           await Navigator.pushReplacementNamed(
             context,
             HomeScreen.id,
           );
-
-          await powerOffProvider.init();
         } else {
           powerOffProvider.loadingStatus.value = false;
         }
