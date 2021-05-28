@@ -25,8 +25,7 @@ class GoogleMapsScreen extends StatelessWidget {
                   target: powerOffProvider.chosenLatLng(),
                   zoom: 13.0,
                 ),
-                markers: powerOffProvider
-                    .markers![calendarScrollProvider.currentIndex!],
+                markers: powerOffProvider.markers![0],
               );
             },
           ),

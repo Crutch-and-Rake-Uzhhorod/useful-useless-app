@@ -107,7 +107,7 @@ class ProfileScreen extends StatelessWidget {
   Widget _getUserAvatar(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-    final hasPhoto = user?.photoURL != null;
+    final hasPhoto = !(user?.isAnonymous ?? true) && user?.photoURL != null;
 
     return Container(
       height: 96.0,
@@ -142,7 +142,8 @@ class ProfileScreen extends StatelessWidget {
   String _getUserName(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final user = userProvider.user;
-    if (user?.displayName?.isNotEmpty ?? false) {
+    if (!(user?.isAnonymous ?? true) &&
+        (user?.displayName?.isNotEmpty ?? false)) {
       return user!.displayName!;
     } else {
       return 'Anonymous User';

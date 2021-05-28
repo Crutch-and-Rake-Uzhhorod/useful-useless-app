@@ -20,7 +20,8 @@ class CalendarScrollProvider with ChangeNotifier {
           (DateTime? date) => date!.day.compareTo(_currentDate!.day) == 0,
           orElse: () {
         if (_dates!.length > 1) {
-          return _dates!.elementAt((_dates!.length / 2).ceil())!;
+          // return _dates!.elementAt((_dates!.length / 2).ceil())!;
+          return _dates!.last!;
         } else {
           return _dates!.first!;
         }
