@@ -14,53 +14,65 @@ class CalendarScrollWebWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          child: Consumer<CalendarScrollProvider>(
-            builder: (_, CalendarScrollProvider scrollProvider, __) {
-              return Text(
-                scrollProvider.selectedMonth.toString(),
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                      fontSize: 26,
-                      fontWeight: FontWeight.w500,
-                    ),
-              );
-            },
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(100),
+              ),
+              color: const Color(0xff2F4047),
+            ),
+            alignment: Alignment.center,
+            child: Consumer<CalendarScrollProvider>(
+              builder: (_, CalendarScrollProvider scrollProvider, __) {
+                return Text(
+                  scrollProvider.selectedMonth.toString(),
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                );
+              },
+            ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Container(
-            width: 40,
-            height: scrollSize - 110,
-            child: RotatedBox(
-              quarterTurns: 2,
-              child: Consumer<CalendarScrollProvider>(
-                builder: (_, CalendarScrollProvider scrollProvider, __) {
-                  return NotificationListener(
-                    onNotification: scrollProvider.handleScrollNotification,
-                    child: ListWheelScrollView.useDelegate(
-                      perspective: 0.00002,
-                      squeeze: 1.2,
-                      controller: scrollProvider.fixedExtentScrollController,
-                      itemExtent: 85,
-                      onSelectedItemChanged:
-                          scrollProvider.onSelectedDateChanged,
-                      childDelegate: ListWheelChildBuilderDelegate(
-                        childCount: scrollProvider.dates!.length,
-                        builder: (context, index) => RotatedBox(
-                          quarterTurns: 2,
-                          child: Center(
-                            child: Text(
-                              '${scrollProvider.dates![index]!.day}',
-                              style: _textStyle(context, index),
-                              textAlign: TextAlign.center,
+        Expanded(
+          flex: 3,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Container(
+              height: scrollSize - 110,
+              child: RotatedBox(
+                quarterTurns: 2,
+                child: Consumer<CalendarScrollProvider>(
+                  builder: (_, CalendarScrollProvider scrollProvider, __) {
+                    return NotificationListener(
+                      onNotification: scrollProvider.handleScrollNotification,
+                      child: ListWheelScrollView.useDelegate(
+                        perspective: 0.00002,
+                        squeeze: 1.2,
+                        controller: scrollProvider.fixedExtentScrollController,
+                        itemExtent: 85,
+                        onSelectedItemChanged:
+                            scrollProvider.onSelectedDateChanged,
+                        childDelegate: ListWheelChildBuilderDelegate(
+                          childCount: scrollProvider.dates!.length,
+                          builder: (context, index) => RotatedBox(
+                            quarterTurns: 2,
+                            child: Center(
+                              child: Text(
+                                '${scrollProvider.dates![index]!.day}',
+                                style: _textStyle(context, index),
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           ),
