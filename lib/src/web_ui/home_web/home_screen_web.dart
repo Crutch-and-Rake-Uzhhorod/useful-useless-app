@@ -21,36 +21,38 @@ class HomeScreenWeb extends StatelessWidget {
       create: (BuildContext context) => CalendarScrollProvider(
         dates: powerOffProvider.dates,
       ),
-      child: SidebarWidget(
-        isHome: true,
-        child: Stack(
-          children: <Widget>[
-            Consumer<CalendarScrollProvider>(
-              builder: (_, CalendarScrollProvider calendarScrollProvider, __) {
-                return GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: powerOffProvider.chosenLatLng(),
-                    zoom: 13.0,
-                  ),
-                  markers: powerOffProvider.markers![0],
-                );
-              },
-            ),
-            Align(
-              alignment: Alignment(0.95, -0.75),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(100),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 24),
-                width: 100,
-                height: MediaQuery.of(context).size.height - 150,
-                alignment: Alignment.center,
-                child: CalendarScrollWebWidget(scrollSize: scrollSize),
+      child: Scaffold(
+        body: SidebarWidget(
+          isHome: true,
+          child: Stack(
+            children: <Widget>[
+              Consumer<CalendarScrollProvider>(
+                builder: (_, CalendarScrollProvider calendarScrollProvider, __) {
+                  return GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: powerOffProvider.chosenLatLng(),
+                      zoom: 13.0,
+                    ),
+                    markers: powerOffProvider.markers![0],
+                  );
+                },
               ),
-            ),
-          ],
+              Align(
+                alignment: Alignment(0.95, -0.75),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 24),
+                  width: 100,
+                  height: MediaQuery.of(context).size.height - 150,
+                  alignment: Alignment.center,
+                  child: CalendarScrollWebWidget(scrollSize: scrollSize),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
