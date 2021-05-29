@@ -47,7 +47,7 @@ dependencies:
   flutter_svg: ^0.22.0
   grouped_list: ^4.0.0
   google_maps_flutter_web: ^0.3.0
-
+  collapsible_sidebar: ^2.0.0
 dev_dependencies:
   # adding lint rules and runner // not sure if needed
   pedantic: ^1.11.0
