@@ -11,7 +11,6 @@ import '../profile/profile_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
-  final TabListener tabListener = TabListener();
 
   final List<Widget> tabScreens = <Widget>[
     GoogleMapsScreen(),
@@ -23,42 +22,53 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(context);
 
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      if (powerOffProvider.city == -1) {
-        //TODO: customize dialog widget
-        await showDialog(
+    //rework with shared prefs. mb move to stfull widget?
+    WidgetsBinding.instance!.addPostFrameCallback(
+      (timeStamp) async {
+        if (powerOffProvider.city == -1) {
+          //TODO: customize dialog widget
+          await showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
-                  title: Text('which city'),
-                  content: Text('choose your city'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          powerOffProvider.changeCity(chosenCity: 0);
-                          Navigator.pop(context);
-                        },
-                        child: Text('Uzhgorod')),
-                    TextButton(
-                        onPressed: () {
-                          powerOffProvider.changeCity(chosenCity: 1);
-                          Navigator.pop(context);
-                        },
-                        child: Text('Lvov')),
-                  ],
-                ));
-      }
-      // )
-    });
-    return ChangeNotifierProvider<CalendarScrollProvider>(
-      create: (BuildContext context) => CalendarScrollProvider(
-        dates: powerOffProvider.dates,
-      ),
-      child: ValueListenableBuilder(
-        valueListenable: tabListener.indexedTab,
-        builder: (BuildContext context, dynamic value, child) => Scaffold(
-          body: SafeArea(child: tabScreens.elementAt(value)),
+              title: Text('which city'),
+              content: Text('choose your city'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    powerOffProvider.changeCity(chosenCity: 0);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Uzhgorod'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    powerOffProvider.changeCity(chosenCity: 1);
+                    Navigator.pop(context);
+                  },
+                  child: Text('Lvov'),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CalendarScrollProvider>(
+          create: (_) => CalendarScrollProvider(
+            dates: powerOffProvider.dates,
+          ),
+        ),
+        ChangeNotifierProvider<TabListener>(
+          create: (_) => TabListener(),
+        ),
+      ],
+      child: Consumer<TabListener>(
+        builder: (_, tabListener, __) => Scaffold(
+          body: SafeArea(child: tabScreens.elementAt(tabListener.value)),
           bottomNavigationBar: BottomNavigationBar(
-            currentIndex: value,
+            currentIndex: tabListener.value,
             selectedItemColor: Colors.blueAccent,
             onTap: tabListener.tabIndex,
             items: <BottomNavigationBarItem>[
