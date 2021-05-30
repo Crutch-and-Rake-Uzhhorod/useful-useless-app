@@ -14,11 +14,13 @@ class SidebarWidget extends StatelessWidget {
     this.isSettings = false,
     this.isProfile = false,
   });
+
   final Widget child;
   final bool isHome;
   final bool isLogin;
   final bool isSettings;
   final bool isProfile;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,23 +28,12 @@ class SidebarWidget extends StatelessWidget {
       child: CollapsibleSidebar(
         fitItemsToBottom: true,
         screenPadding: 10,
-        backgroundColor:
-            //isDarkMode ? Colors.grey[700] :
-            const Color(0xff2B3138),
-        selectedIconBox:
-            //isDarkMode ? Colors.deepPurple :
-            const Color(0xff2F4047),
+        backgroundColor: const Color(0xff2B3138),
+        selectedIconBox: const Color(0xff2F4047),
         selectedIconColor: const Color(0xffF3F7F7),
         selectedTextColor: const Color(0xffF3F7F7),
-        unselectedIconColor:
-            //isDarkMode ? Colors.white :
-            const Color(0xff6A7886),
-        unselectedTextColor:
-            //isDarkMode ? Colors.lime[800] :
-            const Color(0xffC0C7D0),
-        // avatarImg: isDarkMode
-        //     ? const AssetImage('assets/black_logo.png')
-        //     : const AssetImage('assets/white_logo.png'),
+        unselectedIconColor: const Color(0xff6A7886),
+        unselectedTextColor: const Color(0xffC0C7D0),
         title: 'NOTIFUCK',
         items: [
           CollapsibleItem(

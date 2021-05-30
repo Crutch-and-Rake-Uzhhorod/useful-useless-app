@@ -88,8 +88,6 @@ class SettingsScreenWeb extends StatelessWidget {
               const Spacer(
                 flex: 2,
               ),
-
-              // const SizedBox(height: 48.0),
               TextButton(
                 style: ButtonStyle(
                   overlayColor:

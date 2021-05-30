@@ -16,7 +16,6 @@ class SplashScreenWeb extends StatefulWidget {
 class _SplashScreenWebState extends State<SplashScreenWeb> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     initWeb();
   }
@@ -46,7 +45,6 @@ class _SplashScreenWebState extends State<SplashScreenWeb> {
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
 
-    // await userProvider.checkIsAppleSignInAvailable();
     Future.delayed(Duration(seconds: 3), () async {
       if (isLogged) {
         await powerOffProvider.init();
