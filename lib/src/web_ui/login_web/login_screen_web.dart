@@ -8,22 +8,22 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/user_provider.dart';
-import '../global/loader_widget.dart';
-import '../global/rounded_button_widget.dart';
-import '../home/home_screen.dart';
+import '../../ui/global/loader_widget.dart';
+import '../../ui/global/rounded_button_widget.dart';
+import '../home_web/home_screen_web.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const String id = 'login_screen';
+class LoginScreenWeb extends StatelessWidget {
+  static const String id = 'login_screen_web';
 
-  bool get _isIOS => defaultTargetPlatform == TargetPlatform.iOS;
-  final Key _key = Key('mobile_loader_key');
+  final Key _key = Key('web_loader_key');
+
   @override
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(
       context,
       listen: false,
     );
-
+    final size = MediaQuery.of(context).size;
     return ValueListenableBuilder<bool>(
       valueListenable: powerOffProvider.loadingStatus,
       builder: (_, isLoading, child) {
@@ -41,81 +41,64 @@ class LoginScreen extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        body: Center(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: const Color(0xff2F4047).withOpacity(0.1),
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  offset: Offset(0, 9),
+                  blurRadius: 20,
+                  spreadRadius: 0.1,
+                ),
+              ],
+            ),
+            height: size.height / 1.5,
+            width: size.width / 2,
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Spacer(
-                  flex: 4,
-                ),
-                Image(
-                  image: AssetImage('assets/logo.jpg'),
-                  height: 150.0,
-                ),
-                Spacer(
-                  flex: 4,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: RoundedButtonWidget(
-                        onTap: () {
-                          if (_isIOS) {
-                            ///for iOS
-                          } else {
-                            _signInAnonymously(context);
-                          }
-                        },
-                        child: _isIOS
-                            ? SvgPicture.asset(
-                                'assets/icons/apple.svg',
-                                height: 50,
-                              )
-                            : Text(
-                                'Anonymous\nSign In',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                      fontSize: 16,
-                                    ),
-                              ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: RoundedButtonWidget(
-                        onTap: () => _signInWithGoogle(context),
-                        child: SvgPicture.asset(
-                          'assets/icons/google.svg',
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                  ],
+                Expanded(
+                  flex: 3,
+                  child: Image(
+                    image: AssetImage('assets/logo.jpg'),
+                  ),
                 ),
                 Spacer(
                   flex: 1,
                 ),
-                if (_isIOS)
-                  RoundedButtonWidget(
-                    onTap: () => Navigator.pushNamed(context, HomeScreen.id),
-                    child: Text(
-                      'Anonymous Sign In',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 24, color: Colors.black),
-                    ),
+                RoundedButtonWidget(
+                  onTap: () {
+                    _signInAnonymously(context);
+                  },
+                  child: Text(
+                    'Anonymous Sign In',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 20,
+                        ),
                   ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                RoundedButtonWidget(
+                  onTap: () => _signInWithGoogle(context),
+                  child: SvgPicture.asset(
+                    'assets/icons/google.svg',
+                    height: 50,
+                  ),
+                ),
                 Spacer(
-                  flex: _isIOS ? 2 : 4,
+                  flex: 1,
                 ),
                 TextButton(
                   onPressed: () async => await _termsConditionsLink(),
@@ -164,7 +147,7 @@ class LoginScreen extends StatelessWidget {
 
           await Navigator.pushReplacementNamed(
             context,
-            HomeScreen.id,
+            HomeScreenWeb.id,
           );
         } else {
           powerOffProvider.loadingStatus.value = false;
@@ -199,7 +182,7 @@ class LoginScreen extends StatelessWidget {
 
           await Navigator.pushReplacementNamed(
             context,
-            HomeScreen.id,
+            HomeScreenWeb.id,
           );
         } else {
           powerOffProvider.loadingStatus.value = false;
