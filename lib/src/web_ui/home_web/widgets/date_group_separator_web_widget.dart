@@ -10,16 +10,18 @@ class DateGroupSeparatorWebWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-
     return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(topRight: Radius.circular(100)),
+        color: Colors.white,
+      ),
       height: 60.0,
-      child: Center(
-        child: Text(
-          DateTimeRepository.dateToMonthDay(date),
-          style: textTheme.headline6?.copyWith(
-            fontWeight: FontWeight.bold,
-            fontSize: 20,
-          ),
+      alignment: Alignment.center,
+      child: Text(
+        DateTimeRepository.dateToMonthDay(date),
+        style: textTheme.headline6?.copyWith(
+          fontWeight: FontWeight.bold,
+          fontSize: 20,
         ),
       ),
     );

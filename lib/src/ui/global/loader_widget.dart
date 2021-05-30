@@ -12,26 +12,38 @@ class LoaderWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 134),
       alignment: Alignment.center,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           LoaderItemWidget(
             color: Colors.purple,
             // size: size.value,
+          ),
+          SizedBox(
+            width: 15,
           ),
           LoaderItemWidget(
             color: Colors.blue,
             millisecondsAnimationDelay: 100,
             //     size: size.value,
           ),
+          SizedBox(
+            width: 15,
+          ),
           LoaderItemWidget(
             color: Colors.lightBlueAccent,
             millisecondsAnimationDelay: 200,
             //     size: size.value,
           ),
+          SizedBox(
+            width: 15,
+          ),
           LoaderItemWidget(
             color: Colors.tealAccent,
             millisecondsAnimationDelay: 300,
             //     size: size.value,
+          ),
+          SizedBox(
+            width: 15,
           ),
           LoaderItemWidget(
             color: Colors.pinkAccent,

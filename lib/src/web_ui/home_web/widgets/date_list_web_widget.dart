@@ -137,11 +137,13 @@ class DateListWebWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GroupedListView<TimetableModel, DateTime>(
       elements: dates,
+      padding: EdgeInsets.zero,
       groupBy: (dates) => dates.timestamp,
       groupSeparatorBuilder: (date) => DateGroupSeparatorWebWidget(
         date: date,
       ),
       order: GroupedListOrder.ASC,
+      stickyHeaderBackgroundColor: const Color(0xff2F4047),
       useStickyGroupSeparators: true,
       itemBuilder: (_, date) {
         final items = date.locations

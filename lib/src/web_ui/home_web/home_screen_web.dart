@@ -12,12 +12,8 @@ class HomeScreenWeb extends StatelessWidget {
   //final LatLng _center = const LatLng(49.839634, 24.029115);
   static const String id = 'home_screen_web';
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
-    final scrollSize = MediaQuery.of(context).size.height - 150;
-
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
 
@@ -26,16 +22,7 @@ class HomeScreenWeb extends StatelessWidget {
         dates: powerOffProvider.dates,
       ),
       child: Scaffold(
-        key: _scaffoldKey,
         extendBodyBehindAppBar: true,
-        endDrawer: Drawer(
-          child: Center(child: DateListWebWidget()),
-        ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () => Scaffold.of(context).openEndDrawer(),
-        //   tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-        //   child: Icon(Icons.list),
-        // ),
         body: Stack(
           children: <Widget>[
             Row(
@@ -44,6 +31,7 @@ class HomeScreenWeb extends StatelessWidget {
                   builder:
                       (_, CalendarScrollProvider calendarScrollProvider, __) {
                     return Expanded(
+                      flex: 5,
                       child: GoogleMap(
                         initialCameraPosition: CameraPosition(
                           target: powerOffProvider.chosenLatLng(),
@@ -54,26 +42,21 @@ class HomeScreenWeb extends StatelessWidget {
                     );
                   },
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    // borderRadius: BorderRadius.circular(100),
+                Expanded(
+                  flex: 2,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                    ),
+                    child: Column(
+                      children: [
+                        Flexible(child: CalendarScrollWebWidget()),
+                        Expanded(flex: 3, child: DateListWebWidget()),
+                      ],
+                    ),
                   ),
-                  padding: const EdgeInsets.only(bottom: 24),
-                  width: 100,
-                  //height: MediaQuery.of(context).size.height - 150,
-                  alignment: Alignment.center,
-                  child: CalendarScrollWebWidget(scrollSize: scrollSize),
                 ),
               ],
-            ),
-            Align(
-              alignment: Alignment(0.85, -0.95),
-              child: FloatingActionButton(
-                onPressed: () => _scaffoldKey.currentState!.openEndDrawer(),
-                tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                child: Icon(Icons.list),
-              ),
             ),
             SidebarWidget(isHome: true, child: Container()),
           ],

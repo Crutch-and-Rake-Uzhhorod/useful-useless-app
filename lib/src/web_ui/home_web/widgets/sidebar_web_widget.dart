@@ -10,12 +10,12 @@ class SidebarWidget extends StatelessWidget {
     required this.child,
     this.isLogin = false,
     this.isHome = false,
-    this.isFilters = false,
+    this.isSettings = false,
   });
   final Widget child;
   final bool isHome;
   final bool isLogin;
-  final bool isFilters;
+  final bool isSettings;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +62,7 @@ class SidebarWidget extends StatelessWidget {
             text: 'Settings',
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, SettingsScreenWeb.id),
-            isSelected: isFilters,
+            isSelected: isSettings,
           ),
         ],
         body: child,
