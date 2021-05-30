@@ -35,6 +35,10 @@ class PowerOffProvider with ChangeNotifier {
   UnmodifiableListView<DateTime>? get dates =>
       UnmodifiableListView<DateTime>(_dates!);
 
+  BitmapDescriptor? _greenIcon;
+  BitmapDescriptor? _yellowIcon;
+  BitmapDescriptor? _redIcon;
+
   //TODO: think about a case when there are no days available
   Future<void> init() async {
     loadingStatus.value = true;
@@ -53,46 +57,43 @@ class PowerOffProvider with ChangeNotifier {
       },
     );
 
-    print(dayToInit.millisecondsSinceEpoch);
     final locations = await _firestoreService.getLocationByDay(
         timestamp: dayToInit.millisecondsSinceEpoch);
 
-    final set = <Marker>{};
-    for (final element in locations) {
-      final icon = await _convertingIconIntoBytes(element.frames.first.start);
+    _greenIcon ??= await _convertingIconIntoBytes(Colors.green);
+    _yellowIcon ??= await _convertingIconIntoBytes(Colors.yellow);
+    _redIcon ??= await _convertingIconIntoBytes(Colors.red);
 
-      set.add(
-        Marker(
-          markerId: MarkerId(element.houseDetails.geoId),
+    _markers = [
+      locations.map((e) {
+        BitmapDescriptor icon;
+        //adjust statements
+        if (e.frames.first.start.isAtSameMomentAs(now)) {
+          icon = _redIcon!;
+        } else if (e.frames.first.start.isBefore(now)) {
+          icon = _yellowIcon!;
+        } else {
+          icon = _greenIcon!;
+        }
+
+        return Marker(
+          markerId: MarkerId(e.houseDetails.geoId),
           position: LatLng(
-            element.houseDetails.location.lat,
-            element.houseDetails.location.lng,
+            e.houseDetails.location.lat,
+            e.houseDetails.location.lng,
           ),
           infoWindow: InfoWindow(
               title:
-                  '${element.houseDetails.street}\n${element.houseDetails.buildingNumber}'),
+                  '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
           icon: icon,
-        ),
-      );
-    }
-
-    _markers = [set];
+        );
+      }).toSet()
+    ];
 
     loadingStatus.value = false;
   }
 
-  Future<BitmapDescriptor> _convertingIconIntoBytes(DateTime date) async {
-    final dateTimeNow = DateTime.now();
-
-    Color? iconColor;
-    if (date.isAtSameMomentAs(dateTimeNow)) {
-      iconColor = Colors.red;
-    } else if (date.isBefore(dateTimeNow)) {
-      iconColor = Colors.yellow;
-    } else {
-      iconColor = Colors.green;
-    }
-
+  Future<BitmapDescriptor> _convertingIconIntoBytes(Color iconColor) async {
     /// the Icon
 
     // if(homeSelected){
