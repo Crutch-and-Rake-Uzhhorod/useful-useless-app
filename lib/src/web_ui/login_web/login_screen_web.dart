@@ -68,9 +68,11 @@ class LoginScreenWeb extends StatelessWidget {
                 // Spacer(
                 //   flex: 3,
                 // ),
-                Image(
-                  image: AssetImage('assets/logo.jpg'),
-                  height: 200.0,
+                Expanded(
+                  flex: 3,
+                  child: Image(
+                    image: AssetImage('assets/logo.jpg'),
+                  ),
                 ),
                 Spacer(
                   flex: 1,

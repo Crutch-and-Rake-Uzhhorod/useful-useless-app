@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/user_provider.dart';
 import '../home_web/home_screen_web.dart';
+import '../login_web/login_screen_web.dart';
 
 class SplashScreenWeb extends StatefulWidget {
   static const String id = 'splash_screen_web';
@@ -21,10 +23,18 @@ class _SplashScreenWebState extends State<SplashScreenWeb> {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Container(
       color: Colors.white,
       child: Center(
-        child: CircularProgressIndicator(),
+        child: JumpingText(
+          'Updating secret data...',
+          style: textTheme.bodyText1?.copyWith(
+            fontSize: 24,
+            color: Colors.black,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
       ),
     );
   }
@@ -35,14 +45,15 @@ class _SplashScreenWebState extends State<SplashScreenWeb> {
     final isLogged = userProvider.isUserLoggedIn();
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
-    await powerOffProvider.init();
 
     // await userProvider.checkIsAppleSignInAvailable();
     Future.delayed(Duration(seconds: 3), () async {
       if (isLogged) {
+        await powerOffProvider.init();
+
         await Navigator.pushReplacementNamed(context, HomeScreenWeb.id);
       } else {
-        await Navigator.pushReplacementNamed(context, HomeScreenWeb.id);
+        await Navigator.pushReplacementNamed(context, LoginScreenWeb.id);
       }
     });
   }

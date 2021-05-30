@@ -22,6 +22,7 @@ class DateGroupSeparatorWebWidget extends StatelessWidget {
         style: textTheme.headline6?.copyWith(
           fontWeight: FontWeight.bold,
           fontSize: 20,
+          color: const Color(0xff2F4047),
         ),
       ),
     );

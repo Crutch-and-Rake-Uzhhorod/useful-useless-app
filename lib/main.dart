@@ -12,6 +12,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
+import 'src/core/provider/settings_provider.dart';
 import 'src/core/provider/user_provider.dart';
 import 'src/core/repository/mock_repository.dart';
 import 'src/core/repository/user_repository.dart';
@@ -111,6 +112,9 @@ class Multi extends StatelessWidget {
           create: (_) => PowerOffProvider(
             firestoreService: firestoreService,
           ),
+        ),
+        ChangeNotifierProvider<SettingsProvider>(
+          create: (_) => SettingsProvider(),
         ),
       ],
       child: child,
