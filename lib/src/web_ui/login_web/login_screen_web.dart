@@ -16,6 +16,7 @@ class LoginScreenWeb extends StatelessWidget {
   static const String id = 'login_screen_web';
 
   final Key _key = Key('web_loader_key');
+
   @override
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(
@@ -65,9 +66,6 @@ class LoginScreenWeb extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                // Spacer(
-                //   flex: 3,
-                // ),
                 Expanded(
                   flex: 3,
                   child: Image(
@@ -77,13 +75,6 @@ class LoginScreenWeb extends StatelessWidget {
                 Spacer(
                   flex: 1,
                 ),
-                // Column(
-                //   mainAxisSize: MainAxisSize.max,
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: <Widget>[
-                //
-                //   ],
-                // ),
                 RoundedButtonWidget(
                   onTap: () {
                     _signInAnonymously(context);
