@@ -21,7 +21,8 @@ class SidebarWidget extends StatelessWidget {
   final bool isProfile;
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20.0),
       child: CollapsibleSidebar(
         fitItemsToBottom: true,
         screenPadding: 10,
