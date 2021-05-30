@@ -38,12 +38,14 @@ class _LoaderItemWidgetState extends State<LoaderItemWidget>
       ..addListener(() {
         setState(() {});
       });
-    Future.delayed(
-      Duration(milliseconds: widget.millisecondsAnimationDelay),
-          () => controller
-        ..forward()
-        ..repeat(reverse: true),
-    );
+    Future.delayed(Duration(milliseconds: widget.millisecondsAnimationDelay),
+        () {
+      if (mounted) {
+        controller
+          ..forward()
+          ..repeat(reverse: true);
+      }
+    });
   }
 
   @override

@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
-import 'package:useful_useless_app/src/web_ui/settings_web/settings_screen_web.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
@@ -24,6 +23,8 @@ import 'src/ui/login/login_screen.dart';
 import 'src/ui/splash/splash_screen.dart';
 import 'src/web_ui/home_web/home_screen_web.dart';
 import 'src/web_ui/login_web/login_screen_web.dart';
+import 'src/web_ui/profile_web/profile_web_screen.dart';
+import 'src/web_ui/settings_web/settings_screen_web.dart';
 import 'src/web_ui/splash_web/splash_screen_web.dart';
 
 Future<void> initLocalNotifications() async {
@@ -155,6 +156,7 @@ class MyApp extends StatelessWidget {
                     LoginScreenWeb.id: (_) => LoginScreenWeb(),
                     HomeScreenWeb.id: (_) => HomeScreenWeb(),
                     SettingsScreenWeb.id: (_) => SettingsScreenWeb(),
+                    ProfileWebScreen.id: (_) => ProfileWebScreen(),
                   }
                 : {
                     SplashScreen.id: (_) => SplashScreen(),

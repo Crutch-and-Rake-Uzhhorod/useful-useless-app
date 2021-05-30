@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'loader_item_widget.dart';
 
 class LoaderWidget extends StatelessWidget {
+  LoaderWidget({Key? key});
   @override
   Widget build(BuildContext context) {
     return Container(

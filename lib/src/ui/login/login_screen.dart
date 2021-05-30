@@ -16,7 +16,7 @@ class LoginScreen extends StatelessWidget {
   static const String id = 'login_screen';
 
   bool get _isIOS => defaultTargetPlatform == TargetPlatform.iOS;
-
+  final Key _key = Key('mobile_loader_key');
   @override
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(
@@ -32,7 +32,9 @@ class LoginScreen extends StatelessWidget {
             child!,
             if (isLoading)
               AbsorbPointer(
-                child: LoaderWidget(),
+                child: LoaderWidget(
+                  key: _key,
+                ),
               ),
           ],
         );
@@ -118,7 +120,7 @@ class LoginScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () async => await _termsConditionsLink(),
                   child: Text(
-                    'Term & Conditions',
+                    'Terms & Conditions',
                     style: TextStyle(
                       fontSize: 16.0,
                     ),

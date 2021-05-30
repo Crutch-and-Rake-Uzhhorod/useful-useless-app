@@ -15,15 +15,14 @@ import '../home_web/home_screen_web.dart';
 class LoginScreenWeb extends StatelessWidget {
   static const String id = 'login_screen_web';
 
-  bool get _isIOS => defaultTargetPlatform == TargetPlatform.iOS;
-
+  final Key _key = Key('web_loader_key');
   @override
   Widget build(BuildContext context) {
     final powerOffProvider = Provider.of<PowerOffProvider>(
       context,
       listen: false,
     );
-
+    final size = MediaQuery.of(context).size;
     return ValueListenableBuilder<bool>(
       valueListenable: powerOffProvider.loadingStatus,
       builder: (_, isLoading, child) {
@@ -32,93 +31,86 @@ class LoginScreenWeb extends StatelessWidget {
             child!,
             if (isLoading)
               AbsorbPointer(
-                child: LoaderWidget(),
+                child: LoaderWidget(
+                  key: _key,
+                ),
               ),
           ],
         );
       },
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        body: Center(
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(
+                color: const Color(0xff2F4047).withOpacity(0.1),
+                width: 2,
+              ),
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.15),
+                  offset: Offset(0, 9),
+                  blurRadius: 20,
+                  spreadRadius: 0.1,
+                ),
+              ],
+            ),
+            height: size.height / 1.5,
+            width: size.width / 2,
+            padding: const EdgeInsets.all(24),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Spacer(
-                  flex: 4,
-                ),
+                // Spacer(
+                //   flex: 3,
+                // ),
                 Image(
                   image: AssetImage('assets/logo.jpg'),
-                  height: 150.0,
-                ),
-                Spacer(
-                  flex: 4,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      child: RoundedButtonWidget(
-                        onTap: () {
-                          if (_isIOS) {
-                            ///for iOS
-                          } else {
-                            _signInAnonymously(context);
-                          }
-                        },
-                        child: _isIOS
-                            ? SvgPicture.asset(
-                                'assets/icons/apple.svg',
-                                height: 50,
-                              )
-                            : Text(
-                                'Anonymous\nSign In',
-                                textAlign: TextAlign.center,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .copyWith(
-                                      fontSize: 16,
-                                    ),
-                              ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                      child: RoundedButtonWidget(
-                        onTap: () => _signInWithGoogle(context),
-                        child: SvgPicture.asset(
-                          'assets/icons/google.svg',
-                          height: 50,
-                        ),
-                      ),
-                    ),
-                  ],
+                  height: 200.0,
                 ),
                 Spacer(
                   flex: 1,
                 ),
-                if (_isIOS)
-                  RoundedButtonWidget(
-                    onTap: () => Navigator.pushNamed(context, HomeScreenWeb.id),
-                    child: Text(
-                      'Anonymous Sign In',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 24, color: Colors.black),
-                    ),
+                // Column(
+                //   mainAxisSize: MainAxisSize.max,
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: <Widget>[
+                //
+                //   ],
+                // ),
+                RoundedButtonWidget(
+                  onTap: () {
+                    _signInAnonymously(context);
+                  },
+                  child: Text(
+                    'Anonymous Sign In',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 20,
+                        ),
                   ),
+                ),
+                SizedBox(
+                  height: 32,
+                ),
+                RoundedButtonWidget(
+                  onTap: () => _signInWithGoogle(context),
+                  child: SvgPicture.asset(
+                    'assets/icons/google.svg',
+                    height: 50,
+                  ),
+                ),
                 Spacer(
-                  flex: _isIOS ? 2 : 4,
+                  flex: 1,
                 ),
                 TextButton(
                   onPressed: () async => await _termsConditionsLink(),
                   child: Text(
-                    'Term & Conditions',
+                    'Terms & Conditions',
                     style: TextStyle(
                       fontSize: 16.0,
                     ),

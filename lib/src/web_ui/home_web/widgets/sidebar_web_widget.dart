@@ -2,6 +2,7 @@ import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:flutter/material.dart';
 
 import '../../login_web/login_screen_web.dart';
+import '../../profile_web/profile_web_screen.dart';
 import '../../settings_web/settings_screen_web.dart';
 import '../home_screen_web.dart';
 
@@ -11,12 +12,13 @@ class SidebarWidget extends StatelessWidget {
     this.isLogin = false,
     this.isHome = false,
     this.isSettings = false,
+    this.isProfile = false,
   });
   final Widget child;
   final bool isHome;
   final bool isLogin;
   final bool isSettings;
-
+  final bool isProfile;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,6 +45,13 @@ class SidebarWidget extends StatelessWidget {
         title: 'NOTIFUCK',
         items: [
           CollapsibleItem(
+            icon: Icons.login,
+            text: 'Log In',
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, LoginScreenWeb.id),
+            isSelected: isLogin,
+          ),
+          CollapsibleItem(
             icon: Icons.home,
             text: 'Home',
             onPressed: () async {
@@ -51,11 +60,11 @@ class SidebarWidget extends StatelessWidget {
             isSelected: isHome,
           ),
           CollapsibleItem(
-            isSelected: isLogin,
-            icon: Icons.account_circle,
-            text: 'Login',
+            isSelected: isProfile,
+            icon: Icons.account_box,
+            text: 'Profile',
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, LoginScreenWeb.id),
+                Navigator.pushReplacementNamed(context, ProfileWebScreen.id),
           ),
           CollapsibleItem(
             icon: Icons.settings,
