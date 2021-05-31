@@ -30,6 +30,9 @@ class ProfileScreen extends StatelessWidget {
               style: textTheme.headline5,
             ),
           ),
+          const SizedBox(
+            height: 16,
+          ),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {},
@@ -45,12 +48,16 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('${'followed_locations'.tr()} (1)'),
+                  Text(
+                    '${'followed_locations'.tr()} (1)',
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {
@@ -73,12 +80,16 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('settings'.tr()),
+                  Text(
+                    'settings'.tr(),
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {},
@@ -94,7 +105,11 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('Terms & conditions'),
+                  Text(
+                    'Terms & conditions',
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),

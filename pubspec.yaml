@@ -51,8 +51,7 @@ dependencies:
   progress_indicators: ^1.0.0
   dio: ^4.0.0
   connectivity: ^3.0.6
-
-
+  custom_navigation_bar: ^0.8.1
 
 dev_dependencies:
   # adding lint rules and runner // not sure if needed
