@@ -6,6 +6,8 @@ import 'package:flutter/rendering.dart';
 
 import '../repository/date_time_repository.dart';
 
+//add callback as listener
+
 class CalendarScrollProvider with ChangeNotifier {
   CalendarScrollProvider({
     UnmodifiableListView<DateTime>? dates,
@@ -21,7 +23,8 @@ class CalendarScrollProvider with ChangeNotifier {
           orElse: () {
         if (_dates!.length > 1) {
           // return _dates!.elementAt((_dates!.length / 2).ceil())!;
-          return _dates!.last!;
+          //temporary first. change to actual later
+          return _dates!.first!;
         } else {
           return _dates!.first!;
         }

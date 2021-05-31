@@ -143,8 +143,8 @@ class ListScreen extends StatelessWidget {
       ),
       order: GroupedListOrder.ASC,
       useStickyGroupSeparators: true,
-      itemBuilder: (_, date) {
-        final items = date.locations
+      itemBuilder: (_, item) {
+        final items = item.locations!
             .map(
               (e) => FrameCardWidget(
                 city: e.houseDetails.city!,

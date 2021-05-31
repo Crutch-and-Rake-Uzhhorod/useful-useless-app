@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/user_provider.dart';
+import 'src/core/repository/marker_repository.dart';
 import 'src/core/repository/mock_repository.dart';
 import 'src/core/repository/user_repository.dart';
 import 'src/core/services/firebase_auth_service.dart';
@@ -51,6 +52,7 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
+  await MarkerRepository.initMarkerIcons();
 
   final mockRepository = MockRepository();
 
