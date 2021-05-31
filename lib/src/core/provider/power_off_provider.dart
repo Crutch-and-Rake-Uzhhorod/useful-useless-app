@@ -33,6 +33,8 @@ class PowerOffProvider with ChangeNotifier {
   UnmodifiableListView<Set<Marker>>? get markers =>
       UnmodifiableListView<Set<Marker>>(_markers!);
 
+  List<TimetableModel> get timetableItems => _timetableItems!;
+
   UnmodifiableListView<DateTime>? get dates =>
       UnmodifiableListView<DateTime>(_timetableItems!.map((e) => e.timestamp));
 

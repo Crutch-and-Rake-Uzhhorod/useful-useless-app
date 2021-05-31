@@ -19,6 +19,7 @@ class HomeScreenWeb extends StatelessWidget {
 
     return ChangeNotifierProvider<CalendarScrollProvider>(
       create: (BuildContext context) => CalendarScrollProvider(
+        stableIndexListener: powerOffProvider.getLocationByDate,
         dates: powerOffProvider.dates,
       ),
       child: Scaffold(
