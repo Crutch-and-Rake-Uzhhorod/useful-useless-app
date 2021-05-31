@@ -67,43 +67,50 @@ class PowerOffProvider with ChangeNotifier {
   }
 
   Future<void> getLocationByDate(int dayIndex) async {
-    final locations = await _firestoreService.getLocationByDay(
-      timestamp:
-          _timetableItems!.elementAt(dayIndex).timestamp.millisecondsSinceEpoch,
-    );
+    if (_timetableItems!.elementAt(dayIndex).locations?.isEmpty ?? true) {
+      loadingStatus.value = true;
+      final locations = await _firestoreService.getLocationByDay(
+        timestamp: _timetableItems!
+            .elementAt(dayIndex)
+            .timestamp
+            .millisecondsSinceEpoch,
+      );
 
-    _timetableItems!.replaceRange(dayIndex, dayIndex + 1, [
-      _timetableItems!.elementAt(dayIndex).copyWith(locations: locations),
-    ]);
+      _timetableItems!.replaceRange(dayIndex, dayIndex + 1, [
+        _timetableItems!.elementAt(dayIndex).copyWith(locations: locations),
+      ]);
 
-    final now = DateTime.now();
-    _markers!.replaceRange(dayIndex, dayIndex + 1, [
-      locations.map((e) {
-        BitmapDescriptor icon;
-        //adjust statements to hours etc
-        if (e.frames.first.start.isAtSameMomentAs(now)) {
-          icon = MarkerRepository.redIcon!;
-        } else if (e.frames.first.start.isBefore(now)) {
-          icon = MarkerRepository.yellowIcon!;
-        } else {
-          icon = MarkerRepository.greenIcon!;
-        }
+      final now = DateTime.now();
+      _markers!.replaceRange(dayIndex, dayIndex + 1, [
+        locations.map((e) {
+          BitmapDescriptor icon;
+          //adjust statements to hours etc
+          if (e.frames.first.start.isAtSameMomentAs(now)) {
+            icon = MarkerRepository.redIcon!;
+          } else if (e.frames.first.start.isBefore(now)) {
+            icon = MarkerRepository.yellowIcon!;
+          } else {
+            icon = MarkerRepository.greenIcon!;
+          }
 
-        return Marker(
-          //since multiple instances can have same geoId set unique values as street_buildNumber
-          markerId: MarkerId(
-              '${e.houseDetails.street}_${e.houseDetails.buildingNumber}'),
-          position: LatLng(
-            e.houseDetails.location.lat,
-            e.houseDetails.location.lng,
-          ),
-          infoWindow: InfoWindow(
-              title:
-                  '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
-          icon: icon,
-        );
-      }).toSet()
-    ]);
+          return Marker(
+            //since multiple instances can have same geoId set unique values as street_buildNumber
+            markerId: MarkerId(
+                '${e.houseDetails.street}_${e.houseDetails.buildingNumber}'),
+            position: LatLng(
+              e.houseDetails.location.lat,
+              e.houseDetails.location.lng,
+            ),
+            infoWindow: InfoWindow(
+                title:
+                    '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
+            icon: icon,
+          );
+        }).toSet()
+      ]);
+      notifyListeners();
+      loadingStatus.value = false;
+    }
   }
 
   void changeCity({int? chosenCity}) {

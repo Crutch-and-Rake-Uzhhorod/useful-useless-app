@@ -11,15 +11,12 @@ class GoogleMapsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider =
-        Provider.of<PowerOffProvider>(context, listen: false);
-
     return Column(
       children: <Widget>[
         const CalendarScrollWidget(),
         Expanded(
-          child: Consumer<CalendarScrollProvider>(
-            builder: (_, CalendarScrollProvider calendarScrollProvider, __) {
+          child: Consumer2<CalendarScrollProvider, PowerOffProvider>(
+            builder: (_, calendarScrollProvider, powerOffProvider, __) {
               return GoogleMap(
                 initialCameraPosition: CameraPosition(
                   target: powerOffProvider.chosenLatLng(),

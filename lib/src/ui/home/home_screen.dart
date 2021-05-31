@@ -20,43 +20,45 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider = Provider.of<PowerOffProvider>(context);
-
-    //rework with shared prefs. mb move to stfull widget?
-    WidgetsBinding.instance!.addPostFrameCallback(
-      (timeStamp) async {
-        if (powerOffProvider.city == -1) {
-          //TODO: customize dialog widget
-          await showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-              title: Text('which city'),
-              content: Text('choose your city'),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    powerOffProvider.changeCity(chosenCity: 0);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Uzhgorod'),
-                ),
-                TextButton(
-                  onPressed: () {
-                    powerOffProvider.changeCity(chosenCity: 1);
-                    Navigator.pop(context);
-                  },
-                  child: Text('Lvov'),
-                ),
-              ],
-            ),
-          );
-        }
-      },
-    );
+    final powerOffProvider =
+        Provider.of<PowerOffProvider>(context, listen: false);
+    //
+    // //rework with shared prefs. mb move to stfull widget?
+    // WidgetsBinding.instance!.addPostFrameCallback(
+    //   (timeStamp) async {
+    //     if (powerOffProvider.city == -1) {
+    //       //TODO: customize dialog widget
+    //       await showDialog(
+    //         context: context,
+    //         builder: (BuildContext context) => AlertDialog(
+    //           title: Text('which city'),
+    //           content: Text('choose your city'),
+    //           actions: [
+    //             TextButton(
+    //               onPressed: () {
+    //                 powerOffProvider.changeCity(chosenCity: 0);
+    //                 Navigator.pop(context);
+    //               },
+    //               child: Text('Uzhgorod'),
+    //             ),
+    //             TextButton(
+    //               onPressed: () {
+    //                 powerOffProvider.changeCity(chosenCity: 1);
+    //                 Navigator.pop(context);
+    //               },
+    //               child: Text('Lvov'),
+    //             ),
+    //           ],
+    //         ),
+    //       );
+    //     }
+    //   },
+    // );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CalendarScrollProvider>(
           create: (_) => CalendarScrollProvider(
+            stableIndexListener: powerOffProvider.getLocationByDate,
             dates: powerOffProvider.dates,
           ),
         ),
