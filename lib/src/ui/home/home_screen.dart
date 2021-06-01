@@ -58,7 +58,6 @@ class HomeScreen extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<CalendarScrollProvider>(
           create: (_) => CalendarScrollProvider(
-            stableIndexListener: powerOffProvider.getLocationByDate,
             dates: powerOffProvider.dates,
           ),
         ),

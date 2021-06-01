@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/power_off_provider.dart';
@@ -44,6 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
         final powerOffProvider =
             Provider.of<PowerOffProvider>(context, listen: false);
         await powerOffProvider.init();
+        unawaited(powerOffProvider.initFullList());
 
         await Navigator.pushReplacementNamed(context, HomeScreen.id);
       } else {

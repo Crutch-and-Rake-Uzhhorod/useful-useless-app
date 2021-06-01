@@ -8,7 +8,6 @@ import '../repository/date_time_repository.dart';
 
 class CalendarScrollProvider with ChangeNotifier {
   CalendarScrollProvider({
-    this.stableIndexListener,
     UnmodifiableListView<DateTime>? dates,
   }) {
     _currentDate = DateTime.now();
@@ -35,8 +34,6 @@ class CalendarScrollProvider with ChangeNotifier {
     );
   }
 
-  final ValueChanged<int>? stableIndexListener;
-
   FixedExtentScrollController? fixedExtentScrollController;
 
   DateTime? _currentDate;
@@ -57,10 +54,6 @@ class CalendarScrollProvider with ChangeNotifier {
     ///verification of scroll activity
     if (scrollNotification is UserScrollNotification &&
         scrollNotification.direction == ScrollDirection.idle) {
-      //check for web
-      if (stableIndexListener != null) {
-        stableIndexListener!(_index!);
-      }
       log(_index.toString());
       final isScrollable = true;
       Future.delayed(
