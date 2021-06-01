@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
     //
-    // //rework with shared prefs. mb move to stfull widget?
+    // TODO: rework with shared prefs. mb move to stfull widget?
     // WidgetsBinding.instance!.addPostFrameCallback(
     //   (timeStamp) async {
     //     if (powerOffProvider.city == -1) {
