@@ -82,7 +82,30 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             const Spacer(
-              flex: 3,
+              flex: 1,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _descriptionStatusElectricity(
+                  text: 'electricity_available'.tr(),
+                  context: context,
+                  colors: Colors.green,
+                ),
+                _descriptionStatusElectricity(
+                  text: 'electricity_half_available'.tr(),
+                  context: context,
+                  colors: Colors.yellow,
+                ),
+                _descriptionStatusElectricity(
+                  text: 'electricity_not_available'.tr(),
+                  context: context,
+                  colors: Colors.red,
+                ),
+              ],
+            ),
+            const Spacer(
+              flex: 1,
             ),
             TextButton(
               style: ButtonStyle(
@@ -104,6 +127,35 @@ class SettingsScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _descriptionStatusElectricity(
+      {required String text,
+      required BuildContext context,
+      required Color colors}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 4, bottom: 4),
+          height: 14,
+          width: 14,
+          decoration: BoxDecoration(
+            color: colors,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontSize: 14,
+              ),
+        ),
+      ],
     );
   }
 

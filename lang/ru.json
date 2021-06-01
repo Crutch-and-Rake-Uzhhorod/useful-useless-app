@@ -10,5 +10,8 @@
   "lang_name" : "Русский",
   "exit" : "Выйти",
   "get_notification": "Получать уведомления об отключениях",
-  "followed_locations" : "Избранные локации"
+  "followed_locations" : "Избранные локации",
+  "electricity_available": "Полноценная подача електроенергии",
+  "electricity_half_available": "Некоторые районы могут быть отключены",
+  "electricity_not_available": "Город обесточен"
 }

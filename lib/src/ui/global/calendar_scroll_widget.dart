@@ -15,6 +15,7 @@ class CalendarScrollWidget extends StatelessWidget with PreferredSizeWidget {
         left: 16,
         right: 16,
       ),
+      padding: const EdgeInsets.only(top: 8),
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.7),
         borderRadius: BorderRadius.circular(32),
@@ -106,5 +107,5 @@ class CalendarScrollWidget extends StatelessWidget with PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(120);
+  Size get preferredSize => Size.fromHeight(130);
 }
