@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:collection';
-import 'dart:ui';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../models/timetable_model.dart';
+import '../repository/marker_repository.dart';
 import '../services/firestore_service.dart';
 
 //TODO: create list of [LocationModel]
@@ -25,121 +26,106 @@ class PowerOffProvider with ChangeNotifier {
 
   List<Set<Marker>>? _markers;
 
-  List<DateTime>? _dates;
+  List<TimetableModel>? _timetableItems;
 
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
 
   UnmodifiableListView<Set<Marker>>? get markers =>
       UnmodifiableListView<Set<Marker>>(_markers!);
 
+  List<TimetableModel> get timetableItems => _timetableItems!;
+
   UnmodifiableListView<DateTime>? get dates =>
-      UnmodifiableListView<DateTime>(_dates!);
+      UnmodifiableListView<DateTime>(_timetableItems!.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
   Future<void> init() async {
     loadingStatus.value = true;
-    _dates = await _firestoreService.getDates();
+    final dates = await _firestoreService.getDates();
+
+    _timetableItems = dates!.map((e) => TimetableModel(timestamp: e)).toList();
+
+    if (_timetableItems == null) {
+      return;
+    }
+    _markers = List.generate(_timetableItems!.length, (_) => {});
 
     final now = DateTime.now();
-    final dayToInit = _dates!.firstWhere(
-      (DateTime? date) => date!.day.compareTo(now.day) == 0,
+    final dayIndex = dates.indexOf(dates.firstWhere(
+      (date) => date.day.compareTo(now.day) == 0,
       orElse: () {
-        if (_dates!.length > 1) {
+        if (dates.length > 1) {
           //temporary first. change to actual later
-          return _dates!.first;
+          return dates.first;
         } else {
-          return _dates!.first;
+          return dates.first;
         }
       },
-    );
+    ));
 
-    print(dayToInit.millisecondsSinceEpoch);
-    final locations = await _firestoreService.getLocationByDay(
-        timestamp: dayToInit.millisecondsSinceEpoch);
-
-    final set = <Marker>{};
-    for (final element in locations) {
-      final icon = await _convertingIconIntoBytes(element.frames.first.start);
-
-      set.add(
-        Marker(
-          markerId: MarkerId(element.houseDetails.geoId),
-          position: LatLng(
-            element.houseDetails.location.lat,
-            element.houseDetails.location.lng,
-          ),
-          infoWindow: InfoWindow(
-              title:
-                  '${element.houseDetails.street}\n${element.houseDetails.buildingNumber}'),
-          icon: icon,
-        ),
-      );
-    }
-
-    _markers = [set];
+    await getLocationByDate(dayIndex);
 
     loadingStatus.value = false;
   }
 
-  Future<BitmapDescriptor> _convertingIconIntoBytes(DateTime date) async {
-    final dateTimeNow = DateTime.now();
-
-    Color? iconColor;
-    if (date.isAtSameMomentAs(dateTimeNow)) {
-      iconColor = Colors.red;
-    } else if (date.isBefore(dateTimeNow)) {
-      iconColor = Colors.yellow;
-    } else {
-      iconColor = Colors.green;
+  Future<void> initFullList() async {
+    //ignore: omit_local_variable_types
+    for (int i = 0; i < _timetableItems!.length; i++) {
+      await getLocationByDate(i);
     }
+  }
 
-    /// the Icon
+  Future<void> getLocationByDate(int dayIndex) async {
+    if (_timetableItems!.elementAt(dayIndex).locations?.isEmpty ?? true) {
+      loadingStatus.value = true;
+      final locations = await _firestoreService.getLocationByDay(
+        timestamp: _timetableItems!
+            .elementAt(dayIndex)
+            .timestamp
+            .millisecondsSinceEpoch,
+      );
 
-    // if(homeSelected){
-    //   iconData = Icons.home;
-    // } else {
-    final iconData = Icons.bolt;
-    // }
-    /// creating Canvas
-    final pictureRecorder = PictureRecorder();
-    final canvas = Canvas(pictureRecorder);
+      _timetableItems!.replaceRange(dayIndex, dayIndex + 1, [
+        _timetableItems!.elementAt(dayIndex).copyWith(locations: locations),
+      ]);
 
-    /// painting previously created Canvas
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+      final now = DateTime.now();
+      final nowTimestamp = now.millisecondsSinceEpoch;
+      _markers!.replaceRange(dayIndex, dayIndex + 1, [
+        locations.map((e) {
+          BitmapDescriptor icon;
+          //adjust statements to hours etc
 
-    /// expressing icon as a String to be painted
-    final iconStr = String.fromCharCode(iconData.codePoint);
+          //1) if current time is inside time frame
+          //2) if power off to be started
+          //3) if power off is finished
+          if (nowTimestamp >= e.frames.first.start.millisecondsSinceEpoch &&
+              nowTimestamp < e.frames.first.end.millisecondsSinceEpoch) {
+            icon = MarkerRepository.redIcon!;
+          } else if (now.isBefore(e.frames.first.start)) {
+            icon = MarkerRepository.yellowIcon!;
+          } else {
+            icon = MarkerRepository.greenIcon!;
+          }
 
-    /// customizing the Icon
-    textPainter.text = TextSpan(
-      text: iconStr,
-      style: TextStyle(
-        letterSpacing: 0.0,
-        fontSize: 100.0,
-        fontFamily: iconData.fontFamily,
-        color: iconColor,
-      ),
-    );
-    textPainter.layout();
-    textPainter.paint(
-      canvas,
-      Offset(0.0, 0.0),
-    );
-
-    /// those variables should be here.
-    /// don`t touch them unless good code refactor
-    ///
-    ///
-    /// creating picture from Canvas
-    final picture = pictureRecorder.endRecording();
-
-    /// converting picture to Image
-    final image = await picture.toImage(100, 100);
-
-    /// converting form Image to Bytes
-    final bytes = await (image.toByteData(format: ImageByteFormat.png));
-
-    return BitmapDescriptor.fromBytes(bytes!.buffer.asUint8List());
+          return Marker(
+            //since multiple instances can have same geoId set unique values as street_buildNumber
+            markerId: MarkerId(
+                '${e.houseDetails.street}_${e.houseDetails.buildingNumber}'),
+            position: LatLng(
+              e.houseDetails.location.lat,
+              e.houseDetails.location.lng,
+            ),
+            infoWindow: InfoWindow(
+                title:
+                    '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
+            icon: icon,
+          );
+        }).toSet()
+      ]);
+      notifyListeners();
+      loadingStatus.value = false;
+    }
   }
 
   void changeCity({int? chosenCity}) {

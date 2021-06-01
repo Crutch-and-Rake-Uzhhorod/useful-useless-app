@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -144,7 +145,7 @@ class LoginScreenWeb extends StatelessWidget {
       (user) async {
         if (user != null) {
           await powerOffProvider.init();
-
+          unawaited(powerOffProvider.initFullList());
           await Navigator.pushReplacementNamed(
             context,
             HomeScreenWeb.id,
@@ -180,6 +181,7 @@ class LoginScreenWeb extends StatelessWidget {
         if (user != null) {
           await powerOffProvider.init();
 
+          unawaited(powerOffProvider.initFullList());
           await Navigator.pushReplacementNamed(
             context,
             HomeScreenWeb.id,

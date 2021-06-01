@@ -18,7 +18,7 @@ class HomeScreenWeb extends StatelessWidget {
         Provider.of<PowerOffProvider>(context, listen: false);
 
     return ChangeNotifierProvider<CalendarScrollProvider>(
-      create: (BuildContext context) => CalendarScrollProvider(
+      create: (_) => CalendarScrollProvider(
         dates: powerOffProvider.dates,
       ),
       child: Scaffold(
@@ -27,9 +27,8 @@ class HomeScreenWeb extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                Consumer<CalendarScrollProvider>(
-                  builder:
-                      (_, CalendarScrollProvider calendarScrollProvider, __) {
+                Consumer2<CalendarScrollProvider, PowerOffProvider>(
+                  builder: (_, calendarScrollProvider, powerOffProvider, __) {
                     return Expanded(
                       flex: 5,
                       child: GoogleMap(
@@ -37,7 +36,9 @@ class HomeScreenWeb extends StatelessWidget {
                           target: powerOffProvider.chosenLatLng(),
                           zoom: 13.0,
                         ),
-                        markers: powerOffProvider.markers![0],
+                        markers: powerOffProvider.markers!.elementAt(
+                          calendarScrollProvider.currentIndex!,
+                        ),
                       ),
                     );
                   },

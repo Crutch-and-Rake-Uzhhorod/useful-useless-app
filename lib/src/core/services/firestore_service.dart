@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,16 +10,21 @@ class FirestoreService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<DateTime>> getDates() async {
-    final mostRecent = await _firestore.collection(_dayCollectionPath).get();
+  Future<List<DateTime>?> getDates() async {
+    try {
+      final mostRecent = await _firestore.collection(_dayCollectionPath).get();
 
-    final dates = mostRecent.docs.map((e) {
-      final data = e.data();
-      final rawTimestamp = data['timestamp'] as Timestamp;
-      return rawTimestamp.toDate().toLocal();
-    }).toList();
+      final dates = mostRecent.docs.map((e) {
+        final data = e.data();
+        final rawTimestamp = data['timestamp'] as Timestamp;
+        return rawTimestamp.toDate().toLocal();
+      }).toList();
 
-    return dates;
+      return dates;
+    } catch (e) {
+      log('Error while retrieving dates: $e');
+      return null;
+    }
   }
 
   Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
@@ -26,15 +33,11 @@ class FirestoreService {
         .where('house_details.city', isEqualTo: 'Львів')
         .get();
 
-    print('${_dayCollectionPath}_$timestamp');
-
     final list = housesSnap.docs
         .map((e) => FrameModel.fromJson(
               e.data(),
             ))
         .toList();
-
-    print(list);
 
     return list;
   }

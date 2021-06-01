@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ import '../login_web/login_screen_web.dart';
 
 class SplashScreenWeb extends StatefulWidget {
   static const String id = 'splash_screen_web';
+
   @override
   _SplashScreenWebState createState() => _SplashScreenWebState();
 }
@@ -49,6 +51,7 @@ class _SplashScreenWebState extends State<SplashScreenWeb> {
       if (isLogged) {
         await powerOffProvider.init();
 
+        unawaited(powerOffProvider.initFullList());
         await Navigator.pushReplacementNamed(context, HomeScreenWeb.id);
       } else {
         await Navigator.pushReplacementNamed(context, LoginScreenWeb.id);
