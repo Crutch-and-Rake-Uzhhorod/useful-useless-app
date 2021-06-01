@@ -68,6 +68,13 @@ class PowerOffProvider with ChangeNotifier {
     loadingStatus.value = false;
   }
 
+  Future<void> initFullList() async {
+    //ignore: omit_local_variable_types
+    for (int i = 0; i < _timetableItems!.length; i++) {
+      await getLocationByDate(i);
+    }
+  }
+
   Future<void> getLocationByDate(int dayIndex) async {
     if (_timetableItems!.elementAt(dayIndex).locations?.isEmpty ?? true) {
       loadingStatus.value = true;
@@ -83,13 +90,19 @@ class PowerOffProvider with ChangeNotifier {
       ]);
 
       final now = DateTime.now();
+      final nowTimestamp = now.millisecondsSinceEpoch;
       _markers!.replaceRange(dayIndex, dayIndex + 1, [
         locations.map((e) {
           BitmapDescriptor icon;
           //adjust statements to hours etc
-          if (e.frames.first.start.isAtSameMomentAs(now)) {
+
+          //1) if current time is inside time frame
+          //2) if power off to be started
+          //3) if power off is finished
+          if (nowTimestamp >= e.frames.first.start.millisecondsSinceEpoch &&
+              nowTimestamp < e.frames.first.end.millisecondsSinceEpoch) {
             icon = MarkerRepository.redIcon!;
-          } else if (e.frames.first.start.isBefore(now)) {
+          } else if (now.isBefore(e.frames.first.start)) {
             icon = MarkerRepository.yellowIcon!;
           } else {
             icon = MarkerRepository.greenIcon!;

@@ -14,41 +14,40 @@ class DateListWebWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider = Provider.of<PowerOffProvider>(
-      context,
-      listen: false,
-    );
+    return Consumer<PowerOffProvider>(
+      builder: (_, powerOffProvider, __) {
+        return GroupedListView<TimetableModel, DateTime>(
+          elements: powerOffProvider.timetableItems,
+          groupBy: (items) => items.timestamp,
+          padding: EdgeInsets.zero,
+          groupSeparatorBuilder: (date) => DateGroupSeparatorWebWidget(
+            date: date,
+          ),
+          order: GroupedListOrder.ASC,
+          stickyHeaderBackgroundColor: const Color(0xff2F4047),
+          useStickyGroupSeparators: true,
+          itemBuilder: (_, item) {
+            if (item.locations != null) {
+              final items = item.locations!
+                  .map(
+                    (e) => FrameCardWebWidget(
+                      city: e.houseDetails.city!,
+                      street: e.houseDetails.street!,
+                      buildingNumber: e.houseDetails.buildingNumber,
+                      timeFrames: e.frames,
+                    ),
+                  )
+                  .toList();
 
-    return GroupedListView<TimetableModel, DateTime>(
-      elements: powerOffProvider.timetableItems,
-      groupBy: (items) => items.timestamp,
-      padding: EdgeInsets.zero,
-      groupSeparatorBuilder: (date) => DateGroupSeparatorWebWidget(
-        date: date,
-      ),
-      order: GroupedListOrder.ASC,
-      stickyHeaderBackgroundColor: const Color(0xff2F4047),
-      useStickyGroupSeparators: true,
-      itemBuilder: (_, item) {
-        if (item.locations != null) {
-          final items = item.locations!
-              .map(
-                (e) => FrameCardWebWidget(
-                  city: e.houseDetails.city!,
-                  street: e.houseDetails.street!,
-                  buildingNumber: e.houseDetails.buildingNumber,
-                  timeFrames: e.frames,
-                ),
-              )
-              .toList();
-
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: items,
-          );
-        } else {
-          return const SizedBox();
-        }
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: items,
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        );
       },
     );
   }
