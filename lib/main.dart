@@ -13,10 +13,11 @@ import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/settings_provider.dart';
-import 'src/core/provider/user_provider.dart';
+import 'src/core/provider/user_auth_provider.dart';
 import 'src/core/repository/marker_repository.dart';
 import 'src/core/repository/mock_repository.dart';
-import 'src/core/repository/user_repository.dart';
+import 'src/core/repository/user_auth_repository.dart';
+import 'src/core/repository/user_data_repository.dart';
 import 'src/core/services/firebase_auth_service.dart';
 import 'src/core/services/firestore_service.dart';
 import 'src/core/services/push_notification_service.dart';
@@ -71,8 +72,12 @@ Future<void> main() async {
     firestoreService: firestoreService,
   );
 
-  final userRepository = UserRepository(
+  final userAuthRepository = UserAuthRepository(
     firebaseAuthService: firebaseAuthService,
+  );
+
+  final userDataRepository = UserDataRepository(
+    firestoreService: firestoreService,
   );
 
   runApp(
@@ -80,7 +85,8 @@ Future<void> main() async {
       mockRepository: mockRepository,
       firebaseAuthService: firebaseAuthService,
       firestoreService: firestoreService,
-      userRepository: userRepository,
+      userAuthRepository: userAuthRepository,
+      userDataRepository: userDataRepository,
       child: MyApp(),
     ),
   );
@@ -92,22 +98,24 @@ class Multi extends StatelessWidget {
     required this.mockRepository,
     required this.firestoreService,
     required this.firebaseAuthService,
-    required this.userRepository,
+    required this.userAuthRepository,
+    required this.userDataRepository,
   });
 
   final Widget? child;
   final MockRepository mockRepository;
   final FirebaseAuthService firebaseAuthService;
   final FirestoreService firestoreService;
-  final UserRepository userRepository;
+  final UserAuthRepository userAuthRepository;
+  final UserDataRepository userDataRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<UserProvider>(
-          create: (_) => UserProvider(
-            userRepository: userRepository,
+        ChangeNotifierProvider<UserAuthProvider>(
+          create: (_) => UserAuthProvider(
+            userAuthRepository: userAuthRepository,
           ),
         ),
         ChangeNotifierProvider<PowerOffProvider>(
@@ -116,7 +124,10 @@ class Multi extends StatelessWidget {
           ),
         ),
         ChangeNotifierProvider<SettingsProvider>(
-          create: (_) => SettingsProvider(),
+          create: (_) => SettingsProvider(
+            userAuthRepository: userAuthRepository,
+            userDataRepository: userDataRepository,
+          ),
         ),
       ],
       child: child,
@@ -144,8 +155,8 @@ class MyApp extends StatelessWidget {
       startLocale: Locale('uk', 'UA'),
       saveLocale: true,
       useOnlyLangCode: true,
-      child: Consumer<UserProvider>(
-        builder: (context, UserProvider userProvider, _) {
+      child: Consumer<UserAuthProvider>(
+        builder: (context, UserAuthProvider userProvider, _) {
           return MaterialApp(
             navigatorObservers: [_firebaseAnalyticsObserver],
             title: 'Flutter Demo',

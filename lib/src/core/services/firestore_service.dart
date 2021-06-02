@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
+import '../models/firestore_user_data_model.dart';
 import '../models/frame_model.dart';
 
 class FirestoreService {
@@ -42,24 +42,27 @@ class FirestoreService {
     return list;
   }
 
-  Future<void> addUser() async {}
+  Future<void> addUserIfMissing(
+    String userId,
+    FirestoreUserDataModel userDataModel,
+  ) async {
+    final docRef = _firestore.collection('users').doc(userId);
+    await _firestore.runTransaction((transaction) async {
+      await transaction.get(docRef).then((docSnapshot) {
+        if (!docSnapshot.exists) {
+          transaction.set(docRef, userDataModel.toJson());
+        }
+      });
+    });
+  }
 
-  Future<void> updateUser() async {}
-
-  // moved from auth service. consider to delete it
-  void updateUserData(User user) async {
-    print('updateUserData');
-    var ref = _firestore.collection('users').doc(user.uid);
-
-    await ref.set(
-      {
-        'uid': user.uid,
-        'email': user.email,
-        'photoURL': user.photoURL,
-        'displayName': user.displayName,
-        'lastSeen': DateTime.now()
-      },
-      SetOptions(merge: true),
-    );
+  Future<void> updateUserData(
+    String userId,
+    FirestoreUserDataModel userDataModel,
+  ) async {
+    final docRef = _firestore.collection('users').doc(userId);
+    await _firestore.runTransaction((transaction) async {
+      transaction.set(docRef, userDataModel.toJson(), SetOptions(merge: true));
+    });
   }
 }

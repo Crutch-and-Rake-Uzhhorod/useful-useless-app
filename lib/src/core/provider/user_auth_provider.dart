@@ -1,31 +1,31 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../repository/user_auth_repository.dart';
 // import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-import '../repository/user_repository.dart';
+class UserAuthProvider with ChangeNotifier {
+  UserAuthProvider({
+    required UserAuthRepository userAuthRepository,
+  }) : _userAuthRepository = userAuthRepository;
 
-class UserProvider with ChangeNotifier {
-  UserProvider({
-    required UserRepository userRepository,
-  }) : _userRepository = userRepository;
-
-  final UserRepository _userRepository;
+  final UserAuthRepository _userAuthRepository;
 
   // bool isIphone = false;
 
-  User? get user => _userRepository.currentUser;
+  User? get user => _userAuthRepository.currentUser;
 
   bool isUserLoggedIn() {
     return user != null;
   }
 
   Future<User?> signInWithGoogle() async {
-    return await _userRepository.signInWithGoogle();
+    return await _userAuthRepository.signInWithGoogle();
   }
 
   Future<User?> signInAnonymously() async {
-    return await _userRepository.signInAnonymously();
+    return await _userAuthRepository.signInAnonymously();
   }
 
   //to a better days
@@ -39,6 +39,6 @@ class UserProvider with ChangeNotifier {
   // }
 
   Future<void> signOut() async {
-    await _userRepository.signOut();
+    await _userAuthRepository.signOut();
   }
 }

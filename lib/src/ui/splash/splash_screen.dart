@@ -3,7 +3,7 @@ import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/power_off_provider.dart';
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../home/home_screen.dart';
 import '../login/login_screen.dart';
 import 'widgets/custom_animation.dart';
@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
   //TODO: add {animated_text_kit: ^4.2.0} animated <Loading...> text
 
   Future<void> initAuth() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
 
     final isLogged = userProvider.isUserLoggedIn();
 

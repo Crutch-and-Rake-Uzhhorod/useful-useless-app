@@ -4,7 +4,7 @@ import 'package:progress_indicators/progress_indicators.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/power_off_provider.dart';
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../home_web/home_screen_web.dart';
 import '../login_web/login_screen_web.dart';
 
@@ -41,7 +41,7 @@ class _SplashScreenWebState extends State<SplashScreenWeb> {
   }
 
   Future<void> initWeb() async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
 
     final isLogged = userProvider.isUserLoggedIn();
     final powerOffProvider =

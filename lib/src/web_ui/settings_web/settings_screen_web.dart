@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/settings_provider.dart';
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../../global/localization/language_view.dart';
 import '../../ui/global/rounded_button_widget.dart';
 import '../home_web/widgets/sidebar_web_widget.dart';
@@ -17,7 +17,10 @@ class SettingsScreenWeb extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     final buttonHeight = 100.00;
     final width = MediaQuery.of(context).size.width;
-    final settingsProvider = Provider.of<SettingsProvider>(context);
+    final settingsProvider = Provider.of<SettingsProvider>(
+      context,
+      listen: false,
+    );
     return Scaffold(
       body: SidebarWidget(
         isSettings: true,
@@ -61,9 +64,7 @@ class SettingsScreenWeb extends StatelessWidget {
               const Spacer(),
               RoundedButtonWidget(
                 height: buttonHeight,
-                onTap: () {
-                  settingsProvider.getNotification();
-                },
+                onTap: settingsProvider.getNotification,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: Row(
@@ -75,11 +76,11 @@ class SettingsScreenWeb extends StatelessWidget {
                           fontSize: 24,
                         ),
                       ),
-                      Switch(
-                        value: settingsProvider.switchState,
-                        onChanged: (bool SwitchChange) {
-                          settingsProvider.switchState = SwitchChange;
-                        },
+                      Consumer<SettingsProvider>(
+                        builder: (_, settingsProvider, __) => Switch(
+                          value: settingsProvider.switchState,
+                          onChanged: (_) => settingsProvider.getNotification(),
+                        ),
                       ),
                     ],
                   ),
@@ -114,7 +115,7 @@ class SettingsScreenWeb extends StatelessWidget {
   }
 
   void signOut(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
     if (userProvider.user != null) {
       userProvider.signOut();
     }
