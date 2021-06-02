@@ -16,19 +16,25 @@ class ProfileScreen extends StatelessWidget {
 
     final textTheme = Theme.of(context).textTheme;
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.fromLTRB(width * 0.07, 56.0, width * 0.07, 42.0),
+    return Padding(
+      padding: EdgeInsets.fromLTRB(width * 0.07, 32.0, width * 0.07, 42.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _getUserAvatar(context),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 24.0),
+            padding: const EdgeInsets.only(
+              top: 8.0,
+              bottom: 8,
+            ),
             child: Text(
               _getUserName(context),
               textAlign: TextAlign.center,
               style: textTheme.headline5,
             ),
+          ),
+          const SizedBox(
+            height: 16,
           ),
           RoundedButtonWidget(
             height: 56.0,
@@ -45,12 +51,16 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('${'followed_locations'.tr()} (1)'),
+                  Text(
+                    '${'followed_locations'.tr()} (1)',
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {
@@ -73,12 +83,16 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('settings'.tr()),
+                  Text(
+                    'settings'.tr(),
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),
           ),
-          const SizedBox(height: 20.0),
+          const SizedBox(height: 24.0),
           RoundedButtonWidget(
             height: 56.0,
             onTap: () {},
@@ -94,13 +108,62 @@ class ProfileScreen extends StatelessWidget {
                     color: Colors.black38,
                   ),
                   const SizedBox(width: 16.0),
-                  Text('Terms & conditions'),
+                  Text(
+                    'Terms & conditions',
+                    style: textTheme.bodyText1
+                        ?.copyWith(color: Colors.black, fontSize: 18),
+                  ),
                 ],
               ),
             ),
           ),
+          const SizedBox(
+            height: 16,
+          ),
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 40, left: 16),
+              itemCount: 1,
+              itemBuilder: (BuildContext context, int index) {
+                return _descriptionStatusElectricity(
+                  text: 'Львів',
+                  colors: Colors.yellow,
+                  context: context,
+                );
+              },
+            ),
+          ),
         ],
       ),
+    );
+  }
+
+  Widget _descriptionStatusElectricity(
+      {required String text,
+      required BuildContext context,
+      required Color colors}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Container(
+          margin: const EdgeInsets.only(top: 4, bottom: 4),
+          height: 16,
+          width: 16,
+          decoration: BoxDecoration(
+            color: colors,
+            shape: BoxShape.circle,
+          ),
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Text(
+          text,
+          style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                fontSize: 16,
+              ),
+        ),
+      ],
     );
   }
 

@@ -11,5 +11,8 @@
   "lang_name" : "Українська",
   "exit" : "Вийти",
   "get_notification": "Отримувати сповіщення про відключення",
-  "followed_locations" : "Обрані локації"
+  "followed_locations" : "Обрані локації",
+  "electricity_available": "Повноцінне електропостачання",
+  "electricity_half_available": "Деякі райони міста відключені",
+  "electricity_not_available": "Місто без електроенергії"
 }

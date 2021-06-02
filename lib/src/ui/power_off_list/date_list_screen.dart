@@ -9,7 +9,7 @@ import '../../core/provider/power_off_provider.dart';
 import 'widgets/date_group_separator_widget.dart';
 import 'widgets/list_card_widget.dart';
 
-class ListScreen extends StatelessWidget {
+class PowerOffListScreen extends StatelessWidget {
   static const String id = 'list_screen';
 
   @override

@@ -32,24 +32,42 @@ class FrameCardWidget extends StatelessWidget {
         )
         .toList();
 
-    return Card(
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 3, //
+    return Container(
+      margin: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(2),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: [Colors.white, Colors.black.withOpacity(0.1)],
+          stops: [0, 1],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.15),
+            offset: Offset(10, 12),
+            blurRadius: 10,
+            spreadRadius: 0.1,
           ),
+        ],
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Colors.white,
         ),
         child: Row(
           children: <Widget>[
-            ClipRRect(
-              child: Icon(
-                Icons.home_rounded,
-                size: 80.00,
-              ),
+            Icon(
+              Icons.home_outlined,
+              size: 70.00,
             ),
-            Expanded(
+            Flexible(
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -58,7 +76,7 @@ class FrameCardWidget extends StatelessWidget {
                       child: Text(
                         getLocationText(),
                         textAlign: TextAlign.start,
-                        style: textTheme.headline6?.copyWith(fontSize: 20),
+                        style: textTheme.headline6?.copyWith(fontSize: 18),
                       ),
                     ),
                     ...textFrames,
