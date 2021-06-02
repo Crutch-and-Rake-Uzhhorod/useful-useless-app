@@ -9,10 +9,12 @@ class FrameCardWidget extends StatelessWidget {
     required this.city,
     required this.street,
     required this.timeFrames,
+    this.buildingNumber = '',
   }) : super(key: key);
 
   final String city;
   final String street;
+  final String? buildingNumber;
   final List<TimeFrameModel> timeFrames;
 
   @override
@@ -72,7 +74,7 @@ class FrameCardWidget extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: Text(
-                        '$city, $street',
+                        getLocationText(),
                         textAlign: TextAlign.start,
                         style: textTheme.headline6?.copyWith(fontSize: 18),
                       ),
@@ -86,5 +88,15 @@ class FrameCardWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String getLocationText() {
+    String result;
+    result = '$city, $street';
+    if (buildingNumber?.isNotEmpty ?? false) {
+      result = result + ', $buildingNumber';
+    }
+
+    return result;
   }
 }

@@ -21,7 +21,8 @@ class CalendarScrollProvider with ChangeNotifier {
           orElse: () {
         if (_dates!.length > 1) {
           // return _dates!.elementAt((_dates!.length / 2).ceil())!;
-          return _dates!.last!;
+          //temporary first. change to actual later
+          return _dates!.first!;
         } else {
           return _dates!.first!;
         }

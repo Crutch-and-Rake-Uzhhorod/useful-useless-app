@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  firebase_core : ^1.0.3
+  firebase_core: ^1.0.3
   firebase_auth: ^1.2.0
   cloud_firestore: ^2.2.0
   google_sign_in: ^5.0.4
@@ -33,7 +33,7 @@ dependencies:
   flutter_local_notifications: ^6.0.0
 
   google_maps_flutter: ^2.0.6
-    # adding http requests functionality and ability to parse json
+  # adding http requests functionality and ability to parse json
   http: ^0.13.3
   json_serializable: ^4.1.3
   json_annotation: ^4.0.1
@@ -52,10 +52,10 @@ dependencies:
   dio: ^4.0.0
   connectivity: ^3.0.6
   custom_navigation_bar: ^0.8.1
+  pedantic: ^1.11.0
 
 dev_dependencies:
   # adding lint rules and runner // not sure if needed
-  pedantic: ^1.11.0
   build_runner: ^2.0.4
   flutter_test:
     sdk: flutter
@@ -67,10 +67,10 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-   - lang/ru.json
-   - lang/uk.json
-   - assets/
-   - assets/icons/
+    - lang/ru.json
+    - lang/uk.json
+    - assets/
+    - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
