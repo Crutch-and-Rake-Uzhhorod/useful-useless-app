@@ -21,14 +21,16 @@ class GoogleMapsScreen extends StatelessWidget {
         children: <Widget>[
           Expanded(
             child: Consumer<CalendarScrollProvider>(
-              builder: (_, CalendarScrollProvider calendarScrollProvider, __) {
+              builder: (_, calendarScrollProvider, __) {
                 return GoogleMap(
                   zoomControlsEnabled: false,
                   initialCameraPosition: CameraPosition(
                     target: powerOffProvider.chosenLatLng(),
                     zoom: 13.0,
                   ),
-                  markers: powerOffProvider.markers![0],
+                  markers: powerOffProvider.markers!.elementAt(
+                    calendarScrollProvider.currentIndex!,
+                  ),
                 );
               },
             ),
