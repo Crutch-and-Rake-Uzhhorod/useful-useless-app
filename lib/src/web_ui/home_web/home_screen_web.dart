@@ -27,8 +27,8 @@ class HomeScreenWeb extends StatelessWidget {
           children: <Widget>[
             Row(
               children: [
-                Consumer2<CalendarScrollProvider, PowerOffProvider>(
-                  builder: (_, calendarScrollProvider, powerOffProvider, __) {
+                Consumer<CalendarScrollProvider>(
+                  builder: (_, calendarScrollProvider, __) {
                     return Expanded(
                       flex: 5,
                       child: GoogleMap(
