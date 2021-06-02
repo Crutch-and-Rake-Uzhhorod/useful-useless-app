@@ -62,7 +62,18 @@ class FirestoreService {
   ) async {
     final docRef = _firestore.collection('users').doc(userId);
     await _firestore.runTransaction((transaction) async {
-      transaction.set(docRef, userDataModel.toJson(), SetOptions(merge: true));
+      if (userDataModel.userHouses != null) {
+        await transaction.get(docRef).then((docSnapshot) {
+          final oldModel = FirestoreUserDataModel.fromJson(docSnapshot.data()!);
+          final newModel = userDataModel.copyWith(
+            userHouses: oldModel.userHouses!,
+          );
+          newModel.userHouses!.addAll(userDataModel.userHouses!);
+          transaction.update(docRef, newModel.toJson());
+        });
+      } else {
+        transaction.update(docRef, userDataModel.toJson());
+      }
     });
   }
 }

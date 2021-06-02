@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/firestore_user_data_model.dart';
 import '../repository/user_auth_repository.dart';
 import '../repository/user_data_repository.dart';
 
