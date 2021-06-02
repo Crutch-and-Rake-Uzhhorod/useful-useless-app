@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../core/provider/power_off_provider.dart';
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../global/loader_widget.dart';
 import '../global/rounded_button_widget.dart';
 import '../home/home_screen.dart';
@@ -145,7 +145,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<void> _signInWithGoogle(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(
+    final userProvider = Provider.of<UserAuthProvider>(
       context,
       listen: false,
     );
@@ -181,7 +181,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Future<void> _signInAnonymously(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(
+    final userProvider = Provider.of<UserAuthProvider>(
       context,
       listen: false,
     );

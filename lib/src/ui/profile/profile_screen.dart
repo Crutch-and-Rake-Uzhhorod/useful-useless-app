@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../global/rounded_button_widget.dart';
 import '../settings/settings_screen.dart';
 
@@ -168,7 +168,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   Widget _getUserAvatar(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
     final user = userProvider.user;
     final hasPhoto = !(user?.isAnonymous ?? true) && user?.photoURL != null;
 
@@ -203,7 +203,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   String _getUserName(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
     final user = userProvider.user;
     if (!(user?.isAnonymous ?? true) &&
         (user?.displayName?.isNotEmpty ?? false)) {

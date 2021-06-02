@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../core/provider/user_provider.dart';
+import '../../core/provider/user_auth_provider.dart';
 import '../../ui/global/rounded_button_widget.dart';
 import '../home_web/widgets/sidebar_web_widget.dart';
 import '../settings_web/settings_screen_web.dart';
@@ -152,7 +152,7 @@ class ProfileWebScreen extends StatelessWidget {
   }
 
   Widget _getUserAvatar(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
     final user = userProvider.user;
     final hasPhoto = !(user?.isAnonymous ?? true) && user?.photoURL != null;
 
@@ -187,7 +187,7 @@ class ProfileWebScreen extends StatelessWidget {
   }
 
   String _getUserName(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
     final user = userProvider.user;
     if (!(user?.isAnonymous ?? true) &&
         (user?.displayName?.isNotEmpty ?? false)) {
