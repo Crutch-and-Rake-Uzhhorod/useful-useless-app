@@ -158,6 +158,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<UserAuthProvider>(
         builder: (context, UserAuthProvider userProvider, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             navigatorObservers: [_firebaseAnalyticsObserver],
             title: 'Flutter Demo',
             localizationsDelegates: context.localizationDelegates,

@@ -1,12 +1,13 @@
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/ui/google_maps_screen/google_maps_screen.dart';
 
 import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
 import '../../core/provider/tab_listener.dart';
-import '../google_maps_screen/google_maps_screen.dart';
 import '../power_off_list/date_list_screen.dart';
+import '../power_off_list/water_list_screen.dart';
 import '../profile/profile_screen.dart';
 import '../settings/settings_screen.dart';
 
@@ -15,7 +16,11 @@ class HomeScreen extends StatelessWidget {
 
   final List<Widget> tabScreens = <Widget>[
     GoogleMapsScreen(),
-    PowerOffListScreen(), //List of something in future
+    PowerOffListScreen(),
+    Container(),
+
+    // GoogleMapsScreenWater(),
+    PowerOffWaterListScreen(), //List of something in future
     ProfileScreen(),
     SettingsScreen(),
   ];
@@ -28,29 +33,29 @@ class HomeScreen extends StatelessWidget {
     );
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
-      if (powerOffProvider.city == -1) {
-        //TODO: customize dialog widget
-        await showDialog(
-            context: context,
-            builder: (BuildContext context) => AlertDialog(
-                  title: Text('which city'),
-                  content: Text('choose your city'),
-                  actions: [
-                    TextButton(
-                        onPressed: () {
-                          powerOffProvider.changeCity(chosenCity: 0);
-                          Navigator.pop(context);
-                        },
-                        child: Text('Uzhgorod')),
-                    TextButton(
-                        onPressed: () {
-                          powerOffProvider.changeCity(chosenCity: 1);
-                          Navigator.pop(context);
-                        },
-                        child: Text('Lvov')),
-                  ],
-                ));
-      }
+      // if (powerOffProvider.city == -1) {
+      //   //TODO: customize dialog widget
+      //   await showDialog(
+      //       context: context,
+      //       builder: (BuildContext context) => AlertDialog(
+      //             title: Text('which city'),
+      //             content: Text('choose your city'),
+      //             actions: [
+      //               TextButton(
+      //                   onPressed: () {
+      //                     powerOffProvider.changeCity(chosenCity: 0);
+      //                     Navigator.pop(context);
+      //                   },
+      //                   child: Text('Uzhgorod')),
+      //               TextButton(
+      //                   onPressed: () {
+      //                     powerOffProvider.changeCity(chosenCity: 1);
+      //                     Navigator.pop(context);
+      //                   },
+      //                   child: Text('Lvov')),
+      //             ],
+      //           ));
+      // }
       // )
     });
     return MultiProvider(
@@ -87,7 +92,20 @@ class HomeScreen extends StatelessWidget {
                           items: [
                             CustomNavigationBarItem(
                               icon: Icon(
-                                Icons.map,
+                                Icons.bolt,
+                                //   text: 'map'.tr(),
+                              ),
+                            ),
+                            CustomNavigationBarItem(
+                              icon: Icon(
+                                Icons.list,
+
+                                //text: 'list'.tr(),
+                              ),
+                            ),
+                            CustomNavigationBarItem(
+                              icon: Icon(
+                                Icons.opacity,
                                 //   text: 'map'.tr(),
                               ),
                             ),
