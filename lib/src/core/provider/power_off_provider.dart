@@ -159,7 +159,7 @@ class PowerOffProvider with ChangeNotifier {
             ),
             infoWindow: InfoWindow(
                 title:
-                    '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
+                    'Street: ${e.houseDetails.street}\nBuilding number: ${e.houseDetails.buildingNumber}'),
             icon: icon,
           );
         }).toSet()
