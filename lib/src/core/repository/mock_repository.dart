@@ -1,4 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:useful_useless_app/src/core/repository/marker_repository.dart';
 
 import '../models/frame_model.dart';
 import '../models/house_details_model.dart';
@@ -6,6 +7,8 @@ import '../models/location_coordinates.dart';
 import '../models/time_frame_model.dart';
 
 class MockRepository {
+  // remove parameter and set icons manually
+  // for maps screen.
   Future<List<Set<Marker>>> getMarkers({
     required BitmapDescriptor iconForMap,
   }) async {
@@ -15,7 +18,7 @@ class MockRepository {
           markerId: MarkerId('lv1_1'),
           position: LatLng(49.839634, 24.029115),
           infoWindow: InfoWindow(title: 'lwow1'),
-          icon: iconForMap,
+          icon: MarkerRepository.greenWater,
         ),
         Marker(
           markerId: MarkerId('lv1_@'),
@@ -71,6 +74,7 @@ class MockRepository {
     ];
   }
 
+  //for scroll. has to be same length as "collections" in getLocationsByDay
   Future<List<DateTime>> getDates() async {
     return <DateTime>[
       DateTime(2021, 7, 4),
@@ -80,72 +84,84 @@ class MockRepository {
     ];
   }
 
-  Future<List<FrameModel>> getLocationByDay(int timestamp) async {
+  // for list screen
+  Future<List<FrameModel>> getLocationByDay(int index) async {
+    /// each list inside list represent single collection of locations in fb
     return [
-      FrameModel(
-        frames: [
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 18),
-            start: DateTime(2021, 7, 7, 17),
+      // index 0. imitates location of first day
+      [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 18),
+              start: DateTime(2021, 7, 7, 17),
+            ),
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 21),
+              start: DateTime(2021, 7, 7, 20),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Капушанська',
+            geoId: '1',
+            location: LocationCoordinates(lat: 46.8763358, lng: 23.0022227),
           ),
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 21),
-            start: DateTime(2021, 7, 7, 20),
-          ),
-        ],
-        houseDetails: HouseDetailsModel(
-          city: 'Ужгород',
-          street: 'вул.Капушанська',
-          geoId: '1',
-          location: LocationCoordinates(lat: 46.8763358, lng: 23.0022227),
         ),
-      ),
-      FrameModel(
-        frames: [
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 17),
-            start: DateTime(2021, 7, 7, 16),
+      ],
+      // 1
+      [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 17),
+              start: DateTime(2021, 7, 7, 16),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Загорська',
+            geoId: '2',
+            location: LocationCoordinates(lat: 49.8763358, lng: 24.0022227),
           ),
-        ],
-        houseDetails: HouseDetailsModel(
-          city: 'Ужгород',
-          street: 'вул.Загорська',
-          geoId: '2',
-          location: LocationCoordinates(lat: 49.8763358, lng: 24.0022227),
         ),
-      ),
-      FrameModel(
-        frames: [
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 18),
-            start: DateTime(2021, 7, 7, 17),
+      ],
+      [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 18),
+              start: DateTime(2021, 7, 7, 17),
+            ),
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 21),
+              start: DateTime(2021, 7, 7, 20),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Капушанська',
+            geoId: '3',
+            location: LocationCoordinates(lat: 48.8763358, lng: 23.0022227),
           ),
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 21),
-            start: DateTime(2021, 7, 7, 20),
-          ),
-        ],
-        houseDetails: HouseDetailsModel(
-          city: 'Ужгород',
-          street: 'вул.Капушанська',
-          geoId: '3',
-          location: LocationCoordinates(lat: 48.8763358, lng: 23.0022227),
         ),
-      ),
-      FrameModel(
-        frames: [
-          TimeFrameModel(
-            end: DateTime(2021, 7, 7, 17),
-            start: DateTime(2021, 7, 7, 16),
+      ],
+      [
+        FrameModel(
+          frames: [
+            TimeFrameModel(
+              end: DateTime(2021, 7, 7, 17),
+              start: DateTime(2021, 7, 7, 16),
+            ),
+          ],
+          houseDetails: HouseDetailsModel(
+            city: 'Ужгород',
+            street: 'вул.Загорська',
+            geoId: '4',
+            location: LocationCoordinates(lat: 50.8763358, lng: 25.0022227),
           ),
-        ],
-        houseDetails: HouseDetailsModel(
-          city: 'Ужгород',
-          street: 'вул.Загорська',
-          geoId: '4',
-          location: LocationCoordinates(lat: 50.8763358, lng: 25.0022227),
         ),
-      ),
-    ];
+      ]
+    ].elementAt(index);
   }
 }

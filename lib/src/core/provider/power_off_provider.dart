@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:useful_useless_app/src/core/repository/mock_repository.dart';
 
 import '../models/timetable_model.dart';
 import '../repository/marker_repository.dart';
@@ -24,31 +25,53 @@ class PowerOffProvider with ChangeNotifier {
 
   final FirestoreService _firestoreService;
 
-  List<Set<Marker>>? _markers;
+  final MockRepository _mockRepository = MockRepository();
 
-  List<TimetableModel>? _timetableItems;
+  //water
+  final List<Set<Marker>> _waterMarkers = [];
+  final List<TimetableModel> _waterTimetableItems = [];
 
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
 
-  UnmodifiableListView<Set<Marker>>? get markers =>
-      UnmodifiableListView<Set<Marker>>(_markers!);
+  UnmodifiableListView<Set<Marker>> get waterMarkers =>
+      UnmodifiableListView<Set<Marker>>(_waterMarkers);
 
-  List<TimetableModel> get timetableItems => _timetableItems!;
+  List<TimetableModel> get waterTimetableItems => _waterTimetableItems;
 
-  UnmodifiableListView<DateTime>? get dates =>
-      UnmodifiableListView<DateTime>(_timetableItems!.map((e) => e.timestamp));
+  UnmodifiableListView<DateTime> get waterDates =>
+      UnmodifiableListView<DateTime>(
+          _waterTimetableItems.map((e) => e.timestamp));
+
+  //power
+  final List<Set<Marker>> _powerMarkers = [];
+
+  final List<TimetableModel> _powerTimetableItems = [];
+
+  UnmodifiableListView<Set<Marker>> get powerMarkers =>
+      UnmodifiableListView<Set<Marker>>(_powerMarkers);
+
+  List<TimetableModel> get powerTimetableItems => _powerTimetableItems;
+
+  UnmodifiableListView<DateTime> get powerDates =>
+      UnmodifiableListView<DateTime>(
+          _powerTimetableItems.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
   Future<void> init() async {
     loadingStatus.value = true;
+
+    await _initWater();
+
     final dates = await _firestoreService.getDates();
 
-    _timetableItems = dates!.map((e) => TimetableModel(timestamp: e)).toList();
-
-    if (_timetableItems == null) {
+    if (dates == null) {
       return;
     }
-    _markers = List.generate(_timetableItems!.length, (_) => {});
+    dates
+        .forEach((e) => _powerTimetableItems.add(TimetableModel(timestamp: e)));
+
+    _powerMarkers.replaceRange(
+        0, 0, List.generate(_powerTimetableItems.length, (_) => {}));
 
     final now = DateTime.now();
     final dayIndex = dates.indexOf(dates.firstWhere(
@@ -70,28 +93,46 @@ class PowerOffProvider with ChangeNotifier {
 
   Future<void> initFullList() async {
     //ignore: omit_local_variable_types
-    for (int i = 0; i < _timetableItems!.length; i++) {
+    for (int i = 0; i < _powerTimetableItems.length; i++) {
       await getLocationByDate(i);
     }
   }
 
+  Future<void> _initWater() async {
+    final waterDates = await _mockRepository.getDates();
+    waterDates
+        .forEach((e) => _waterTimetableItems.add(TimetableModel(timestamp: e)));
+
+    final wMarkers = await _mockRepository.getMarkers(
+        iconForMap: MarkerRepository.greenWater);
+    _waterMarkers.replaceRange(0, 0, wMarkers);
+
+    // ignore: omit_local_variable_types
+    for (int i = 0; i < waterDates.length; i++) {
+      final locations = await _mockRepository.getLocationByDay(i);
+      _waterTimetableItems.replaceRange(i, i + 1, [
+        _waterTimetableItems.elementAt(i).copyWith(locations: locations),
+      ]);
+    }
+  }
+
   Future<void> getLocationByDate(int dayIndex) async {
-    if (_timetableItems!.elementAt(dayIndex).locations?.isEmpty ?? true) {
+    if (_powerTimetableItems.elementAt(dayIndex).locations?.isEmpty ?? true) {
       loadingStatus.value = true;
       final locations = await _firestoreService.getLocationByDay(
-        timestamp: _timetableItems!
+        timestamp: _powerTimetableItems
             .elementAt(dayIndex)
             .timestamp
             .millisecondsSinceEpoch,
       );
 
-      _timetableItems!.replaceRange(dayIndex, dayIndex + 1, [
-        _timetableItems!.elementAt(dayIndex).copyWith(locations: locations),
+      _powerTimetableItems.replaceRange(dayIndex, dayIndex + 1, [
+        _powerTimetableItems.elementAt(dayIndex).copyWith(locations: locations),
       ]);
 
       final now = DateTime.now();
       final nowTimestamp = now.millisecondsSinceEpoch;
-      _markers!.replaceRange(dayIndex, dayIndex + 1, [
+      _powerMarkers.replaceRange(dayIndex, dayIndex + 1, [
         locations.map((e) {
           BitmapDescriptor icon;
           //adjust statements to hours etc
@@ -101,11 +142,11 @@ class PowerOffProvider with ChangeNotifier {
           //3) if power off is finished
           if (nowTimestamp >= e.frames.first.start.millisecondsSinceEpoch &&
               nowTimestamp < e.frames.first.end.millisecondsSinceEpoch) {
-            icon = MarkerRepository.redIcon!;
+            icon = MarkerRepository.redIcon;
           } else if (now.isBefore(e.frames.first.start)) {
-            icon = MarkerRepository.yellowIcon!;
+            icon = MarkerRepository.yellowIcon;
           } else {
-            icon = MarkerRepository.greenIcon!;
+            icon = MarkerRepository.greenIcon;
           }
 
           return Marker(

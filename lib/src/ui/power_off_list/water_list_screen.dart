@@ -20,7 +20,8 @@ class PowerOffWaterListScreen extends StatelessWidget {
     );
 
     return GroupedListView<TimetableModel, DateTime>(
-      elements: powerOffProvider.timetableItems,
+      padding: const EdgeInsets.only(bottom: 80),
+      elements: powerOffProvider.waterTimetableItems,
       groupBy: (items) => items.timestamp,
       groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
         date: date,

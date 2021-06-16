@@ -5,30 +5,42 @@ import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkerRepository {
-  static BitmapDescriptor? _greenIcon;
-  static BitmapDescriptor? _yellowIcon;
-  static BitmapDescriptor? _redIcon;
+  static late final BitmapDescriptor _greenIcon;
+  static late final BitmapDescriptor _yellowIcon;
+  static late final BitmapDescriptor _redIcon;
+  static late final BitmapDescriptor _greenWater;
+  static late final BitmapDescriptor _yellowWater;
+  static late final BitmapDescriptor _redWater;
 
-  static BitmapDescriptor? get greenIcon => _greenIcon;
+  static BitmapDescriptor get greenIcon => _greenIcon;
 
-  static BitmapDescriptor? get yellowIcon => _yellowIcon;
+  static BitmapDescriptor get yellowIcon => _yellowIcon;
 
-  static BitmapDescriptor? get redIcon => _redIcon;
+  static BitmapDescriptor get redIcon => _redIcon;
+
+  static BitmapDescriptor get greenWater => _greenWater;
+
+  static BitmapDescriptor get yellowWater => _yellowWater;
+
+  static BitmapDescriptor get redWater => _redWater;
 
   static Future<void> initMarkerIcons() async {
-    _greenIcon ??= await _convertingIconIntoBytes(Colors.green);
-    _yellowIcon ??= await _convertingIconIntoBytes(Colors.yellow);
-    _redIcon ??= await _convertingIconIntoBytes(Colors.red);
+    _greenIcon = await _convertingIconIntoBytes(Colors.green);
+    _yellowIcon = await _convertingIconIntoBytes(Colors.yellow);
+    _redIcon = await _convertingIconIntoBytes(Colors.red);
+    _greenWater = await _convertingIconIntoBytes(Colors.green, Icons.opacity);
+    _yellowWater = await _convertingIconIntoBytes(Colors.yellow, Icons.opacity);
+    _redWater = await _convertingIconIntoBytes(Colors.red, Icons.opacity);
   }
 
-  static Future<BitmapDescriptor> _convertingIconIntoBytes(
-      Color iconColor) async {
+  static Future<BitmapDescriptor> _convertingIconIntoBytes(Color iconColor,
+      [IconData iconData = Icons.bolt]) async {
     /// the Icon
 
     // if(homeSelected){
     //   iconData = Icons.home;
     // } else {
-    final iconData = Icons.bolt;
+    // final iconData = Icons.bolt;
     // }
     /// creating Canvas
     final pictureRecorder = PictureRecorder();

@@ -14,28 +14,33 @@ class GoogleMapsScreen extends StatelessWidget {
     final powerOffProvider =
         Provider.of<PowerOffProvider>(context, listen: false);
 
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: const CalendarScrollWidget(),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Consumer<CalendarScrollProvider>(
-              builder: (_, calendarScrollProvider, __) {
-                return GoogleMap(
-                  zoomControlsEnabled: false,
-                  initialCameraPosition: CameraPosition(
-                    target: powerOffProvider.chosenLatLng(),
-                    zoom: 13.0,
-                  ),
-                  markers: powerOffProvider.markers!.elementAt(
-                    calendarScrollProvider.currentIndex!,
-                  ),
-                );
-              },
-            ),
-          )
-        ],
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => CalendarScrollProvider(
+        dates: powerOffProvider.powerDates,
+      ),
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        appBar: const CalendarScrollWidget(),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: Consumer<CalendarScrollProvider>(
+                builder: (_, calendarScrollProvider, __) {
+                  return GoogleMap(
+                    zoomControlsEnabled: false,
+                    initialCameraPosition: CameraPosition(
+                      target: powerOffProvider.chosenLatLng(),
+                      zoom: 13.0,
+                    ),
+                    markers: powerOffProvider.powerMarkers.elementAt(
+                      calendarScrollProvider.currentIndex!,
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

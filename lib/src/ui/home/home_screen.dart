@@ -18,8 +18,6 @@ class HomeScreen extends StatelessWidget {
   final List<Widget> tabScreens = <Widget>[
     GoogleMapsScreen(),
     PowerOffListScreen(),
-    Container(),
-
     GoogleMapsScreenWater(),
     PowerOffWaterListScreen(), //List of something in future
     ProfileScreen(),
@@ -61,11 +59,6 @@ class HomeScreen extends StatelessWidget {
     });
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<CalendarScrollProvider>(
-          create: (BuildContext context) => CalendarScrollProvider(
-            dates: powerOffProvider.dates,
-          ),
-        ),
         ChangeNotifierProvider<TabListener>(
           create: (_) => TabListener(),
         ),
