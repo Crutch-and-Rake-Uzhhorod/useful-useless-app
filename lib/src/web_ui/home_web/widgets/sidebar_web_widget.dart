@@ -1,5 +1,8 @@
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:flutter/material.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:provider/provider.dart';
+import 'package:useful_useless_app/src/core/provider/user_auth_provider.dart';
 
 import '../../login_web/login_screen_web.dart';
 import '../../profile_web/profile_web_screen.dart';
@@ -23,6 +26,9 @@ class SidebarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
+    final user = userProvider.user;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
       child: CollapsibleSidebar(
@@ -34,13 +40,16 @@ class SidebarWidget extends StatelessWidget {
         selectedTextColor: const Color(0xffF3F7F7),
         unselectedIconColor: const Color(0xff6A7886),
         unselectedTextColor: const Color(0xffC0C7D0),
-        title: 'NOTIFUCK',
+        title: !user!.isAnonymous ? user.displayName! : 'Anonymous User',
         items: [
           CollapsibleItem(
             icon: Icons.login,
-            text: 'Log In',
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, LoginScreenWeb.id),
+            text: user.isAnonymous ? 'Log In' : 'Sign Out',
+            onPressed: () async {
+              await userProvider.signOut();
+              unawaited(
+                  Navigator.pushReplacementNamed(context, LoginScreenWeb.id));
+            },
             isSelected: isLogin,
           ),
           CollapsibleItem(

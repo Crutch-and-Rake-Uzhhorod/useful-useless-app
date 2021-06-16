@@ -69,8 +69,11 @@ class LoginScreenWeb extends StatelessWidget {
               children: <Widget>[
                 Expanded(
                   flex: 3,
+                  // child: Image(
+                  //   image: AssetImage('assets/logo.jpg'),
+                  // ),
                   child: Image(
-                    image: AssetImage('assets/logo.jpg'),
+                    image: NetworkImage('http://static1.squarespace.com/static/54fe913ee4b01c0d4748c904/t/56c7f8171d07c0b5ce390404/1455945752068/image.jpg?format=1500w'),
                   ),
                 ),
                 Spacer(
@@ -186,9 +189,8 @@ class LoginScreenWeb extends StatelessWidget {
             context,
             HomeScreenWeb.id,
           );
-        } else {
-          powerOffProvider.loadingStatus.value = false;
         }
+        powerOffProvider.loadingStatus.value = false;
       },
       onError: (_) {
         powerOffProvider.loadingStatus.value = false;

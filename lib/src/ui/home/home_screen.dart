@@ -2,6 +2,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:useful_useless_app/src/ui/google_maps_screen/google_maps_screen.dart';
+import 'package:useful_useless_app/src/ui/google_maps_screen/google_maps_screen_water.dart';
 
 import '../../core/provider/calendar_scroll_provider.dart';
 import '../../core/provider/power_off_provider.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
     PowerOffListScreen(),
     Container(),
 
-    // GoogleMapsScreenWater(),
+    GoogleMapsScreenWater(),
     PowerOffWaterListScreen(), //List of something in future
     ProfileScreen(),
     SettingsScreen(),

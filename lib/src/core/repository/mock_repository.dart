@@ -75,8 +75,8 @@ class MockRepository {
     return <DateTime>[
       DateTime(2021, 7, 4),
       DateTime(2021, 7, 6),
-      DateTime(2021, 7, 8),
-      DateTime(2021, 7, 9),
+      DateTime(2021, 8, 8),
+      DateTime(2021, 8, 9),
     ];
   }
 
