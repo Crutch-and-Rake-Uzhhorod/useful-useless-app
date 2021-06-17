@@ -2,6 +2,7 @@ import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:useful_useless_app/src/core/provider/user_auth_provider.dart';
 
 import '../../login_web/login_screen_web.dart';
@@ -40,11 +41,12 @@ class SidebarWidget extends StatelessWidget {
         selectedTextColor: const Color(0xffF3F7F7),
         unselectedIconColor: const Color(0xff6A7886),
         unselectedTextColor: const Color(0xffC0C7D0),
-        title: !user!.isAnonymous ? user.displayName! : 'Anonymous User',
+        avatarImg: user!.photoURL?.isNotEmpty ?? false ? NetworkImage(user.photoURL!) : null,
+        title: !user.isAnonymous ? user.displayName! : 'Anonymous User'.tr(),
         items: [
           CollapsibleItem(
             icon: Icons.login,
-            text: user.isAnonymous ? 'Log In' : 'Sign Out',
+            text: user.isAnonymous ? 'Log In'.tr() : 'Sign Out'.tr(),
             onPressed: () async {
               await userProvider.signOut();
               unawaited(
@@ -54,7 +56,7 @@ class SidebarWidget extends StatelessWidget {
           ),
           CollapsibleItem(
             icon: Icons.home,
-            text: 'Home',
+            text: 'Home'.tr(),
             onPressed: () async {
               await Navigator.pushReplacementNamed(context, HomeScreenWeb.id);
             },
@@ -63,13 +65,13 @@ class SidebarWidget extends StatelessWidget {
           CollapsibleItem(
             isSelected: isProfile,
             icon: Icons.account_box,
-            text: 'Profile',
+            text: 'Profile'.tr(),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, ProfileWebScreen.id),
           ),
           CollapsibleItem(
             icon: Icons.settings,
-            text: 'Settings',
+            text: 'Settings'.tr(),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, SettingsScreenWeb.id),
             isSelected: isSettings,
