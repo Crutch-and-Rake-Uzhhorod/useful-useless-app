@@ -62,10 +62,17 @@ class PowerOffProvider with ChangeNotifier {
 
     await _initWater();
 
-    final dates = await _firestoreService.getDates();
+    final rawDates = await _firestoreService.getDates();
 
-    if (dates == null) {
+    if (rawDates == null) {
       return;
+    }
+
+    final dates = [];
+
+    //ignore: omit_local_variable_types
+    for(int i = 0; i < 5; i++){
+      dates.add(rawDates.elementAt(i));
     }
     _powerTimetableItems.clear();
     dates
