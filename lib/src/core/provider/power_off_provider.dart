@@ -67,11 +67,12 @@ class PowerOffProvider with ChangeNotifier {
     if (dates == null) {
       return;
     }
+    _powerTimetableItems.clear();
     dates
         .forEach((e) => _powerTimetableItems.add(TimetableModel(timestamp: e)));
 
-    _powerMarkers.replaceRange(
-        0, 0, List.generate(_powerTimetableItems.length, (_) => {}));
+    _powerMarkers.clear();
+    _powerMarkers.addAll( List.generate(_powerTimetableItems.length, (_) => {}));
 
     final now = DateTime.now();
     final dayIndex = dates.indexOf(dates.firstWhere(
@@ -100,12 +101,14 @@ class PowerOffProvider with ChangeNotifier {
 
   Future<void> _initWater() async {
     final waterDates = await _mockRepository.getDates();
+    _waterTimetableItems.clear();
     waterDates
         .forEach((e) => _waterTimetableItems.add(TimetableModel(timestamp: e)));
 
     final wMarkers = await _mockRepository.getMarkers(
         iconForMap: MarkerRepository.greenWater);
-    _waterMarkers.replaceRange(0, 0, wMarkers);
+    _waterMarkers.clear();
+    _waterMarkers.addAll(wMarkers);
 
     // ignore: omit_local_variable_types
     for (int i = 0; i < waterDates.length; i++) {
