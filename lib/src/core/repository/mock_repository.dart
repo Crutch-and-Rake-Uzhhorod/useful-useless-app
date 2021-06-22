@@ -1,10 +1,10 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useful_useless_app/src/core/repository/marker_repository.dart';
 
 import '../models/frame_model.dart';
 import '../models/house_details_model.dart';
 import '../models/location_coordinates.dart';
 import '../models/time_frame_model.dart';
+import 'marker_repository.dart';
 
 class MockRepository {
   // remove parameter and set icons manually

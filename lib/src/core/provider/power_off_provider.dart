@@ -4,7 +4,6 @@ import 'dart:collection';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:useful_useless_app/src/core/repository/mock_repository.dart';
 
 import '../models/timetable_model.dart';
 import '../repository/marker_repository.dart';
@@ -25,24 +24,8 @@ class PowerOffProvider with ChangeNotifier {
 
   final FirestoreService _firestoreService;
 
-  final MockRepository _mockRepository = MockRepository();
-
-  //water
-  final List<Set<Marker>> _waterMarkers = [];
-  final List<TimetableModel> _waterTimetableItems = [];
-
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
 
-  UnmodifiableListView<Set<Marker>> get waterMarkers =>
-      UnmodifiableListView<Set<Marker>>(_waterMarkers);
-
-  List<TimetableModel> get waterTimetableItems => _waterTimetableItems;
-
-  UnmodifiableListView<DateTime> get waterDates =>
-      UnmodifiableListView<DateTime>(
-          _waterTimetableItems.map((e) => e.timestamp));
-
-  //power
   final List<Set<Marker>> _powerMarkers = [];
 
   final List<TimetableModel> _powerTimetableItems = [];
@@ -60,26 +43,18 @@ class PowerOffProvider with ChangeNotifier {
   Future<void> init() async {
     loadingStatus.value = true;
 
-    await _initWater();
+    final dates = await _firestoreService.getDates();
 
-    final rawDates = await _firestoreService.getDates();
-
-    if (rawDates == null) {
+    if (dates == null) {
       return;
     }
 
-    final dates = [];
-
-    //ignore: omit_local_variable_types
-    for(int i = 0; i < 5; i++){
-      dates.add(rawDates.elementAt(i));
-    }
     _powerTimetableItems.clear();
     dates
         .forEach((e) => _powerTimetableItems.add(TimetableModel(timestamp: e)));
 
     _powerMarkers.clear();
-    _powerMarkers.addAll( List.generate(_powerTimetableItems.length, (_) => {}));
+    _powerMarkers.addAll(List.generate(_powerTimetableItems.length, (_) => {}));
 
     final now = DateTime.now();
     final dayIndex = dates.indexOf(dates.firstWhere(
@@ -103,26 +78,6 @@ class PowerOffProvider with ChangeNotifier {
     //ignore: omit_local_variable_types
     for (int i = 0; i < _powerTimetableItems.length; i++) {
       await getLocationByDate(i);
-    }
-  }
-
-  Future<void> _initWater() async {
-    final waterDates = await _mockRepository.getDates();
-    _waterTimetableItems.clear();
-    waterDates
-        .forEach((e) => _waterTimetableItems.add(TimetableModel(timestamp: e)));
-
-    final wMarkers = await _mockRepository.getMarkers(
-        iconForMap: MarkerRepository.greenWater);
-    _waterMarkers.clear();
-    _waterMarkers.addAll(wMarkers);
-
-    // ignore: omit_local_variable_types
-    for (int i = 0; i < waterDates.length; i++) {
-      final locations = await _mockRepository.getLocationByDay(i);
-      _waterTimetableItems.replaceRange(i, i + 1, [
-        _waterTimetableItems.elementAt(i).copyWith(locations: locations),
-      ]);
     }
   }
 

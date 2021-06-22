@@ -2,9 +2,9 @@ import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:flutter/material.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:useful_useless_app/src/core/provider/user_auth_provider.dart';
 
+import 'package:easy_localization/easy_localization.dart';
+import '../../../core/provider/user_auth_provider.dart';
 import '../../login_web/login_screen_web.dart';
 import '../../profile_web/profile_web_screen.dart';
 import '../../settings_web/settings_screen_web.dart';

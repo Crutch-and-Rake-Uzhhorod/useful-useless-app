@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/provider/user_auth_provider.dart';
 import '../../ui/global/rounded_button_widget.dart';
 import '../home_web/widgets/sidebar_web_widget.dart';
-import '../settings_web/settings_screen_web.dart';
 
 class ProfileWebScreen extends StatelessWidget {
   static const String id = 'profile_screen';
