@@ -17,7 +17,7 @@ class DateListWebWidget extends StatelessWidget {
     return Consumer<PowerOffProvider>(
       builder: (_, powerOffProvider, __) {
         return GroupedListView<TimetableModel, DateTime>(
-          elements: powerOffProvider.powerTimetableItems,
+          elements: powerOffProvider.timetableItems,
           groupBy: (items) => items.timestamp,
           padding: EdgeInsets.zero,
           groupSeparatorBuilder: (date) => DateGroupSeparatorWebWidget(

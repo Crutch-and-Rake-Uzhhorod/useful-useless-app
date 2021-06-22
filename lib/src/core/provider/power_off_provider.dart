@@ -26,18 +26,18 @@ class PowerOffProvider with ChangeNotifier {
 
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
 
-  final List<Set<Marker>> _powerMarkers = [];
+  final List<Set<Marker>> _markers = [];
 
-  final List<TimetableModel> _powerTimetableItems = [];
+  final List<TimetableModel> _timeTableItems = [];
 
-  UnmodifiableListView<Set<Marker>> get powerMarkers =>
-      UnmodifiableListView<Set<Marker>>(_powerMarkers);
+  UnmodifiableListView<Set<Marker>> get markers =>
+      UnmodifiableListView<Set<Marker>>(_markers);
 
-  List<TimetableModel> get powerTimetableItems => _powerTimetableItems;
+  List<TimetableModel> get timetableItems => _timeTableItems;
 
-  UnmodifiableListView<DateTime> get powerDates =>
+  UnmodifiableListView<DateTime> get dates =>
       UnmodifiableListView<DateTime>(
-          _powerTimetableItems.map((e) => e.timestamp));
+          _timeTableItems.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
   Future<void> init() async {
@@ -49,12 +49,12 @@ class PowerOffProvider with ChangeNotifier {
       return;
     }
 
-    _powerTimetableItems.clear();
+    _timeTableItems.clear();
     dates
-        .forEach((e) => _powerTimetableItems.add(TimetableModel(timestamp: e)));
+        .forEach((e) => _timeTableItems.add(TimetableModel(timestamp: e)));
 
-    _powerMarkers.clear();
-    _powerMarkers.addAll(List.generate(_powerTimetableItems.length, (_) => {}));
+    _markers.clear();
+    _markers.addAll(List.generate(_timeTableItems.length, (_) => {}));
 
     final now = DateTime.now();
     final dayIndex = dates.indexOf(dates.firstWhere(
@@ -76,28 +76,28 @@ class PowerOffProvider with ChangeNotifier {
 
   Future<void> initFullList() async {
     //ignore: omit_local_variable_types
-    for (int i = 0; i < _powerTimetableItems.length; i++) {
+    for (int i = 0; i < _timeTableItems.length; i++) {
       await getLocationByDate(i);
     }
   }
 
   Future<void> getLocationByDate(int dayIndex) async {
-    if (_powerTimetableItems.elementAt(dayIndex).locations?.isEmpty ?? true) {
+    if (_timeTableItems.elementAt(dayIndex).locations?.isEmpty ?? true) {
       loadingStatus.value = true;
       final locations = await _firestoreService.getLocationByDay(
-        timestamp: _powerTimetableItems
+        timestamp: _timeTableItems
             .elementAt(dayIndex)
             .timestamp
             .millisecondsSinceEpoch,
       );
 
-      _powerTimetableItems.replaceRange(dayIndex, dayIndex + 1, [
-        _powerTimetableItems.elementAt(dayIndex).copyWith(locations: locations),
+      _timeTableItems.replaceRange(dayIndex, dayIndex + 1, [
+        _timeTableItems.elementAt(dayIndex).copyWith(locations: locations),
       ]);
 
       final now = DateTime.now();
       final nowTimestamp = now.millisecondsSinceEpoch;
-      _powerMarkers.replaceRange(dayIndex, dayIndex + 1, [
+      _markers.replaceRange(dayIndex, dayIndex + 1, [
         locations.map((e) {
           BitmapDescriptor icon;
           //adjust statements to hours etc

@@ -18,13 +18,13 @@ class MockRepository {
           markerId: MarkerId('lv1_1'),
           position: LatLng(49.839634, 24.029115),
           infoWindow: InfoWindow(title: 'вул.Свободи, 1'),
-          icon: MarkerRepository.greenWater,
+          icon: MarkerRepository.greenIcon,
         ),
         Marker(
           markerId: MarkerId('lv1_@'),
           position: LatLng(49.8444851, 23.9660739),
           infoWindow: InfoWindow(title: 'вул.Івана Сірка, 10'),
-          icon: MarkerRepository.redWater,
+          icon: MarkerRepository.redIcon,
         ),
       },
       <Marker>{
@@ -32,7 +32,7 @@ class MockRepository {
           markerId: MarkerId('lv2'),
           position: LatLng(49.822597, 24.020339),
           infoWindow: InfoWindow(title: 'вул.Стрийска, 48'),
-          icon: MarkerRepository.redWater,
+          icon: MarkerRepository.redIcon,
         ),
       },
       <Marker>{
@@ -40,13 +40,13 @@ class MockRepository {
           markerId: MarkerId('lv3_1'),
           position: LatLng(49.8347901, 23.9951089),
           infoWindow: InfoWindow(title: 'вул.Смол-Стоцького, 1'),
-          icon: MarkerRepository.greenWater,
+          icon: MarkerRepository.redIcon,
         ),
         Marker(
           markerId: MarkerId('lv3_2'),
           position: LatLng(49.824806, 23.964032),
           infoWindow: InfoWindow(title: 'вул.Полтави, 53'),
-          icon: MarkerRepository.redWater,
+          icon: MarkerRepository.redIcon,
         ),
       },
       <Marker>{
@@ -54,7 +54,7 @@ class MockRepository {
           markerId: MarkerId('lv4'),
           position: LatLng(49.7953283, 24.0225477),
           infoWindow: InfoWindow(title: 'вул.Михайла Максимовича, 9А'),
-          icon: MarkerRepository.yellowWater,
+          icon: MarkerRepository.yellowIcon,
         ),
       },
       <Marker>{
@@ -62,13 +62,13 @@ class MockRepository {
           markerId: MarkerId('lv5_1'),
           position: LatLng(49.850887, 24.043659),
           infoWindow: InfoWindow(title: 'вул.Кордуби, 2'),
-          icon: MarkerRepository.yellowWater,
+          icon: MarkerRepository.yellowIcon,
         ),
         Marker(
           markerId: MarkerId('lv5_2'),
           position: LatLng(49.823148, 23.980223),
           infoWindow: InfoWindow(title: 'вул.Садова, 11Б'),
-          icon: MarkerRepository.yellowWater,
+          icon: MarkerRepository.yellowIcon,
         ),
       }
     ];

@@ -21,7 +21,7 @@ class PowerOffListScreen extends StatelessWidget {
 
     return GroupedListView<TimetableModel, DateTime>(
       padding: const EdgeInsets.only(bottom: 80),
-      elements: powerOffProvider.powerTimetableItems,
+      elements: powerOffProvider.timetableItems,
       groupBy: (items) => items.timestamp,
       groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
         date: date,

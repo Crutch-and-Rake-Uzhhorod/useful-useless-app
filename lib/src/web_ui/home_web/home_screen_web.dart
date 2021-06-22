@@ -19,7 +19,7 @@ class HomeScreenWeb extends StatelessWidget {
 
     return ChangeNotifierProvider<CalendarScrollProvider>(
       create: (_) => CalendarScrollProvider(
-        dates: powerOffProvider.powerDates,
+        dates: powerOffProvider.dates,
       ),
       child: Scaffold(
         extendBodyBehindAppBar: true,
@@ -36,7 +36,7 @@ class HomeScreenWeb extends StatelessWidget {
                           target: powerOffProvider.chosenLatLng(),
                           zoom: 13.0,
                         ),
-                        markers: powerOffProvider.powerMarkers.elementAt(
+                        markers: powerOffProvider.markers.elementAt(
                           calendarScrollProvider.currentIndex!,
                         ),
                       ),
