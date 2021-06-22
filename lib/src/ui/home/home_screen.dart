@@ -22,7 +22,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider = Provider.of<PowerOffProvider>(context);
+    final powerOffProvider = Provider.of<PowerOffProvider>(
+      context,
+      listen: false,
+    );
 
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
       // if (powerOffProvider.city == -1) {
@@ -84,7 +87,7 @@ class HomeScreen extends StatelessWidget {
                           items: [
                             CustomNavigationBarItem(
                               icon: Icon(
-                                Icons.bolt,
+                                Icons.map,
                                 //   text: 'map'.tr(),
                               ),
                             ),

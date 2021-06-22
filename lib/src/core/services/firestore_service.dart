@@ -23,7 +23,7 @@ class FirestoreService {
       return dates;
     } catch (e) {
       log('Error while retrieving dates: $e');
-      return [];
+      return null;
     }
   }
 

@@ -70,38 +70,6 @@ class ProfileWebScreen extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              // RoundedButtonWidget(
-              //   height: buttonHeight,
-              //   onTap: () {
-              //     Navigator.pushNamed(context, SettingsScreenWeb.id);
-              //   },
-              //   child: Padding(
-              //     padding: const EdgeInsets.symmetric(
-              //       horizontal: 24.0,
-              //       vertical: 6.0,
-              //     ),
-              //     child: Row(
-              //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //       children: [
-              //         Icon(
-              //           Icons.settings,
-              //           size: 50,
-              //           color: Colors.black38,
-              //         ),
-              //         //  const SizedBox(width: 32.0),
-              //         Text(
-              //           'settings'.tr(),
-              //           style: textTheme.headline5?.copyWith(
-              //             fontSize: 24,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //         const SizedBox(),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              const Spacer(),
               RoundedButtonWidget(
                 height: buttonHeight,
                 onTap: () async => await _termsConditionsLink(),
