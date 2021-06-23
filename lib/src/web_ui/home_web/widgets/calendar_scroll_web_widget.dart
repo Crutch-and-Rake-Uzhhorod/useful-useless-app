@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../core/provider/calendar_scroll_provider.dart';
 
@@ -25,7 +26,7 @@ class CalendarScrollWebWidget extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(top: 50),
                 child: Text(
-                  scrollProvider.selectedMonth.toString(),
+                  scrollProvider.selectedMonth.tr(),
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                         fontWeight: FontWeight.bold,

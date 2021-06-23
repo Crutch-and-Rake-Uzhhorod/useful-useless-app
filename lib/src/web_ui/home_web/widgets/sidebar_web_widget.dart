@@ -1,6 +1,10 @@
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import 'package:flutter/material.dart';
+import 'package:pedantic/pedantic.dart';
+import 'package:provider/provider.dart';
 
+import 'package:easy_localization/easy_localization.dart';
+import '../../../core/provider/user_auth_provider.dart';
 import '../../login_web/login_screen_web.dart';
 import '../../profile_web/profile_web_screen.dart';
 import '../../settings_web/settings_screen_web.dart';
@@ -23,6 +27,9 @@ class SidebarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserAuthProvider>(context, listen: false);
+    final user = userProvider.user;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 20.0),
       child: CollapsibleSidebar(
@@ -34,18 +41,22 @@ class SidebarWidget extends StatelessWidget {
         selectedTextColor: const Color(0xffF3F7F7),
         unselectedIconColor: const Color(0xff6A7886),
         unselectedTextColor: const Color(0xffC0C7D0),
-        title: 'NOTIFUCK',
+        avatarImg: user!.photoURL?.isNotEmpty ?? false ? NetworkImage(user.photoURL!) : null,
+        title: !user.isAnonymous ? user.displayName! : 'Anonymous User'.tr(),
         items: [
           CollapsibleItem(
             icon: Icons.login,
-            text: 'Log In',
-            onPressed: () =>
-                Navigator.pushReplacementNamed(context, LoginScreenWeb.id),
+            text: user.isAnonymous ? 'Log In'.tr() : 'Sign Out'.tr(),
+            onPressed: () async {
+              await userProvider.signOut();
+              unawaited(
+                  Navigator.pushReplacementNamed(context, LoginScreenWeb.id));
+            },
             isSelected: isLogin,
           ),
           CollapsibleItem(
             icon: Icons.home,
-            text: 'Home',
+            text: 'Home'.tr(),
             onPressed: () async {
               await Navigator.pushReplacementNamed(context, HomeScreenWeb.id);
             },
@@ -54,13 +65,13 @@ class SidebarWidget extends StatelessWidget {
           CollapsibleItem(
             isSelected: isProfile,
             icon: Icons.account_box,
-            text: 'Profile',
+            text: 'Profile'.tr(),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, ProfileWebScreen.id),
           ),
           CollapsibleItem(
             icon: Icons.settings,
-            text: 'Settings',
+            text: 'Settings'.tr(),
             onPressed: () =>
                 Navigator.pushReplacementNamed(context, SettingsScreenWeb.id),
             isSelected: isSettings,

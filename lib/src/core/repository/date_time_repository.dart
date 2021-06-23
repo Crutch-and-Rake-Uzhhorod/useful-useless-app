@@ -6,7 +6,9 @@ class DateTimeRepository {
   }
 
   static String dateToMonthDay(DateTime date) {
-    return DateFormat.MMMMd().format(date);
+    final raw = DateFormat.MMMMd().format(date);
+    final words = raw.split(' ');
+    return '${words.first.tr()} ${words.last}';
   }
 
   static String dateToHour(DateTime date) {

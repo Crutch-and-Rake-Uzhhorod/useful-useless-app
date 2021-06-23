@@ -5,24 +5,25 @@ import 'package:flutter/painting.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkerRepository {
-  static BitmapDescriptor? _greenIcon;
-  static BitmapDescriptor? _yellowIcon;
-  static BitmapDescriptor? _redIcon;
+  static late final BitmapDescriptor _greenIcon;
+  static late final BitmapDescriptor _yellowIcon;
+  static late final BitmapDescriptor _redIcon;
 
-  static BitmapDescriptor? get greenIcon => _greenIcon;
+  static BitmapDescriptor get greenIcon => _greenIcon;
 
-  static BitmapDescriptor? get yellowIcon => _yellowIcon;
+  static BitmapDescriptor get yellowIcon => _yellowIcon;
 
-  static BitmapDescriptor? get redIcon => _redIcon;
+  static BitmapDescriptor get redIcon => _redIcon;
 
   static Future<void> initMarkerIcons() async {
-    _greenIcon ??= await _convertingIconIntoBytes(Colors.green);
-    _yellowIcon ??= await _convertingIconIntoBytes(Colors.yellow);
-    _redIcon ??= await _convertingIconIntoBytes(Colors.red);
+    _greenIcon = await _convertingIconIntoBytes(Colors.green);
+    _yellowIcon = await _convertingIconIntoBytes(Colors.yellow);
+    _redIcon = await _convertingIconIntoBytes(Colors.red);
   }
 
   static Future<BitmapDescriptor> _convertingIconIntoBytes(
-      Color iconColor) async {
+    Color iconColor,
+  ) async {
     /// the Icon
 
     // if(homeSelected){

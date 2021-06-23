@@ -24,31 +24,37 @@ class PowerOffProvider with ChangeNotifier {
 
   final FirestoreService _firestoreService;
 
-  List<Set<Marker>>? _markers;
-
-  List<TimetableModel>? _timetableItems;
-
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
 
-  UnmodifiableListView<Set<Marker>>? get markers =>
-      UnmodifiableListView<Set<Marker>>(_markers!);
+  final List<Set<Marker>> _markers = [];
 
-  List<TimetableModel> get timetableItems => _timetableItems!;
+  final List<TimetableModel> _timeTableItems = [];
 
-  UnmodifiableListView<DateTime>? get dates =>
-      UnmodifiableListView<DateTime>(_timetableItems!.map((e) => e.timestamp));
+  UnmodifiableListView<Set<Marker>> get markers =>
+      UnmodifiableListView<Set<Marker>>(_markers);
+
+  List<TimetableModel> get timetableItems => _timeTableItems;
+
+  UnmodifiableListView<DateTime> get dates =>
+      UnmodifiableListView<DateTime>(
+          _timeTableItems.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
   Future<void> init() async {
     loadingStatus.value = true;
+
     final dates = await _firestoreService.getDates();
 
-    _timetableItems = dates!.map((e) => TimetableModel(timestamp: e)).toList();
-
-    if (_timetableItems == null) {
+    if (dates == null) {
       return;
     }
-    _markers = List.generate(_timetableItems!.length, (_) => {});
+
+    _timeTableItems.clear();
+    dates
+        .forEach((e) => _timeTableItems.add(TimetableModel(timestamp: e)));
+
+    _markers.clear();
+    _markers.addAll(List.generate(_timeTableItems.length, (_) => {}));
 
     final now = DateTime.now();
     final dayIndex = dates.indexOf(dates.firstWhere(
@@ -70,28 +76,28 @@ class PowerOffProvider with ChangeNotifier {
 
   Future<void> initFullList() async {
     //ignore: omit_local_variable_types
-    for (int i = 0; i < _timetableItems!.length; i++) {
+    for (int i = 0; i < _timeTableItems.length; i++) {
       await getLocationByDate(i);
     }
   }
 
   Future<void> getLocationByDate(int dayIndex) async {
-    if (_timetableItems!.elementAt(dayIndex).locations?.isEmpty ?? true) {
+    if (_timeTableItems.elementAt(dayIndex).locations?.isEmpty ?? true) {
       loadingStatus.value = true;
       final locations = await _firestoreService.getLocationByDay(
-        timestamp: _timetableItems!
+        timestamp: _timeTableItems
             .elementAt(dayIndex)
             .timestamp
             .millisecondsSinceEpoch,
       );
 
-      _timetableItems!.replaceRange(dayIndex, dayIndex + 1, [
-        _timetableItems!.elementAt(dayIndex).copyWith(locations: locations),
+      _timeTableItems.replaceRange(dayIndex, dayIndex + 1, [
+        _timeTableItems.elementAt(dayIndex).copyWith(locations: locations),
       ]);
 
       final now = DateTime.now();
       final nowTimestamp = now.millisecondsSinceEpoch;
-      _markers!.replaceRange(dayIndex, dayIndex + 1, [
+      _markers.replaceRange(dayIndex, dayIndex + 1, [
         locations.map((e) {
           BitmapDescriptor icon;
           //adjust statements to hours etc
@@ -101,11 +107,11 @@ class PowerOffProvider with ChangeNotifier {
           //3) if power off is finished
           if (nowTimestamp >= e.frames.first.start.millisecondsSinceEpoch &&
               nowTimestamp < e.frames.first.end.millisecondsSinceEpoch) {
-            icon = MarkerRepository.redIcon!;
+            icon = MarkerRepository.redIcon;
           } else if (now.isBefore(e.frames.first.start)) {
-            icon = MarkerRepository.yellowIcon!;
+            icon = MarkerRepository.yellowIcon;
           } else {
-            icon = MarkerRepository.greenIcon!;
+            icon = MarkerRepository.greenIcon;
           }
 
           return Marker(
@@ -118,7 +124,7 @@ class PowerOffProvider with ChangeNotifier {
             ),
             infoWindow: InfoWindow(
                 title:
-                    '${e.houseDetails.street}\n${e.houseDetails.buildingNumber}'),
+                    'Street: ${e.houseDetails.street}\nBuilding number: ${e.houseDetails.buildingNumber}'),
             icon: icon,
           );
         }).toSet()

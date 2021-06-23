@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 
 import '../../core/provider/user_auth_provider.dart';
 import '../global/rounded_button_widget.dart';
-import '../settings/settings_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String id = 'profile_screen';
@@ -53,38 +52,6 @@ class ProfileScreen extends StatelessWidget {
                   const SizedBox(width: 16.0),
                   Text(
                     '${'followed_locations'.tr()} (1)',
-                    style: textTheme.bodyText1
-                        ?.copyWith(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 24.0),
-          RoundedButtonWidget(
-            height: 56.0,
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => SettingsScreen(),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 6.0,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.settings,
-                    color: Colors.black38,
-                  ),
-                  const SizedBox(width: 16.0),
-                  Text(
-                    'settings'.tr(),
                     style: textTheme.bodyText1
                         ?.copyWith(color: Colors.black, fontSize: 18),
                   ),

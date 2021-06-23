@@ -7,7 +7,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../core/provider/user_auth_provider.dart';
 import '../../ui/global/rounded_button_widget.dart';
 import '../home_web/widgets/sidebar_web_widget.dart';
-import '../settings_web/settings_screen_web.dart';
 
 class ProfileWebScreen extends StatelessWidget {
   static const String id = 'profile_screen';
@@ -60,38 +59,6 @@ class ProfileWebScreen extends StatelessWidget {
                       ),
                       Text(
                         '${'followed_locations'.tr()} (1)',
-                        style: textTheme.headline5?.copyWith(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(),
-                    ],
-                  ),
-                ),
-              ),
-              const Spacer(),
-              RoundedButtonWidget(
-                height: buttonHeight,
-                onTap: () {
-                  Navigator.pushNamed(context, SettingsScreenWeb.id);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24.0,
-                    vertical: 6.0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Icon(
-                        Icons.settings,
-                        size: 50,
-                        color: Colors.black38,
-                      ),
-                      //  const SizedBox(width: 32.0),
-                      Text(
-                        'settings'.tr(),
                         style: textTheme.headline5?.copyWith(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
