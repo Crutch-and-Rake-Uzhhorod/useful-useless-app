@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import '../services/firebase_auth_service.dart';
 
-class UserAuthRepository {
-  UserAuthRepository({
+class AuthRepository {
+  AuthRepository({
     required FirebaseAuthService firebaseAuthService,
   }) : _firebaseAuthService = firebaseAuthService;
 

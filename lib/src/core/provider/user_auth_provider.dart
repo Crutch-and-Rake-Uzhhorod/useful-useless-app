@@ -2,15 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../repository/user_auth_repository.dart';
+import '../repository/auth_repository.dart';
 // import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class UserAuthProvider with ChangeNotifier {
   UserAuthProvider({
-    required UserAuthRepository userAuthRepository,
-  }) : _userAuthRepository = userAuthRepository;
+    required AuthRepository authRepository,
+  }) : _userAuthRepository = authRepository;
 
-  final UserAuthRepository _userAuthRepository;
+  final AuthRepository _userAuthRepository;
 
   // bool isIphone = false;
 

@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/firestore_user_data_model.dart';
@@ -11,23 +9,18 @@ class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<List<DateTime>?> getDates() async {
-    try {
-      final mostRecent = await _firestore.collection(_dayCollectionPath).get();
+    final mostRecent = await _firestore.collection(_dayCollectionPath).get();
 
-      final dates = mostRecent.docs.map((e) {
-        final data = e.data();
-        final rawTimestamp = data['timestamp'] as Timestamp;
-        return rawTimestamp.toDate().toLocal();
-      }).toList();
+    final dates = mostRecent.docs.map((e) {
+      final data = e.data();
+      final rawTimestamp = data['timestamp'] as Timestamp;
+      return rawTimestamp.toDate().toLocal();
+    }).toList();
 
-      return dates;
-    } catch (e) {
-      log('Error while retrieving dates: $e');
-      return null;
-    }
+    return dates;
   }
 
-  Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
+  Future<List<FrameModel>?> getLocationByDay({required int timestamp}) async {
     final housesSnap = await _firestore
         .collection('${_dayCollectionPath}_$timestamp')
         .where('house_details.city', isEqualTo: 'Львів')
