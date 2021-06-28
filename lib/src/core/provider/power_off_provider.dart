@@ -74,7 +74,7 @@ class PowerOffProvider with ChangeNotifier {
     }
 
     // first day that will be initialized
-    late final int? firstDateIndexToInit;
+    int? firstDateIndexToInit;
 
     // preset timetable models
     // in case of list will contain info for today - set firstDayToInit
@@ -124,7 +124,7 @@ class PowerOffProvider with ChangeNotifier {
         [];
 
     // add locations into timetable model
-    _timeTableItems.elementAt(index).locations!.addAll(locations);
+    _timeTableItems.elementAt(index).locations.addAll(locations);
 
     // create markers from retrieved list
     _markers.elementAt(index).addAll(
