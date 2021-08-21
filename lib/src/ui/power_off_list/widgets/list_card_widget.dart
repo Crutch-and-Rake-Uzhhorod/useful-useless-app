@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../core/models/time_frame_model.dart';
 import '../../../core/repository/date_time_repository.dart';
 
+// TODO: add onTap callback to expand the card to show on map/subscribe/unsubscribe from location
+// TODO: add indication that
 class FrameCardWidget extends StatelessWidget {
   const FrameCardWidget({
     Key? key,

@@ -5,6 +5,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/provider/power_off_provider.dart';
+import '../../core/repository/string_repository.dart';
 import 'widgets/date_separator_widget.dart';
 import 'widgets/list_card_widget.dart';
 
@@ -27,7 +28,7 @@ class PowerOffListScreen extends StatelessWidget {
                       delegate: SliverChildBuilderDelegate(
                         (_, i) {
                           return FrameCardWidget(
-                            city: e.locations[i].houseDetails.city!,
+                            city: e.locations[i].houseDetails.city!.capitalize(),
                             street: e.locations[i].houseDetails.street!,
                             buildingNumber:
                                 e.locations[i].houseDetails.buildingNumber,

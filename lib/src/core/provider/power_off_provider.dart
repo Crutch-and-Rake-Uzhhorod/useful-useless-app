@@ -10,7 +10,6 @@ import '../models/timetable_model.dart';
 import '../repository/data_repository.dart';
 import '../repository/marker_repository.dart';
 
-//TODO: create list of [LocationModel]
 
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
@@ -41,6 +40,7 @@ class PowerOffProvider with ChangeNotifier {
       UnmodifiableListView(_timeTableItems.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
+  //TODO: retrieve list of followed locations(users collection) in order to distinguish locations
   Future<void> init() async {
     loadingStatus.value = true;
 
@@ -123,6 +123,7 @@ class PowerOffProvider with ChangeNotifier {
                 .millisecondsSinceEpoch) ??
         [];
 
+    // TODO: sort locations so that followed will be first
     // add locations into timetable model
     _timeTableItems.elementAt(index).locations.addAll(locations);
 

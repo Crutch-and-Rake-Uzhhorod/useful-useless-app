@@ -5,6 +5,7 @@ import '../models/frame_model.dart';
 
 class FirestoreService {
   static const String _dayCollectionPath = 'timetable';
+  static const String _lviv = 'львів';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -23,7 +24,7 @@ class FirestoreService {
   Future<List<FrameModel>?> getLocationByDay({required int timestamp}) async {
     final housesSnap = await _firestore
         .collection('${_dayCollectionPath}_$timestamp')
-        .where('house_details.city', isEqualTo: 'Львів')
+        .where('house_details.city', isEqualTo: _lviv)
         .get();
 
     final list = housesSnap.docs
