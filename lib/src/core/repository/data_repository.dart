@@ -46,10 +46,12 @@ class DataRepository {
     try {
       final user = _firebaseAuthService.currentUser;
       if (user != null && !user.isAnonymous) {
-        return _firestoreService.updateUserData(
+        await  _firestoreService.updateUserData(
           user.uid,
           FirestoreUserDataModel(notificationEnabled: state),
         );
+
+        return true;
       }
     } catch (e) {
       log('Error updating user notification preference. State: $state.\nError: $e');
@@ -57,14 +59,16 @@ class DataRepository {
     return false;
   }
 
-  Future<bool> subscribeToLocation(String locationId) async {
+  Future<bool> follow(String locationId) async {
     try {
       final user = _firebaseAuthService.currentUser;
       if (user != null && !user.isAnonymous) {
-        return _firestoreService.updateUserData(
+        await _firestoreService.updateUserData(
           user.uid,
           FirestoreUserDataModel(userHouses: [locationId]),
         );
+
+        return true;
       }
     } catch (e) {
       log('Error subscribing to house $locationId.\nError: $e');

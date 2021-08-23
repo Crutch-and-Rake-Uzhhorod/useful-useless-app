@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../../core/models/time_frame_model.dart';
 import '../../../core/repository/date_time_repository.dart';
 
-class FrameCardWidget extends StatefulWidget {
+class FrameCardWidget extends StatelessWidget {
   const FrameCardWidget({
     Key? key,
     required this.city,
@@ -12,7 +12,7 @@ class FrameCardWidget extends StatefulWidget {
     required this.timeFrames,
     this.buildingNumber = '',
     this.isFollowed = false,
-    this.onFollowTapped,
+    required this.onFollowTapped,
   }) : super(key: key);
 
   final String city;
@@ -20,34 +20,13 @@ class FrameCardWidget extends StatefulWidget {
   final String? buildingNumber;
   final List<TimeFrameModel> timeFrames;
   final bool isFollowed;
-  final Future<bool> Function(bool)? onFollowTapped;
-
-  @override
-  _FrameCardWidgetState createState() => _FrameCardWidgetState();
-}
-
-class _FrameCardWidgetState extends State<FrameCardWidget>
-    with SingleTickerProviderStateMixin {
-  late ValueNotifier<bool> _followNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _followNotifier = ValueNotifier(widget.isFollowed);
-  }
-
-  @override
-  void dispose() {
-    _followNotifier.dispose();
-    super.dispose();
-  }
+  final ValueChanged<bool?> onFollowTapped;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
 
-    final textFrames = widget.timeFrames
+    final textFrames = timeFrames
         .map(
           (e) => Text(
             'Відключення: з ${DateTimeRepository.dateToHour(e.start)}  до ${DateTimeRepository.dateToHour(e.end)} ',
@@ -115,51 +94,37 @@ class _FrameCardWidgetState extends State<FrameCardWidget>
                 )
               ],
             ),
-            if (widget.onFollowTapped != null)
-              InkWell(
-                onTap: _follow,
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // TODO: navigate to map
-                    // TextButton(
-                    //   onPressed: () {},
-                    //   child: Text('Показати на мапі'),
-                    // ),
-                    const Spacer(),
-                    // TODO: Localization
-                    Text('Відстежувати'),
-                    ValueListenableBuilder<bool>(
-                      valueListenable: _followNotifier,
-                      builder: (_, followed, __) {
-                        return Checkbox(
-                          value: followed,
-                          onChanged: (_) => _follow(),
-                        );
-                      },
-                    ),
-                  ],
-                ),
+            InkWell(
+              onTap: () => onFollowTapped(!isFollowed),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // TODO: navigate to map
+                  // TextButton(
+                  //   onPressed: () {},
+                  //   child: Text('Показати на мапі'),
+                  // ),
+                  const Spacer(),
+                  // TODO: Localization
+                  Text('Відстежувати'),
+                  Checkbox(
+                    value: isFollowed,
+                    onChanged: onFollowTapped,
+                  ),
+                ],
               ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Future<void> _follow() async {
-    final result = await widget.onFollowTapped!(!_followNotifier.value);
-
-    if (result) {
-      _followNotifier.value = !_followNotifier.value;
-    }
-  }
-
   String _getLocationText() {
     String result;
-    result = '${widget.city}, ${widget.street}';
-    if (widget.buildingNumber?.isNotEmpty ?? false) {
-      result = result + ', ${widget.buildingNumber}';
+    result = '$city $street';
+    if (buildingNumber?.isNotEmpty ?? false) {
+      result = result + ', $buildingNumber';
     }
 
     return result;

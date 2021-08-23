@@ -161,11 +161,20 @@ class PowerOffProvider with ChangeNotifier {
   bool isFollowing(String? geoId) =>
       geoId != null && _followedHouses.contains(geoId);
 
-  Future<bool> follow(String? geoId, bool newValue) async {
+  Future<void> follow(String? geoId, bool newValue) async {
     if (geoId == null) {
-      return false;
+      return;
     }
-    return true;
+    final result = await _dataRepository.follow(geoId);
+
+    if(result){
+      if(_followedHouses.contains(geoId)) {
+        _followedHouses.remove(geoId);
+      }else{
+        _followedHouses.add(geoId);
+      }
+      notifyListeners();
+    }
   }
 
   @override

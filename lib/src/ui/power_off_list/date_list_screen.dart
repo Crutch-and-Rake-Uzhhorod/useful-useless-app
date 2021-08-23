@@ -37,7 +37,7 @@ class PowerOffListScreen extends StatelessWidget {
                             timeFrames: e.locations[i].frames,
                             isFollowed: powerOffProvider.isFollowing(geoId),
                             onFollowTapped: (value) =>
-                                powerOffProvider.follow(geoId, value),
+                                powerOffProvider.follow(geoId, value!),
                           );
                         },
                         childCount: e.locations.length,

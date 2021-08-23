@@ -51,7 +51,7 @@ class FirestoreService {
     });
   }
 
-  Future<bool> updateUserData(
+  Future<void> updateUserData(
     String userId,
     FirestoreUserDataModel userDataModel,
   ) async {
@@ -60,27 +60,35 @@ class FirestoreService {
       if (userDataModel.userHouses != null) {
         await transaction.get(docRef).then((docSnapshot) {
           final oldModel = FirestoreUserDataModel.fromJson(docSnapshot.data()!);
-          final newModel = userDataModel.copyWith(
-            userHouses: oldModel.userHouses!,
-          );
-          newModel.userHouses!.addAll(userDataModel.userHouses!);
-          transaction.update(docRef, newModel.toJson());
+
+          if (oldModel.userHouses != null) {
+            if (oldModel.userHouses!
+                .contains(userDataModel.userHouses!.first)) {
+              oldModel.userHouses?.remove(userDataModel.userHouses!.first);
+            } else {
+              oldModel.userHouses!.addAll(userDataModel.userHouses!);
+            }
+            transaction.update(docRef, oldModel.toJson());
+          } else {
+            final newModel = oldModel.copyWith(
+              userHouses: userDataModel.userHouses,
+            );
+            transaction.update(docRef, newModel.toJson());
+          }
         });
       } else {
         transaction.update(docRef, userDataModel.toJson());
       }
-
-      return true;
     });
-
-    return false;
   }
 
   Future<List<String>?> getFollowedHouses(String userId) async {
     final rawUserData =
         await _firestore.collection(_usersCollectionPath).doc(userId).get();
 
-    final houses = rawUserData.data()?['houses'] as List<String>;
+    final houses = (rawUserData.data()?['user_houses'] as List<dynamic>?)
+        ?.map((e) => e as String)
+        .toList();
 
     return houses;
   }
