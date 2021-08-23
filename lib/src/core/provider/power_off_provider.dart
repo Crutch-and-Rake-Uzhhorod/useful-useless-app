@@ -10,7 +10,6 @@ import '../models/timetable_model.dart';
 import '../repository/data_repository.dart';
 import '../repository/marker_repository.dart';
 
-
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
   PowerOffProvider({
@@ -25,6 +24,8 @@ class PowerOffProvider with ChangeNotifier {
   final DataRepository _dataRepository;
 
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
+
+  final List<String> _followedHouses = [];
 
   final List<Set<Marker>> _markers = [];
 
@@ -152,6 +153,16 @@ class PowerOffProvider with ChangeNotifier {
     //if(city == 1) return LvovLatitudeLongitude ;
     //notifyListeners();
     // return _markers![2].elementAt(0).position;
+  }
+
+  bool isFollowing(String? geoId) =>
+      geoId != null && _followedHouses.contains(geoId);
+
+  Future<bool> follow(String? geoId, bool newValue) async {
+    if (geoId == null) {
+      return false;
+    }
+    return true;
   }
 
   @override

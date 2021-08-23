@@ -17,6 +17,14 @@ class DateSeparatorWidget extends StatelessWidget {
         color: Colors.grey[200],
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: Colors.white, width: 2.0),
+        gradient: LinearGradient(
+          colors: [
+            Colors.grey[400]!,
+            Colors.white,
+            Colors.grey[400]!,
+          ],
+          stops: [0.0, 0.5, 1.0]
+        ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15),

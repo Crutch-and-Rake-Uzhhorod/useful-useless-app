@@ -27,12 +27,17 @@ class PowerOffListScreen extends StatelessWidget {
                     sliver: SliverList(
                       delegate: SliverChildBuilderDelegate(
                         (_, i) {
+                          final details = e.locations[i].houseDetails;
+
+                          final geoId = details.geoId;
                           return FrameCardWidget(
-                            city: e.locations[i].houseDetails.city!.capitalize(),
-                            street: e.locations[i].houseDetails.street!,
-                            buildingNumber:
-                                e.locations[i].houseDetails.buildingNumber,
+                            city: details.city!.capitalize(),
+                            street: details.street!,
+                            buildingNumber: details.buildingNumber,
                             timeFrames: e.locations[i].frames,
+                            isFollowed: powerOffProvider.isFollowing(geoId),
+                            onFollowTapped: (value) =>
+                                powerOffProvider.follow(geoId, value),
                           );
                         },
                         childCount: e.locations.length,
