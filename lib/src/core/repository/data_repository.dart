@@ -2,55 +2,89 @@ import 'dart:developer';
 
 import '../models/firestore_user_data_model.dart';
 import '../models/frame_model.dart';
+import '../services/firebase_auth_service.dart';
 import '../services/firestore_service.dart';
 
 class DataRepository {
   DataRepository({
     required FirestoreService firestoreService,
-  }) : _firestoreService = firestoreService;
+    required FirebaseAuthService firebaseAuthService,
+  })  : _firestoreService = firestoreService,
+        _firebaseAuthService = firebaseAuthService;
 
   final FirestoreService _firestoreService;
+  final FirebaseAuthService _firebaseAuthService;
 
-  Future<List<DateTime>?> getDates() async {
+  Future<List<DateTime>> getDates() async {
     try {
       final dates = await _firestoreService.getDates();
-      return dates;
+
+      if (dates != null) {
+        return dates;
+      }
     } catch (e) {
       log('Error while getting dates: $e');
-      return null;
     }
+    return [];
   }
 
-  Future<List<FrameModel>?> getLocationByDay({required int timestamp}) async {
+  Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
     try {
       final list =
           await _firestoreService.getLocationByDay(timestamp: timestamp);
-      return list;
+
+      if (list != null) {
+        return list;
+      }
     } catch (e) {
       log('Error while getting locations for $timestamp: $e');
-      return null;
     }
+    return [];
   }
 
-  Future<void> updateNotificationPreference(String userId, bool state) async {
+  Future<bool> updateNotificationPreference(bool state) async {
     try {
-      await _firestoreService.updateUserData(
-        userId,
-        FirestoreUserDataModel(notificationEnabled: state),
-      );
+      final user = _firebaseAuthService.currentUser;
+      if (user != null && !user.isAnonymous) {
+        return _firestoreService.updateUserData(
+          user.uid,
+          FirestoreUserDataModel(notificationEnabled: state),
+        );
+      }
     } catch (e) {
-      log('Error updating user notification preference: $userId, state: $state.\nError: $e');
+      log('Error updating user notification preference. State: $state.\nError: $e');
     }
+    return false;
   }
 
-  Future<void> subscribeToLocation(String userId, String locationId) async {
+  Future<bool> subscribeToLocation(String locationId) async {
     try {
-      await _firestoreService.updateUserData(
-        userId,
-        FirestoreUserDataModel(userHouses: [locationId]),
-      );
+      final user = _firebaseAuthService.currentUser;
+      if (user != null && !user.isAnonymous) {
+        return _firestoreService.updateUserData(
+          user.uid,
+          FirestoreUserDataModel(userHouses: [locationId]),
+        );
+      }
     } catch (e) {
-      log('Error subscribing to house $locationId, userId: $userId.\nError: $e');
+      log('Error subscribing to house $locationId.\nError: $e');
     }
+    return false;
+  }
+
+  Future<List<String>> getFollowedHouses() async {
+    try {
+      final user = _firebaseAuthService.currentUser;
+      if (user != null && !user.isAnonymous) {
+        final houses = await _firestoreService.getFollowedHouses(user.uid);
+
+        if (houses != null) {
+          return houses;
+        }
+      }
+    } catch (e) {
+      log('Error getting followed houses. \nError: $e');
+    }
+    return [];
   }
 }

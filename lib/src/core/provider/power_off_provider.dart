@@ -45,6 +45,12 @@ class PowerOffProvider with ChangeNotifier {
   Future<void> init() async {
     loadingStatus.value = true;
 
+    _followedHouses.clear();
+
+    final houses = await _dataRepository.getFollowedHouses();
+
+    _followedHouses.addAll(houses);
+
     _markers.clear();
     _timeTableItems.clear();
 
@@ -53,7 +59,7 @@ class PowerOffProvider with ChangeNotifier {
     final now = DateTime.now();
 
     // in case of any error - return empty list with current date
-    if (rawDates?.isEmpty ?? true) {
+    if (rawDates.isEmpty) {
       _markers.add({});
       _timeTableItems.add(TimetableModel.withEmptyLocations(timestamp: now));
       loadingStatus.value = false;
@@ -63,7 +69,7 @@ class PowerOffProvider with ChangeNotifier {
     // checking for index in order to create list from range [today - 3; end]
     // if there is no today - get last 7 days if possible
     final rawIndexOfToday =
-        rawDates!.indexWhere((element) => element.day == now.day);
+        rawDates.indexWhere((element) => element.day == now.day);
     final dates = <DateTime>[];
 
     if (rawIndexOfToday > -1) {
@@ -118,11 +124,8 @@ class PowerOffProvider with ChangeNotifier {
 
     // get locations from DB. in case of error set empty list to avoid it
     final locations = await _dataRepository.getLocationByDay(
-            timestamp: _timeTableItems
-                .elementAt(index)
-                .timestamp
-                .millisecondsSinceEpoch) ??
-        [];
+        timestamp:
+            _timeTableItems.elementAt(index).timestamp.millisecondsSinceEpoch);
 
     // TODO: sort locations so that followed will be first
     // add locations into timetable model

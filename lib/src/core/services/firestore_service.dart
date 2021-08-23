@@ -5,6 +5,7 @@ import '../models/frame_model.dart';
 
 class FirestoreService {
   static const String _dayCollectionPath = 'timetable';
+  static const String _usersCollectionPath = 'users';
   static const String _lviv = 'львів';
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -40,7 +41,7 @@ class FirestoreService {
     String userId,
     FirestoreUserDataModel userDataModel,
   ) async {
-    final docRef = _firestore.collection('users').doc(userId);
+    final docRef = _firestore.collection(_usersCollectionPath).doc(userId);
     await _firestore.runTransaction((transaction) async {
       await transaction.get(docRef).then((docSnapshot) {
         if (!docSnapshot.exists) {
@@ -50,11 +51,11 @@ class FirestoreService {
     });
   }
 
-  Future<void> updateUserData(
+  Future<bool> updateUserData(
     String userId,
     FirestoreUserDataModel userDataModel,
   ) async {
-    final docRef = _firestore.collection('users').doc(userId);
+    final docRef = _firestore.collection(_usersCollectionPath).doc(userId);
     await _firestore.runTransaction((transaction) async {
       if (userDataModel.userHouses != null) {
         await transaction.get(docRef).then((docSnapshot) {
@@ -68,6 +69,19 @@ class FirestoreService {
       } else {
         transaction.update(docRef, userDataModel.toJson());
       }
+
+      return true;
     });
+
+    return false;
+  }
+
+  Future<List<String>?> getFollowedHouses(String userId) async {
+    final rawUserData =
+        await _firestore.collection(_usersCollectionPath).doc(userId).get();
+
+    final houses = rawUserData.data()?['houses'] as List<String>;
+
+    return houses;
   }
 }

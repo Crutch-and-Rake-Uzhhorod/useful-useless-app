@@ -68,16 +68,16 @@ Future<void> main() async {
 
   final firestoreService = FirestoreService();
 
-  final firebaseAuthService = FirebaseAuthService(
-    firestoreService: firestoreService,
-  );
+  final firebaseAuthService = FirebaseAuthService();
 
   final authRepository = AuthRepository(
     firebaseAuthService: firebaseAuthService,
+    firestoreService: firestoreService,
   );
 
   final dataRepository = DataRepository(
     firestoreService: firestoreService,
+    firebaseAuthService: firebaseAuthService,
   );
 
   runApp(
@@ -119,7 +119,6 @@ class Multi extends StatelessWidget {
         ),
         ChangeNotifierProvider<SettingsProvider>(
           create: (_) => SettingsProvider(
-            authRepository: authRepository,
             dataRepository: dataRepository,
           ),
         ),
