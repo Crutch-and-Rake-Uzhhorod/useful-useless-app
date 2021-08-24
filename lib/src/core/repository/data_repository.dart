@@ -19,9 +19,7 @@ class DataRepository {
     try {
       final dates = await _firestoreService.getDates();
 
-      if (dates != null) {
-        return dates;
-      }
+      return dates;
     } catch (e) {
       log('Error while getting dates: $e');
     }
@@ -33,9 +31,7 @@ class DataRepository {
       final list =
           await _firestoreService.getLocationByDay(timestamp: timestamp);
 
-      if (list != null) {
-        return list;
-      }
+      return list;
     } catch (e) {
       log('Error while getting locations for $timestamp: $e');
     }
@@ -46,7 +42,7 @@ class DataRepository {
     try {
       final user = _firebaseAuthService.currentUser;
       if (user != null && !user.isAnonymous) {
-        await  _firestoreService.updateUserData(
+        await _firestoreService.updateUserData(
           user.uid,
           FirestoreUserDataModel(notificationEnabled: state),
         );

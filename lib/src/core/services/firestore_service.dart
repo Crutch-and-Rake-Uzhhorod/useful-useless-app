@@ -10,7 +10,7 @@ class FirestoreService {
 
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<List<DateTime>?> getDates() async {
+  Future<List<DateTime>> getDates() async {
     final mostRecent = await _firestore.collection(_dayCollectionPath).get();
 
     final dates = mostRecent.docs.map((e) {
@@ -22,7 +22,7 @@ class FirestoreService {
     return dates;
   }
 
-  Future<List<FrameModel>?> getLocationByDay({required int timestamp}) async {
+  Future<List<FrameModel>> getLocationByDay({required int timestamp}) async {
     final housesSnap = await _firestore
         .collection('${_dayCollectionPath}_$timestamp')
         .where('house_details.city', isEqualTo: _lviv)
