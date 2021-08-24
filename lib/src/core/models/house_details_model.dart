@@ -15,7 +15,7 @@ class HouseDetailsModel {
     required this.location,
     this.region,
     this.street,
-    required this.geoId,
+    this.geoId,
   });
 
   factory HouseDetailsModel.fromJson(Map<String, dynamic> json) =>
@@ -23,7 +23,7 @@ class HouseDetailsModel {
 
   final String? buildingNumber;
   final String? city;
-  final String geoId;
+  final String? geoId;
   final LocationCoordinates location;
   final String? region;
   final String? street;

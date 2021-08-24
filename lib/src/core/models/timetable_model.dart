@@ -8,19 +8,15 @@ part 'timetable_model.g.dart';
 class TimetableModel {
   TimetableModel({
     required this.timestamp,
-    this.locations,
+    required this.locations,
   });
+
+  factory TimetableModel.withEmptyLocations({required DateTime timestamp}) =>
+      TimetableModel(timestamp: timestamp, locations: []);
 
   factory TimetableModel.fromJson(Map<String, dynamic> json) =>
       _$TimetableModelFromJson(json);
 
   final DateTime timestamp;
-  final List<FrameModel>? locations;
-
-  TimetableModel copyWith({List<FrameModel>? locations}) {
-    return TimetableModel(
-      timestamp: timestamp,
-      locations: locations ?? this.locations,
-    );
-  }
+  final List<FrameModel> locations;
 }

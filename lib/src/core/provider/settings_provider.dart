@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
 
-import '../repository/user_auth_repository.dart';
-import '../repository/user_data_repository.dart';
+import '../repository/data_repository.dart';
 
 class SettingsProvider extends ChangeNotifier {
   SettingsProvider({
-    required UserDataRepository userDataRepository,
-    required UserAuthRepository userAuthRepository,
-  })  : _userDataRepository = userDataRepository,
-        _userAuthRepository = userAuthRepository;
+    required DataRepository dataRepository,
+  }) : _dataRepository = dataRepository;
 
-  final UserDataRepository _userDataRepository;
-  final UserAuthRepository _userAuthRepository;
+  final DataRepository _dataRepository;
 
   bool _switchState = true;
 
   bool get switchState => _switchState;
 
-  void getNotification() {
-    _switchState = !_switchState;
+  Future<void> getNotification() async {
+    final result = await _dataRepository.updateNotificationPreference(
+      _switchState,
+    );
 
-    final user = _userAuthRepository.currentUser;
-    if (user != null && !user.isAnonymous) {
-      _userDataRepository.updateNotificationPreference(
-        user.uid,
-        _switchState,
-      );
+    if (result) {
+      _switchState = !_switchState;
+
+      notifyListeners();
     }
-    notifyListeners();
   }
 }

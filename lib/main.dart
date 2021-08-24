@@ -14,10 +14,10 @@ import 'package:provider/provider.dart';
 import 'src/core/provider/power_off_provider.dart';
 import 'src/core/provider/settings_provider.dart';
 import 'src/core/provider/user_auth_provider.dart';
+import 'src/core/repository/auth_repository.dart';
+import 'src/core/repository/data_repository.dart';
 import 'src/core/repository/marker_repository.dart';
 import 'src/core/repository/mock_repository.dart';
-import 'src/core/repository/user_auth_repository.dart';
-import 'src/core/repository/user_data_repository.dart';
 import 'src/core/services/firebase_auth_service.dart';
 import 'src/core/services/firestore_service.dart';
 import 'src/core/services/push_notification_service.dart';
@@ -68,25 +68,23 @@ Future<void> main() async {
 
   final firestoreService = FirestoreService();
 
-  final firebaseAuthService = FirebaseAuthService(
-    firestoreService: firestoreService,
-  );
+  final firebaseAuthService = FirebaseAuthService();
 
-  final userAuthRepository = UserAuthRepository(
+  final authRepository = AuthRepository(
     firebaseAuthService: firebaseAuthService,
+    firestoreService: firestoreService,
   );
 
-  final userDataRepository = UserDataRepository(
+  final dataRepository = DataRepository(
     firestoreService: firestoreService,
+    firebaseAuthService: firebaseAuthService,
   );
 
   runApp(
     Multi(
       mockRepository: mockRepository,
-      firebaseAuthService: firebaseAuthService,
-      firestoreService: firestoreService,
-      userAuthRepository: userAuthRepository,
-      userDataRepository: userDataRepository,
+      authRepository: authRepository,
+      dataRepository: dataRepository,
       child: MyApp(),
     ),
   );
@@ -96,18 +94,14 @@ class Multi extends StatelessWidget {
   Multi({
     this.child,
     required this.mockRepository,
-    required this.firestoreService,
-    required this.firebaseAuthService,
-    required this.userAuthRepository,
-    required this.userDataRepository,
+    required this.authRepository,
+    required this.dataRepository,
   });
 
   final Widget? child;
   final MockRepository mockRepository;
-  final FirebaseAuthService firebaseAuthService;
-  final FirestoreService firestoreService;
-  final UserAuthRepository userAuthRepository;
-  final UserDataRepository userDataRepository;
+  final AuthRepository authRepository;
+  final DataRepository dataRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -115,18 +109,17 @@ class Multi extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<UserAuthProvider>(
           create: (_) => UserAuthProvider(
-            userAuthRepository: userAuthRepository,
+            authRepository: authRepository,
           ),
         ),
         ChangeNotifierProvider<PowerOffProvider>(
           create: (_) => PowerOffProvider(
-            firestoreService: firestoreService,
+            dataRepository: dataRepository,
           ),
         ),
         ChangeNotifierProvider<SettingsProvider>(
           create: (_) => SettingsProvider(
-            userAuthRepository: userAuthRepository,
-            userDataRepository: userDataRepository,
+            dataRepository: dataRepository,
           ),
         ),
       ],

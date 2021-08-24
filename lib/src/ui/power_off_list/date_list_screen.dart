@@ -1,12 +1,12 @@
 import 'dart:core';
 
 import 'package:flutter/material.dart';
-import 'package:grouped_list/grouped_list.dart';
+import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/models/timetable_model.dart';
 import '../../core/provider/power_off_provider.dart';
-import 'widgets/date_group_separator_widget.dart';
+import '../../core/repository/string_repository.dart';
+import 'widgets/date_separator_widget.dart';
 import 'widgets/list_card_widget.dart';
 
 class PowerOffListScreen extends StatelessWidget {
@@ -14,40 +14,43 @@ class PowerOffListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider = Provider.of<PowerOffProvider>(
-      context,
-      listen: false,
-    );
+    return Consumer<PowerOffProvider>(
+      builder: (_, powerOffProvider, __) {
+        return CustomScrollView(
+          slivers: [
+            ...powerOffProvider.timetableItems
+                .map(
+                  (e) => SliverStickyHeader(
+                    header: DateSeparatorWidget(
+                      date: e.timestamp,
+                    ),
+                    sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (_, i) {
+                          final details = e.locations[i].houseDetails;
 
-    return GroupedListView<TimetableModel, DateTime>(
-      padding: const EdgeInsets.only(bottom: 80),
-      elements: powerOffProvider.timetableItems,
-      groupBy: (items) => items.timestamp,
-      groupSeparatorBuilder: (date) => DateGroupSeparatorWidget(
-        date: date,
-      ),
-      order: GroupedListOrder.ASC,
-      useStickyGroupSeparators: true,
-      itemBuilder: (_, item) {
-        if (item.locations != null) {
-          final items = item.locations!
-              .map(
-                (e) => FrameCardWidget(
-                  city: e.houseDetails.city!,
-                  street: e.houseDetails.street!,
-                  buildingNumber: e.houseDetails.buildingNumber,
-                  timeFrames: e.frames,
-                ),
-              )
-              .toList();
-
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: items,
-          );
-        } else {
-          return const SizedBox();
-        }
+                          final geoId = details.geoId;
+                          return FrameCardWidget(
+                            city: details.city!.capitalize(),
+                            street: details.street!,
+                            buildingNumber: details.buildingNumber,
+                            timeFrames: e.locations[i].frames,
+                            isFollowed: powerOffProvider.isFollowing(geoId),
+                            onFollowTapped: (_) =>
+                                powerOffProvider.follow(geoId),
+                          );
+                        },
+                        childCount: e.locations.length,
+                      ),
+                    ),
+                  ),
+                )
+                .toList(),
+            SliverPadding(
+              padding: const EdgeInsets.only(bottom: 90.0),
+            ),
+          ],
+        );
       },
     );
   }

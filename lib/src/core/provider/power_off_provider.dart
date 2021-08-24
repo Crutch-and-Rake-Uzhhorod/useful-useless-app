@@ -1,75 +1,113 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/timetable_model.dart';
+import '../repository/data_repository.dart';
 import '../repository/marker_repository.dart';
-import '../services/firestore_service.dart';
-
-//TODO: create list of [LocationModel]
 
 //TODO: add status to provide initialization indication in percents
 class PowerOffProvider with ChangeNotifier {
   PowerOffProvider({
-    required FirestoreService firestoreService,
-  }) : _firestoreService = firestoreService;
+    required DataRepository dataRepository,
+  }) : _dataRepository = dataRepository;
 
   ///city == 0 => Uzhgorod
   ///city == 1 => Lvov
   ///.....
   int? city = -1;
 
-  final FirestoreService _firestoreService;
+  final DataRepository _dataRepository;
 
   final ValueNotifier<bool> loadingStatus = ValueNotifier(false);
+
+  final List<String> _followedHouses = [];
 
   final List<Set<Marker>> _markers = [];
 
   final List<TimetableModel> _timeTableItems = [];
 
   UnmodifiableListView<Set<Marker>> get markers =>
-      UnmodifiableListView<Set<Marker>>(_markers);
+      UnmodifiableListView(_markers);
 
-  List<TimetableModel> get timetableItems => _timeTableItems;
+  UnmodifiableListView<TimetableModel> get timetableItems =>
+      UnmodifiableListView(_timeTableItems);
 
   UnmodifiableListView<DateTime> get dates =>
-      UnmodifiableListView<DateTime>(
-          _timeTableItems.map((e) => e.timestamp));
+      UnmodifiableListView(_timeTableItems.map((e) => e.timestamp));
 
   //TODO: think about a case when there are no days available
+  //TODO: retrieve list of followed locations(users collection) in order to distinguish locations
   Future<void> init() async {
     loadingStatus.value = true;
 
-    final dates = await _firestoreService.getDates();
+    _followedHouses.clear();
 
-    if (dates == null) {
+    final houses = await _dataRepository.getFollowedHouses();
+
+    _followedHouses.addAll(houses);
+
+    _markers.clear();
+    _timeTableItems.clear();
+
+    final rawDates = await _dataRepository.getDates();
+
+    final now = DateTime.now();
+
+    // in case of any error - return empty list with current date
+    if (rawDates.isEmpty) {
+      _markers.add({});
+      _timeTableItems.add(TimetableModel.withEmptyLocations(timestamp: now));
+      loadingStatus.value = false;
       return;
     }
 
-    _timeTableItems.clear();
-    dates
-        .forEach((e) => _timeTableItems.add(TimetableModel(timestamp: e)));
+    // checking for index in order to create list from range [today - 3; end]
+    // if there is no today - get last 7 days if possible
+    final rawIndexOfToday =
+        rawDates.indexWhere((element) => element.day == now.day);
+    final dates = <DateTime>[];
 
-    _markers.clear();
-    _markers.addAll(List.generate(_timeTableItems.length, (_) => {}));
+    if (rawIndexOfToday > -1) {
+      dates.addAll(
+          rawDates.sublist(rawIndexOfToday - 3 > 0 ? rawIndexOfToday - 3 : 0));
+    } else {
+      dates.addAll(
+          rawDates.sublist(rawDates.length >= 7 ? rawDates.length - 7 : 0));
+    }
 
-    final now = DateTime.now();
-    final dayIndex = dates.indexOf(dates.firstWhere(
-      (date) => date.day.compareTo(now.day) == 0,
-      orElse: () {
-        if (dates.length > 1) {
-          //temporary first. change to actual later
-          return dates.first;
-        } else {
-          return dates.first;
+    // first day that will be initialized
+    int? firstDateIndexToInit;
+
+    // preset timetable models
+    // in case of list will contain info for today - set firstDayToInit
+    //ignore: omit_local_variable_types
+    for (int i = 0; i < dates.length; i++) {
+      if (rawIndexOfToday > -1) {
+        if (dates.elementAt(i).day == now.day) {
+          firstDateIndexToInit = i;
         }
-      },
-    ));
+      }
+      _timeTableItems.add(
+          TimetableModel.withEmptyLocations(timestamp: dates.elementAt(i)));
+      _markers.add({});
+    }
 
-    await getLocationByDate(dayIndex);
+    // set firstIndexToInit if list does not contain info for today
+    if (firstDateIndexToInit == null) {
+      if (dates.last.day < now.day) {
+        firstDateIndexToInit = dates.length - 1;
+      } else {
+        firstDateIndexToInit = 0;
+      }
+    }
+
+    // set locations for firstIndexToInit
+    await _setTimeTableLocations(index: firstDateIndexToInit);
 
     loadingStatus.value = false;
   }
@@ -77,61 +115,29 @@ class PowerOffProvider with ChangeNotifier {
   Future<void> initFullList() async {
     //ignore: omit_local_variable_types
     for (int i = 0; i < _timeTableItems.length; i++) {
-      await getLocationByDate(i);
+      await _setTimeTableLocations(index: i);
     }
   }
 
-  Future<void> getLocationByDate(int dayIndex) async {
-    if (_timeTableItems.elementAt(dayIndex).locations?.isEmpty ?? true) {
-      loadingStatus.value = true;
-      final locations = await _firestoreService.getLocationByDay(
-        timestamp: _timeTableItems
-            .elementAt(dayIndex)
-            .timestamp
-            .millisecondsSinceEpoch,
-      );
+  Future<void> _setTimeTableLocations({required int index}) async {
+    loadingStatus.value = true;
 
-      _timeTableItems.replaceRange(dayIndex, dayIndex + 1, [
-        _timeTableItems.elementAt(dayIndex).copyWith(locations: locations),
-      ]);
+    // get locations from DB. in case of error set empty list to avoid it
+    final locations = await _dataRepository.getLocationByDay(
+        timestamp:
+            _timeTableItems.elementAt(index).timestamp.millisecondsSinceEpoch);
 
-      final now = DateTime.now();
-      final nowTimestamp = now.millisecondsSinceEpoch;
-      _markers.replaceRange(dayIndex, dayIndex + 1, [
-        locations.map((e) {
-          BitmapDescriptor icon;
-          //adjust statements to hours etc
+    // TODO: sort locations so that followed will be first
+    // add locations into timetable model
+    _timeTableItems.elementAt(index).locations.addAll(locations);
 
-          //1) if current time is inside time frame
-          //2) if power off to be started
-          //3) if power off is finished
-          if (nowTimestamp >= e.frames.first.start.millisecondsSinceEpoch &&
-              nowTimestamp < e.frames.first.end.millisecondsSinceEpoch) {
-            icon = MarkerRepository.redIcon;
-          } else if (now.isBefore(e.frames.first.start)) {
-            icon = MarkerRepository.yellowIcon;
-          } else {
-            icon = MarkerRepository.greenIcon;
-          }
+    // create markers from retrieved list
+    _markers.elementAt(index).addAll(
+          MarkerRepository.createMarkersFromLocations(list: locations),
+        );
 
-          return Marker(
-            //since multiple instances can have same geoId set unique values as street_buildNumber
-            markerId: MarkerId(
-                '${e.houseDetails.street}_${e.houseDetails.buildingNumber}'),
-            position: LatLng(
-              e.houseDetails.location.lat,
-              e.houseDetails.location.lng,
-            ),
-            infoWindow: InfoWindow(
-                title:
-                    'Street: ${e.houseDetails.street}\nBuilding number: ${e.houseDetails.buildingNumber}'),
-            icon: icon,
-          );
-        }).toSet()
-      ]);
-      notifyListeners();
-      loadingStatus.value = false;
-    }
+    notifyListeners();
+    loadingStatus.value = false;
   }
 
   void changeCity({int? chosenCity}) {
@@ -150,6 +156,25 @@ class PowerOffProvider with ChangeNotifier {
     //if(city == 1) return LvovLatitudeLongitude ;
     //notifyListeners();
     // return _markers![2].elementAt(0).position;
+  }
+
+  bool isFollowing(String? geoId) =>
+      geoId != null && _followedHouses.contains(geoId);
+
+  Future<void> follow(String? geoId) async {
+    if (geoId == null) {
+      return;
+    }
+    final result = await _dataRepository.follow(geoId);
+
+    if(result){
+      if(_followedHouses.contains(geoId)) {
+        _followedHouses.remove(geoId);
+      }else{
+        _followedHouses.add(geoId);
+      }
+      notifyListeners();
+    }
   }
 
   @override

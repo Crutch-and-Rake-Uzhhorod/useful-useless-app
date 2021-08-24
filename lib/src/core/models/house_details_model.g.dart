@@ -14,6 +14,6 @@ HouseDetailsModel _$HouseDetailsModelFromJson(Map<String, dynamic> json) {
         LocationCoordinates.fromJson(json['location'] as Map<String, dynamic>),
     region: json['region'] as String?,
     street: json['street'] as String?,
-    geoId: json['geo_id'] as String,
+    geoId: json['geo_id'] as String?,
   );
 }
