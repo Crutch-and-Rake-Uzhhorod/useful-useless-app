@@ -27,7 +27,7 @@ class SettingsScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Spacer(
-              flex: 4,
+              flex: 6,
             ),
             RoundedButtonWidget(
               height: 70.0,
@@ -107,6 +107,33 @@ class SettingsScreen extends StatelessWidget {
             const Spacer(
               flex: 1,
             ),
+            RoundedButtonWidget(
+              height: 56.0,
+              onTap: () {},
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24.0,
+                  vertical: 6.0,
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      Icons.info,
+                      color: Colors.black38,
+                    ),
+                    const SizedBox(width: 16.0),
+                    Text(
+                      'Terms & conditions',
+                      style: textTheme.bodyText1
+                          ?.copyWith(color: Colors.black, fontSize: 18),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const Spacer(
+              flex: 1,
+            ),
             TextButton(
               style: ButtonStyle(
                 overlayColor:
@@ -122,7 +149,7 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             const Spacer(
-              flex: 2,
+              flex: 4,
             ),
           ],
         ),

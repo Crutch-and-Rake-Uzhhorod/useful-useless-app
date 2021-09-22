@@ -12,10 +12,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import 'src/core/provider/power_off_provider.dart';
+import 'src/core/provider/profile_provider.dart';
 import 'src/core/provider/settings_provider.dart';
 import 'src/core/provider/user_auth_provider.dart';
 import 'src/core/repository/auth_repository.dart';
 import 'src/core/repository/data_repository.dart';
+import 'src/core/repository/manual_city_choice_repository.dart';
 import 'src/core/repository/marker_repository.dart';
 import 'src/core/repository/mock_repository.dart';
 import 'src/core/services/firebase_auth_service.dart';
@@ -66,6 +68,8 @@ Future<void> main() async {
 
   final mockRepository = MockRepository();
 
+  final manualCityChoiceRepository = ManualCityChoiceRepository();
+
   final firestoreService = FirestoreService();
 
   final firebaseAuthService = FirebaseAuthService();
@@ -85,6 +89,7 @@ Future<void> main() async {
       mockRepository: mockRepository,
       authRepository: authRepository,
       dataRepository: dataRepository,
+      manualCityChoiceRepository: manualCityChoiceRepository,
       child: MyApp(),
     ),
   );
@@ -96,12 +101,14 @@ class Multi extends StatelessWidget {
     required this.mockRepository,
     required this.authRepository,
     required this.dataRepository,
+    required this.manualCityChoiceRepository,
   });
 
   final Widget? child;
   final MockRepository mockRepository;
   final AuthRepository authRepository;
   final DataRepository dataRepository;
+  final ManualCityChoiceRepository manualCityChoiceRepository;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +127,11 @@ class Multi extends StatelessWidget {
         ChangeNotifierProvider<SettingsProvider>(
           create: (_) => SettingsProvider(
             dataRepository: dataRepository,
+          ),
+        ),
+        ChangeNotifierProvider<ProfileProvider>(
+          create: (_) => ProfileProvider(
+            manualCityChoiceRepository: manualCityChoiceRepository,
           ),
         ),
       ],

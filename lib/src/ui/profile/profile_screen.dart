@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/provider/profile_provider.dart';
 import '../../core/provider/user_auth_provider.dart';
 import '../global/rounded_button_widget.dart';
+import 'widgets/autocomplete_widget.dart';
+import 'widgets/dropDownButton_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String id = 'profile_screen';
@@ -32,8 +35,46 @@ class ProfileScreen extends StatelessWidget {
               style: textTheme.headline5,
             ),
           ),
+          const SizedBox(height: 16.0),
+          SizedBox(
+            height: 75,
+            child: Row(
+              children: [
+                DropDownButtonWidget(),
+                SizedBox(
+                  width: 16,
+                ),
+                Flexible(
+                  child: Consumer<ProfileProvider>(
+                    builder: (BuildContext context,
+                        ProfileProvider profileProvider, Widget? child) {
+                      return AutocompleteWidget(
+                        hint: 'Обласний район',
+                        region: true,
+                        //    regionOptions: profileProvider.listOfChosenRegions,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(
-            height: 16,
+            height: 8,
+          ),
+          Flexible(
+            child: Consumer<ProfileProvider>(
+              builder: (BuildContext context, ProfileProvider profileProvider,
+                  Widget? child) {
+                return AutocompleteWidget(
+                  hint: 'Місто',
+                  city: true,
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 32,
           ),
           RoundedButtonWidget(
             height: 56.0,
@@ -58,34 +99,6 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 24.0),
-          RoundedButtonWidget(
-            height: 56.0,
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 6.0,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info,
-                    color: Colors.black38,
-                  ),
-                  const SizedBox(width: 16.0),
-                  Text(
-                    'Terms & conditions',
-                    style: textTheme.bodyText1
-                        ?.copyWith(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 16,
           ),
           Expanded(
             child: ListView.builder(
