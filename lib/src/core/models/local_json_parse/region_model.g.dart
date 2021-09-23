@@ -17,7 +17,6 @@ RegionsDataModel _$RegionsDataModelFromJson(Map<String, dynamic> json) {
 RegionModel _$RegionModelFromJson(Map<String, dynamic> json) {
   return RegionModel(
     region: json['region'] as String?,
-    cities:
-        (json['cities'] as List<dynamic>?)?.map((e) => e as String).toList(),
+    cities: (json['cities'] as List<dynamic>?)?.map((e) => e as String).toSet(),
   );
 }

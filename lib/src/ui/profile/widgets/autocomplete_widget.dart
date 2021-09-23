@@ -1,63 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-import '../../../core/provider/profile_provider.dart';
-
-class AutocompleteWidget extends StatelessWidget {
+class AutocompleteWidget<T> extends StatelessWidget {
   AutocompleteWidget({
-    this.hint,
-    this.city = false,
-    this.region = false,
+    this.hintText,
+    required this.options,
   });
 
-  final String? hint;
-  final bool region;
-  final bool city;
+  final String? hintText;
+
+  final List<String> options;
 
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<ProfileProvider>(context);
     return Autocomplete<String>(
-      optionsBuilder: (TextEditingValue textEditingValue) {
-        if (city) {
-          final cityOptions = profileProvider.listOfChosenCities;
-          return cityOptions.where(
-            (element) {
-              return element.toLowerCase().startsWith(
-                    textEditingValue.text.toLowerCase(),
-                  );
-            },
-          );
-        }
-
-        if (region) {
-          final regionsOptions = profileProvider.listOfChosenRegions;
-          return regionsOptions.where(
-            (element) {
-              return element.toLowerCase().startsWith(
-                    textEditingValue.text.toLowerCase(),
-                  );
-            },
-          );
-        }
-        return const Iterable<String>.empty();
-      },
-      onSelected: (String selection) {
-        print('You just selected $selection');
-      },
-      fieldViewBuilder: (BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          void Function() function) {
+      optionsBuilder: (textEditingValue) => options.where(
+        (element) => element.toLowerCase().startsWith(
+              textEditingValue.text.toLowerCase(),
+            ),
+      ),
+      onSelected: (String selection) => print('You just selected $selection'),
+      fieldViewBuilder: (_, textEditingController, focusNode, ___) {
         return TextFormField(
           decoration: InputDecoration(
-            labelText: hint,
+            labelText: hintText,
           ),
-          controller: textEditingController,
           focusNode: focusNode,
-          onFieldSubmitted: (String value) {
-            function();
-          },
+          controller: textEditingController,
         );
       },
     );

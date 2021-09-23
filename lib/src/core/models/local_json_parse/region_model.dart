@@ -24,5 +24,5 @@ class RegionModel {
 
   final String? region;
 
-  final List<String>? cities;
+  final Set<String>? cities;
 }

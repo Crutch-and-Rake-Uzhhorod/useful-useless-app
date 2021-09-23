@@ -1,27 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../core/provider/profile_provider.dart';
 
 class DropDownButtonWidget extends StatelessWidget {
+  const DropDownButtonWidget({
+    Key? key,
+    required this.items,
+    this.value,
+    this.onChanged,
+    this.hintText,
+  }) : super(key: key);
+
+  final List<String> items;
+  final String? value;
+  final ValueChanged<String?>? onChanged;
+  final String? hintText;
+
   @override
   Widget build(BuildContext context) {
-    final profileProvider = Provider.of<ProfileProvider>(context);
     return DropdownButton(
-      value: profileProvider.areaItem,
+      value: value,
       itemHeight: 100,
-      onChanged: (String? newValue) {
-        if (newValue != null) {
-          profileProvider.updateAreaItem(newItem: newValue);
-        }
-      },
-      hint: Text('Місто'),
-      items: profileProvider.area.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
+      onChanged: onChanged,
+      hint: hintText != null ? Text(hintText!) : null,
+      items: items
+          .map(
+            (value) => DropdownMenuItem(
+              value: value,
+              child: Text(value),
+            ),
+          )
+          .toList(),
     );
   }
 }

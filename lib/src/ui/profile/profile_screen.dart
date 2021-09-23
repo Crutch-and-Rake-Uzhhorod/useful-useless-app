@@ -40,18 +40,29 @@ class ProfileScreen extends StatelessWidget {
             height: 75,
             child: Row(
               children: [
-                DropDownButtonWidget(),
+                Consumer<ProfileProvider>(
+                  builder: (_, profileProvider, __) {
+                    return DropDownButtonWidget(
+                      items: profileProvider.area,
+                      value: profileProvider.areaItem,
+                      hintText: 'Місто',
+                      onChanged: (newValue) {
+                        if (newValue != null) {
+                          profileProvider.updateAreaItem(newItem: newValue);
+                        }
+                      },
+                    );
+                  },
+                ),
                 SizedBox(
                   width: 16,
                 ),
                 Flexible(
                   child: Consumer<ProfileProvider>(
-                    builder: (BuildContext context,
-                        ProfileProvider profileProvider, Widget? child) {
+                    builder: (_, profileProvider, __) {
                       return AutocompleteWidget(
-                        hint: 'Обласний район',
-                        region: true,
-                        //    regionOptions: profileProvider.listOfChosenRegions,
+                        hintText: 'Обласний район',
+                        options: profileProvider.listOfChosenRegions,
                       );
                     },
                   ),
@@ -64,11 +75,10 @@ class ProfileScreen extends StatelessWidget {
           ),
           Flexible(
             child: Consumer<ProfileProvider>(
-              builder: (BuildContext context, ProfileProvider profileProvider,
-                  Widget? child) {
+              builder: (_, profileProvider, __) {
                 return AutocompleteWidget(
-                  hint: 'Місто',
-                  city: true,
+                  hintText: 'Місто',
+                  options: profileProvider.listOfChosenCities,
                 );
               },
             ),
