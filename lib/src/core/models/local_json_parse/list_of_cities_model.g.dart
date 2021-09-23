@@ -8,6 +8,8 @@ part of 'list_of_cities_model.dart';
 
 ListOfCitiesModel _$ListOfCitiesModelFromJson(Map<String, dynamic> json) {
   return ListOfCitiesModel(
-    cityModel: CityModel.fromJson(json['city_model'] as Map<String, dynamic>),
+    cityModel: json['city_model'] == null
+        ? null
+        : CityModel.fromJson(json['city_model'] as Map<String, dynamic>),
   );
 }

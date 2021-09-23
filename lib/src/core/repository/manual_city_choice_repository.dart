@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/services.dart';
+import 'package:useful_useless_app/src/core/models/local_json_parse/region_model.dart';
 
 import '../../global/constants.dart';
 
@@ -26,17 +27,19 @@ class ManualCityChoiceRepository {
         await rootBundle.loadString(_getLocalCityToLoad(city: city)),
       );
 
-      ///raw map of regions
-      final jsonMap = data['data'];
+      if (data == null) {
+        return;
+      }
+
+      final regionsData = RegionsDataModel.fromJson(data);
 
       ///get lists of regions and cities
-      if (jsonMap.isNotEmpty) {
-        jsonMap.forEach((key, value) {
-          _region.add(key);
-          final rawList = value as List<dynamic>;
-          rawList.forEach((element) {
-            _city.add(element as String);
-          });
+      if (regionsData.data?.isNotEmpty ?? false) {
+        regionsData.data?.forEach((regionData) {
+          if (regionData.region != null && regionData.cities != null) {
+            _region.add(regionData.region!);
+            _city.addAll(regionData.cities!);
+          }
         });
       }
     } catch (e) {
