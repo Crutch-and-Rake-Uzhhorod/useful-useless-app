@@ -49,17 +49,11 @@ class ManualCityChoiceRepository {
   }
 
   String _getLocalCityToLoad({required String city}) {
-    String localCityJsonPath = '';
-
     switch (city) {
       case 'Львів':
-        localCityJsonPath = lvivRegion;
-        break;
+        return lvivRegion;
       default:
-        localCityJsonPath = '';
-        break;
+        return '';
     }
-
-    return localCityJsonPath;
   }
 }
