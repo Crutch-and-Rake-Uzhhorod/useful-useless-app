@@ -43,80 +43,80 @@ class PowerOffProvider with ChangeNotifier {
   //TODO: think about a case when there are no days available
   //TODO: retrieve list of followed locations(users collection) in order to distinguish locations
   Future<void> init() async {
-    loadingStatus.value = true;
-
-    _followedHouses.clear();
-
-    final houses = await _dataRepository.getFollowedHouses();
-
-    _followedHouses.addAll(houses);
-
-    _markers.clear();
-    _timeTableItems.clear();
-
-    final rawDates = await _dataRepository.getDates();
-
-    final now = DateTime.now();
-
-    // in case of any error - return empty list with current date
-    if (rawDates.isEmpty) {
-      _markers.add({});
-      _timeTableItems.add(TimetableModel.withEmptyLocations(timestamp: now));
-      loadingStatus.value = false;
-      return;
-    }
-
-    // checking for index in order to create list from range [today - 3; end]
-    // if there is no today - get last 7 days if possible
-    final rawIndexOfToday =
-        rawDates.indexWhere((element) => element.day == now.day);
-    final dates = <DateTime>[];
-
-    if (rawIndexOfToday > -1) {
-      dates.addAll(
-          rawDates.sublist(rawIndexOfToday - 3 > 0 ? rawIndexOfToday - 3 : 0));
-    } else {
-      dates.addAll(
-          rawDates.sublist(rawDates.length >= 7 ? rawDates.length - 7 : 0));
-    }
-
-    // first day that will be initialized
-    int? firstDateIndexToInit;
-
-    // preset timetable models
-    // in case of list will contain info for today - set firstDayToInit
-    //ignore: omit_local_variable_types
-    for (int i = 0; i < dates.length; i++) {
-      if (rawIndexOfToday > -1) {
-        if (dates.elementAt(i).day == now.day) {
-          firstDateIndexToInit = i;
-        }
-      }
-      _timeTableItems.add(
-          TimetableModel.withEmptyLocations(timestamp: dates.elementAt(i)));
-      _markers.add({});
-    }
-
-    // set firstIndexToInit if list does not contain info for today
-    if (firstDateIndexToInit == null) {
-      if (dates.last.day < now.day) {
-        firstDateIndexToInit = dates.length - 1;
-      } else {
-        firstDateIndexToInit = 0;
-      }
-    }
-
-    // set locations for firstIndexToInit
-    await _setTimeTableLocations(index: firstDateIndexToInit);
-
-    loadingStatus.value = false;
+    // loadingStatus.value = true;
+    //
+    // _followedHouses.clear();
+    //
+    // final houses = await _dataRepository.getFollowedHouses();
+    //
+    // _followedHouses.addAll(houses);
+    //
+    // _markers.clear();
+    // _timeTableItems.clear();
+    //
+    // final rawDates = await _dataRepository.getDates();
+    //
+    // final now = DateTime.now();
+    //
+    // // in case of any error - return empty list with current date
+    // if (rawDates.isEmpty) {
+    //   _markers.add({});
+    //   _timeTableItems.add(TimetableModel.withEmptyLocations(timestamp: now));
+    //   loadingStatus.value = false;
+    //   return;
+    // }
+    //
+    // // checking for index in order to create list from range [today - 3; end]
+    // // if there is no today - get last 7 days if possible
+    // final rawIndexOfToday =
+    //     rawDates.indexWhere((element) => element.day == now.day);
+    // final dates = <DateTime>[];
+    //
+    // if (rawIndexOfToday > -1) {
+    //   dates.addAll(
+    //       rawDates.sublist(rawIndexOfToday - 3 > 0 ? rawIndexOfToday - 3 : 0));
+    // } else {
+    //   dates.addAll(
+    //       rawDates.sublist(rawDates.length >= 7 ? rawDates.length - 7 : 0));
+    // }
+    //
+    // // first day that will be initialized
+    // int? firstDateIndexToInit;
+    //
+    // // preset timetable models
+    // // in case of list will contain info for today - set firstDayToInit
+    // //ignore: omit_local_variable_types
+    // for (int i = 0; i < dates.length; i++) {
+    //   if (rawIndexOfToday > -1) {
+    //     if (dates.elementAt(i).day == now.day) {
+    //       firstDateIndexToInit = i;
+    //     }
+    //   }
+    //   _timeTableItems.add(
+    //       TimetableModel.withEmptyLocations(timestamp: dates.elementAt(i)));
+    //   _markers.add({});
+    // }
+    //
+    // // set firstIndexToInit if list does not contain info for today
+    // if (firstDateIndexToInit == null) {
+    //   if (dates.last.day < now.day) {
+    //     firstDateIndexToInit = dates.length - 1;
+    //   } else {
+    //     firstDateIndexToInit = 0;
+    //   }
+    // }
+    //
+    // // set locations for firstIndexToInit
+    // await _setTimeTableLocations(index: firstDateIndexToInit);
+    //
+    // loadingStatus.value = false;
   }
 
   Future<void> initFullList() async {
-    //ignore: omit_local_variable_types
-    for (int i = 0; i < _timeTableItems.length; i++) {
-      await _setTimeTableLocations(index: i);
-    }
+    // //ignore: omit_local_variable_types
+    // for (int i = 0; i < _timeTableItems.length; i++) {
+    //   await _setTimeTableLocations(index: i);
+    // }
   }
 
   Future<void> _setTimeTableLocations({required int index}) async {

@@ -7,23 +7,22 @@ class ProfileProvider extends ChangeNotifier {
     required this.manualCityChoiceRepository,
   });
 
-  late ManualCityChoiceRepository manualCityChoiceRepository;
+  final ManualCityChoiceRepository manualCityChoiceRepository;
 
   List<String> area = ['---', 'Львів'];
   String city = '';
   String cityArea = '';
   String areaItem = '---';
 
-  List<String> listOfChosenCities = [];
-  List<String> listOfChosenRegions = [];
+  List<String> get listOfChosenCities =>
+      manualCityChoiceRepository.listOfCities;
+
+  List<String> get listOfChosenRegions =>
+      manualCityChoiceRepository.listOfRegions;
 
   Future<void> updateAreaItem({required String newItem}) async {
     areaItem = newItem;
     notifyListeners();
     await manualCityChoiceRepository.getCityFromJson(city: newItem);
-    listOfChosenCities = manualCityChoiceRepository.listOfCities;
-    listOfChosenRegions = manualCityChoiceRepository.listOfRegions;
-    print(listOfChosenCities[0]);
-    print(listOfChosenRegions[9]);
   }
 }

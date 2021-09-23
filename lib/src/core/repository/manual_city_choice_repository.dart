@@ -7,44 +7,42 @@ import '../../global/constants.dart';
 
 class ManualCityChoiceRepository {
   List<String> get listOfCities => _city;
+
   List<String> get listOfRegions => _region;
 
-  List<String> _city = [];
-  List<String> _region = [];
+  final List<String> _city = [];
+  final List<String> _region = [];
 
   Future<void> getCityFromJson({required String city}) async {
-    try {
-      List<String> dirtyCity = [];
-      List<String> dirtyRegion = [];
+    if (city.isEmpty) {
+      _city.clear();
+      _region.clear();
 
+      return;
+    }
+    try {
       ///get data from local json
       final data = await jsonDecode(
         await rootBundle.loadString(_getLocalCityToLoad(city: city)),
       );
-      final jsonQuestions = data['data'] as List;
+
+      ///raw map of regions
+      final jsonMap = data['data'];
 
       ///get lists of regions and cities
-      if (jsonQuestions.isNotEmpty) {
-        for (int i = 0; i < jsonQuestions.length; i++) {
-          dirtyRegion.add(
-            jsonQuestions[i][0],
-          );
-
-          dirtyCity.add(
-            jsonQuestions[i][1],
-          );
-        }
-
-        ///clear same values
-        ///sort unique values
-        _region = dirtyRegion.toSet().toList()
-          ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
-        _city = dirtyCity.toSet().toList()
-          ..sort((a, b) => a.toLowerCase().compareTo(b.toLowerCase()));
+      if (jsonMap.isNotEmpty) {
+        jsonMap.forEach((key, value) {
+          _region.add(key);
+          final rawList = value as List<dynamic>;
+          rawList.forEach((element) {
+            _city.add(element as String);
+          });
+        });
       }
     } catch (e) {
       log('error');
-      rethrow;
+      _city.clear();
+      _region.clear();
     }
   }
 

@@ -14,8 +14,10 @@ class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
 
   final List<Widget> tabScreens = <Widget>[
-    GoogleMapsScreen(),
-    PowerOffListScreen(), //List of something in future
+    SizedBox(),
+    SizedBox(),
+    // GoogleMapsScreen(),
+    // PowerOffListScreen(), //List of something in future
     ProfileScreen(),
     SettingsScreen(),
   ];
