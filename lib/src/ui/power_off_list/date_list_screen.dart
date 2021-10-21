@@ -9,8 +9,14 @@ import '../../core/repository/string_repository.dart';
 import 'widgets/date_separator_widget.dart';
 import 'widgets/list_card_widget.dart';
 
+// ignore: must_be_immutable
 class PowerOffListScreen extends StatelessWidget {
   static const String id = 'list_screen';
+  StickyHeaderController stickyHeaderController = StickyHeaderController();
+
+  void a() {
+    stickyHeaderController.stickyHeaderScrollOffset = 2;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +27,7 @@ class PowerOffListScreen extends StatelessWidget {
             ...powerOffProvider.timetableItems
                 .map(
                   (e) => SliverStickyHeader(
+                    controller: stickyHeaderController,
                     header: DateSeparatorWidget(
                       date: e.timestamp,
                     ),
