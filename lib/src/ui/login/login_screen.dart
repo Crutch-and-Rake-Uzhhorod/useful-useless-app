@@ -106,7 +106,9 @@ class LoginScreen extends StatelessWidget {
                 ),
                 if (_isIOS)
                   RoundedButtonWidget(
-                    onTap: () => Navigator.pushNamed(context, HomeScreen.id),
+                    onTap: () {
+                      _signInAnonymously(context);
+                    },
                     child: Text(
                       'Anonymous Sign In',
                       style: Theme.of(context)
