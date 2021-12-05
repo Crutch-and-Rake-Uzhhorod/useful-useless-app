@@ -3,8 +3,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../core/provider/profile_provider.dart';
 import '../../core/provider/user_auth_provider.dart';
 import '../global/rounded_button_widget.dart';
+import 'widgets/autocomplete_widget.dart';
+import 'widgets/dropDownButton_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   static const String id = 'profile_screen';
@@ -32,8 +35,62 @@ class ProfileScreen extends StatelessWidget {
               style: textTheme.headline5,
             ),
           ),
+          const SizedBox(height: 16.0),
+          SizedBox(
+            height: 75,
+            child: Row(
+              children: [
+                Consumer<ProfileProvider>(
+                  builder: (_, profileProvider, __) {
+                    return DropDownButtonWidget(
+                      items: profileProvider.areaList,
+                      value: profileProvider.areaItem,
+                      hintText: 'Місто',
+                      onChanged: (newValue) {
+                        if (newValue != null) {
+                          profileProvider.updateArea(newItem: newValue);
+                        }
+                      },
+                    );
+                  },
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                Flexible(
+                  child: Consumer<ProfileProvider>(
+                    builder: (_, profileProvider, __) {
+                      return AutocompleteWidget(
+                        hintText: 'Обласний район',
+                        options: profileProvider.listOfRegions,
+                        onSubmit: (value) =>
+                            profileProvider.updateRegion(newRegion: value),
+                        value: profileProvider.region,
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
           const SizedBox(
-            height: 16,
+            height: 8,
+          ),
+          Flexible(
+            child: Consumer<ProfileProvider>(
+              builder: (_, profileProvider, __) {
+                return AutocompleteWidget(
+                  hintText: 'Місто',
+                  options: profileProvider.cities,
+                  onSubmit: (value) =>
+                      profileProvider.updateCity(newCity: value),
+                  value: profileProvider.city,
+                );
+              },
+            ),
+          ),
+          const SizedBox(
+            height: 32,
           ),
           RoundedButtonWidget(
             height: 56.0,
@@ -58,34 +115,6 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 24.0),
-          RoundedButtonWidget(
-            height: 56.0,
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 24.0,
-                vertical: 6.0,
-              ),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.info,
-                    color: Colors.black38,
-                  ),
-                  const SizedBox(width: 16.0),
-                  Text(
-                    'Terms & conditions',
-                    style: textTheme.bodyText1
-                        ?.copyWith(color: Colors.black, fontSize: 18),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 16,
           ),
           Expanded(
             child: ListView.builder(
