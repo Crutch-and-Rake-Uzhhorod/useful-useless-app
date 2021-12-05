@@ -43,12 +43,12 @@ class ProfileScreen extends StatelessWidget {
                 Consumer<ProfileProvider>(
                   builder: (_, profileProvider, __) {
                     return DropDownButtonWidget(
-                      items: profileProvider.area,
+                      items: profileProvider.areaList,
                       value: profileProvider.areaItem,
                       hintText: 'Місто',
                       onChanged: (newValue) {
                         if (newValue != null) {
-                          profileProvider.updateAreaItem(newItem: newValue);
+                          profileProvider.updateArea(newItem: newValue);
                         }
                       },
                     );
@@ -62,7 +62,10 @@ class ProfileScreen extends StatelessWidget {
                     builder: (_, profileProvider, __) {
                       return AutocompleteWidget(
                         hintText: 'Обласний район',
-                        options: profileProvider.listOfChosenRegions,
+                        options: profileProvider.listOfRegions,
+                        onSubmit: (value) =>
+                            profileProvider.updateRegion(newRegion: value),
+                        value: profileProvider.region,
                       );
                     },
                   ),
@@ -78,7 +81,10 @@ class ProfileScreen extends StatelessWidget {
               builder: (_, profileProvider, __) {
                 return AutocompleteWidget(
                   hintText: 'Місто',
-                  options: profileProvider.listOfChosenCities,
+                  options: profileProvider.cities,
+                  onSubmit: (value) =>
+                      profileProvider.updateCity(newCity: value),
+                  value: profileProvider.city,
                 );
               },
             ),

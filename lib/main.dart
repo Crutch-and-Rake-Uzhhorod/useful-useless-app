@@ -132,7 +132,8 @@ class Multi extends StatelessWidget {
         ChangeNotifierProvider<ProfileProvider>(
           create: (_) => ProfileProvider(
             manualCityChoiceRepository: manualCityChoiceRepository,
-          ),
+          )..initialiseArea(area: 'Львів'),
+          lazy: false,
         ),
       ],
       child: child,
@@ -160,8 +161,8 @@ class MyApp extends StatelessWidget {
       startLocale: Locale('uk', 'UA'),
       saveLocale: true,
       useOnlyLangCode: true,
-      child: Consumer<UserAuthProvider>(
-        builder: (context, UserAuthProvider userProvider, _) {
+      child: Builder(
+        builder: (context) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             navigatorObservers: [_firebaseAnalyticsObserver],

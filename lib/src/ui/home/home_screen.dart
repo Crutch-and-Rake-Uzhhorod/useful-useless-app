@@ -14,22 +14,15 @@ class HomeScreen extends StatelessWidget {
   static const String id = 'home_screen';
 
   final List<Widget> tabScreens = <Widget>[
-    SizedBox(),
-    SizedBox(),
-    // GoogleMapsScreen(),
-    // PowerOffListScreen(), //List of something in future
+    GoogleMapsScreen(),
+    PowerOffListScreen(), //List of something in future
     ProfileScreen(),
     SettingsScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final powerOffProvider = Provider.of<PowerOffProvider>(
-      context,
-      listen: false,
-    );
-
-    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
       // if (powerOffProvider.city == -1) {
       //   //TODO: customize dialog widget
       //   await showDialog(
@@ -58,70 +51,74 @@ class HomeScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<CalendarScrollProvider>(
-          create: (_) => CalendarScrollProvider(
-            dates: powerOffProvider.dates,
-          ),
+          create: (_) {
+            final powerOffProvider = Provider.of<PowerOffProvider>(
+              context,
+              listen: false,
+            );
+
+            return CalendarScrollProvider(
+              dates: powerOffProvider.dates,
+            );
+          },
         ),
         ChangeNotifierProvider<TabListener>(
           create: (_) => TabListener(),
         ),
       ],
-      child: Consumer<TabListener>(
-        builder: (_, tabListener, __) {
-          return ValueListenableBuilder(
-            valueListenable: tabListener,
-            builder: (BuildContext context, dynamic value, child) => Scaffold(
-              body: SafeArea(
-                bottom: false,
-                child: Stack(
-                  children: [
-                    tabScreens.elementAt(value),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: CustomNavigationBar(
-                          borderRadius: Radius.circular(24),
-                          currentIndex: value,
-                          isFloating: true,
-                          scaleFactor: 0.4,
-                          onTap: tabListener.tabIndex,
-                          items: [
-                            CustomNavigationBarItem(
-                              icon: Icon(
-                                Icons.map,
-                                //   text: 'map'.tr(),
-                              ),
-                            ),
-                            CustomNavigationBarItem(
-                              icon: Icon(
-                                Icons.list,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Consumer<TabListener>(
+          builder: (_, tabListener, __) {
+            final value = tabListener.value;
 
-                                //text: 'list'.tr(),
-                              ),
-                            ),
-                            CustomNavigationBarItem(
-                              icon: Icon(
-                                Icons.person,
-                                //    text: 'profile'.tr(),
-                              ),
-                            ),
-                            CustomNavigationBarItem(
-                              icon: Icon(
-                                Icons.settings,
-                                //text: 'settings'.tr(),
-                              ),
-                            ),
-                          ],
+            return Stack(
+              children: [
+                tabScreens.elementAt(value),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: CustomNavigationBar(
+                      borderRadius: Radius.circular(24),
+                      currentIndex: value,
+                      isFloating: true,
+                      scaleFactor: 0.4,
+                      onTap: tabListener.tabIndex,
+                      items: [
+                        CustomNavigationBarItem(
+                          icon: Icon(
+                            Icons.map,
+                            //   text: 'map'.tr(),
+                          ),
                         ),
-                      ),
+                        CustomNavigationBarItem(
+                          icon: Icon(
+                            Icons.list,
+
+                            //text: 'list'.tr(),
+                          ),
+                        ),
+                        CustomNavigationBarItem(
+                          icon: Icon(
+                            Icons.person,
+                            //    text: 'profile'.tr(),
+                          ),
+                        ),
+                        CustomNavigationBarItem(
+                          icon: Icon(
+                            Icons.settings,
+                            //text: 'settings'.tr(),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }

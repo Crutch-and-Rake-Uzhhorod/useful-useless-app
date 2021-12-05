@@ -1,9 +1,9 @@
 import 'package:collapsible_sidebar/collapsible_sidebar.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
 
-import 'package:easy_localization/easy_localization.dart';
 import '../../../core/provider/user_auth_provider.dart';
 import '../../login_web/login_screen_web.dart';
 import '../../profile_web/profile_web_screen.dart';
@@ -41,7 +41,9 @@ class SidebarWidget extends StatelessWidget {
         selectedTextColor: const Color(0xffF3F7F7),
         unselectedIconColor: const Color(0xff6A7886),
         unselectedTextColor: const Color(0xffC0C7D0),
-        avatarImg: user!.photoURL?.isNotEmpty ?? false ? NetworkImage(user.photoURL!) : null,
+        avatarImg: user!.photoURL?.isNotEmpty ?? false
+            ? NetworkImage(user.photoURL!)
+            : null,
         title: !user.isAnonymous ? user.displayName! : 'Anonymous User'.tr(),
         items: [
           CollapsibleItem(

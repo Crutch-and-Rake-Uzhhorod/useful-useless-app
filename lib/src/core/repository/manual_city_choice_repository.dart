@@ -1,26 +1,24 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 
 import '../../global/constants.dart';
 import '../models/local_json_parse/region_model.dart';
 
 class ManualCityChoiceRepository {
-  List<String> get listOfCities => _city;
+  List<String> get listOfCities => _city.toList();
 
-  List<String> get listOfRegions => _region;
+  List<String> get listOfRegions => _region.toList();
 
-  final List<String> _city = [];
-  final List<String> _region = [];
+  final Set<String> _city = {};
+  final Set<String> _region = {};
 
   final Map<String, RegionsDataModel> _cache = {};
 
   Future<RegionsDataModel?> getCityFromJson({required String city}) async {
     if (city.isEmpty) {
-      _city.clear();
-      _region.clear();
-
       return null;
     }
     try {
@@ -50,10 +48,36 @@ class ManualCityChoiceRepository {
 
       return _cache[city];
     } catch (e) {
-      log('error');
-      _city.clear();
-      _region.clear();
+      log('$e');
     }
+  }
+
+  String getAreaByRegion({required String region}) {
+    //ignore:omit_local_variable_types
+    String result = '';
+
+    _cache.forEach((key, value) {
+      if (value.data?.firstWhereOrNull((e) => e.region == region) != null) {
+        result = key;
+      }
+    });
+
+    return result;
+  }
+
+  String getAreaByCity({required String city}) {
+    //ignore:omit_local_variable_types
+    String result = '';
+
+    _cache.forEach((key, value) {
+      if (value.data
+          ?.firstWhereOrNull((e) => e.cities?.contains(city) ?? false) !=
+          null) {
+        result = key;
+      }
+    });
+
+    return result;
   }
 
   String _getLocalCityToLoad({required String city}) {
