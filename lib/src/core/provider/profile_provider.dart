@@ -44,8 +44,6 @@ class ProfileProvider extends ChangeNotifier {
   Future<void> initialiseArea({required String area}) async {
     _regionsDataModel =
         await _manualCityChoiceRepository.getCityFromJson(city: area);
-
-    _area = area;
   }
 
   Future<void> updateArea({required String newItem}) async {
