@@ -60,10 +60,9 @@ class CalendarScrollProvider with ChangeNotifier {
         Duration.zero,
         () async {
           if (!isScrollable) return;
-          await
 
-              ///item picked in scroll for animation
-              fixedExtentScrollController!.animateToItem(
+          ///item picked in scroll for animation
+          await fixedExtentScrollController!.animateToItem(
             _index!,
             duration: Duration(milliseconds: 1000),
             curve: Curves.bounceOut,

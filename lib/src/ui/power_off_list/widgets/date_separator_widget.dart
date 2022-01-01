@@ -12,19 +12,18 @@ class DateSeparatorWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.grey[200],
+        color: Colors.grey[100]!,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white, width: 2.0),
-        gradient: LinearGradient(
-          colors: [
-            Colors.grey[400]!,
-            Colors.white,
-            Colors.grey[400]!,
-          ],
-          stops: [0.0, 0.5, 1.0]
-        ),
+        border: Border.all(color: Colors.grey[200]!, width: 2.0),
+        // gradient: LinearGradient(
+        //   colors: [
+        //     Colors.grey[400]!,
+        //     Colors.white,
+        //     Colors.grey[400]!,
+        //   ],
+        //   stops: [0.0, 0.5, 1.0]
+        // ),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.15),
@@ -37,7 +36,7 @@ class DateSeparatorWidget extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.black12,
+          color: Colors.grey[100]!,
           borderRadius: BorderRadius.circular(16),
         ),
         alignment: Alignment.center,

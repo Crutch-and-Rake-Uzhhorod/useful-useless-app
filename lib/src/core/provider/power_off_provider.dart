@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:collection';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/animation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/timetable_model.dart';
@@ -31,6 +34,16 @@ class PowerOffProvider with ChangeNotifier {
 
   final List<TimetableModel> _timeTableItems = [];
 
+  double widgetChildSize = 0;
+
+  double widgetParentSize = 0;
+
+  ScrollController? headersListScrollController;
+
+  int? _index;
+
+  DateTime? _currentDate;
+
   UnmodifiableListView<Set<Marker>> get markers =>
       UnmodifiableListView(_markers);
 
@@ -54,8 +67,13 @@ class PowerOffProvider with ChangeNotifier {
     _markers.clear();
     _timeTableItems.clear();
 
-    final rawDates = await _dataRepository.getDates();
+    List<DateTime> rawDates = [];
 
+    try {
+      rawDates = await _dataRepository.getDates();
+    } on FirebaseException catch (e) {
+      print('firebase dateTime exeption is: $e');
+    }
     final now = DateTime.now();
 
     // in case of any error - return empty list with current date
@@ -167,18 +185,83 @@ class PowerOffProvider with ChangeNotifier {
     }
     final result = await _dataRepository.follow(geoId);
 
-    if(result){
-      if(_followedHouses.contains(geoId)) {
+    if (result) {
+      if (_followedHouses.contains(geoId)) {
         _followedHouses.remove(geoId);
-      }else{
+      } else {
         _followedHouses.add(geoId);
       }
       notifyListeners();
     }
   }
 
+  void currentDate() {
+    _currentDate = DateTime.now();
+
+    _index = dates.indexOf(
+      dates.firstWhere(
+          (DateTime? date) => date!.day.compareTo(_currentDate!.day) == 0,
+          orElse: () {
+        if (dates.length > 1) {
+          // return _dates!.elementAt((_dates!.length / 2).ceil())!;
+          //temporary first. change to actual later
+          return dates.first;
+        } else {
+          return dates.first;
+        }
+      }),
+    );
+  }
+
+  void initController() {
+    headersListScrollController = ScrollController();
+  }
+
+  void animateToCurrentDate() {
+    headersListScrollController!.animateTo(
+        getCurrentDayOffset(widgetParentSize),
+        duration: Duration(milliseconds: 500),
+        curve: Curves.linear);
+  }
+
+  double getCurrentDayOffset(double offset) {
+    ///change index to 6 until date will be up to date
+    return offset * _index!;
+  }
+
+  void getParentSize(Size? size) {
+    if (widgetParentSize == 0 &&
+        size?.height != null &&
+        size?.isEmpty == false) {
+      widgetParentSize = size!.height;
+      notifyListeners();
+    } else {
+      return;
+    }
+  }
+
+  void getChildSize(Size? size) {
+    if (widgetChildSize == 0 &&
+        size?.height != null &&
+        size?.isEmpty == false) {
+      widgetChildSize = size!.height;
+      notifyListeners();
+    } else {
+      return;
+    }
+  }
+
+  void onSelectedDateChanged(int item) {
+    _index = item;
+
+    ///notifyListeners is needed to animate currentItem with scrollController
+    notifyListeners();
+  }
+
   @override
   void dispose() {
+    headersListScrollController!.dispose();
+
     loadingStatus.dispose();
     super.dispose();
   }
