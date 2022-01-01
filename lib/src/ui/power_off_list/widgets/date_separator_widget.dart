@@ -12,7 +12,6 @@ class DateSeparatorWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return Container(
-      margin: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.grey[100]!,
         borderRadius: BorderRadius.circular(16),
